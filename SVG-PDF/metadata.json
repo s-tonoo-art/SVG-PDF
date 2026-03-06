@@ -1,0 +1,5 @@
+{
+  "name": "Ostrich SVG & PDF Pro",
+  "description": "A high-performance web utility to convert SVG to PDF/Image, split PDFs, and extract text/tables from images using Gemini OCR.",
+  "requestFramePermissions": []
+}

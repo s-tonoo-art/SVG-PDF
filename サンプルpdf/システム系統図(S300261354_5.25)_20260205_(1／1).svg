@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1586" height="1121" viewBox="0 0 13750.866141732287 9723.826771653545" version="2.0">
+<g text-rendering="geometricPrecision" dominant-baseline="text-after-edge">
+	<style>
+		@page {margin:0}
+		g * {stroke-width:10}
+		text:not([font-family]) {font-family:Ms Pgothic}
+		text {white-space:pre}
+	</style>
+	<defs>
+		<image id="isolation" xlink:href="data:image/png;base64,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" width="72" height="72"/>
+	</defs>
+	<path d="M7981,4281v3175h2494v-3175Z" stroke="#ff0000" stroke-dasharray="30" fill="rgba(0,0,0,0)"/>
+	<text x="10475" y="4345" font-size="48pt" text-anchor="end">SGMS-1500-A/C1000W-DC-MM-S</text>
+	<path d="M8038,7314v28h28v-28Z" fill="#222222"/>
+	<path d="M8040,7316v24h24v-24Z" fill="#cccccc"/>
+	<text x="10416" y="4430" font-size="48pt" text-anchor="end">SGMS-1500-A/C1000W-DC-MM-S(フレーム)</text>
+	<path d="M8038,4366v3005h2381v-3005Z" stroke="#ff0000" fill="none"/>
+	<text x="8162" y="7348" font-size="30pt" text-anchor="middle">筐体アース</text>
+	<path d="M5146,3345v4054h2608v-4054Z" stroke="#000000" stroke-dasharray="30" fill="rgba(0,0,0,0)"/>
+	<text x="6450" y="3410" font-size="48pt" text-anchor="middle">SMS-SSJ2-A/C1000W-DC-FE(200V3000W)-MM</text>
+	<path d="M5203,7271v29h28v-29Z" fill="#222222"/>
+	<path d="M5205,7274v23h24v-23Z" fill="#cccccc"/>
+	<text x="6450" y="3523" font-size="48pt" text-anchor="middle">SMS-SSJ2-A/C1000W-DC-FE(200V3000W)-MM(フレーム)</text>
+	<path d="M5203,3459v3912h2494v-3912Z" stroke="#000000" fill="none"/>
+	<text x="5327" y="7306" font-size="30pt" text-anchor="middle">筐体アース</text>
+	<path d="M5189 7286L7513 7286" stroke="#000000" fill="none"/>
+	<path d="M5175,7271v29h28v-29Z" fill="#222222"/>
+	<ellipse cx="5450" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="5806" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="5695" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="6122" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="5951" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="7155" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="5883" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<path d="M7499,7271v29h28v-29Z" fill="#222222"/>
+	<path d="M5177,7274v23h24v-23Z" fill="#cccccc"/>
+	<ellipse cx="5450" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="5806" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="5695" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="6122" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="5951" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="7155" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="5883" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M7501,7274v23h24v-23Z" fill="#cccccc"/>
+	<text x="6357" y="7303" font-size="30pt" text-anchor="middle">接地端子(0.0m)</text>
+	<path d="M6181 4139L6323 4139" stroke="#000000" fill="none"/>
+	<path d="M6167,4125v28h28v-28ZM6309,4125v28h28v-28Z" fill="#222222"/>
+	<path d="M6169,4127v24h24v-24ZM6311,4127v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6464 4112L6918 4112" stroke="#000000" fill="none"/>
+	<path d="M6450,4098v28h29v-28ZM6904,4098v28h28v-28Z" fill="#222222"/>
+	<path d="M6453,4100v24h23v-24ZM6906,4100v24h24v-24Z" fill="#cccccc"/>
+	<path d="M5954 5160L5033 5160L5033 6350L5065 6350L5065 6364L3800 6364" stroke="#000000" fill="none"/>
+	<path d="M5940,5145v29h28v-29ZM3786,6350v28h28v-28Z" fill="#222222"/>
+	<path d="M5942,5148v23h24v-23ZM3788,6352v24h24v-24Z" fill="#cccccc"/>
+	<text x="5068" y="5779" transform="rotate(90.00,5068,5755)" font-size="36pt" text-anchor="middle">CV-5.5sq-2C(8.0m)</text>
+	<path d="M6776 5117L7272 5117L7272 5769L6776 5769" stroke="#000000" fill="none"/>
+	<path d="M6762,5103v28h28v-28ZM6762,5755v28h28v-28Z" fill="#222222"/>
+	<path d="M6764,5105v24h24v-24ZM6764,5757v24h24v-24Z" fill="#cccccc"/>
+	<path d="M5983 5769L5770 5769L5770 5599L5983 5599" stroke="#000000" fill="none"/>
+	<path d="M5968,5755v28h29v-28ZM5968,5585v28h29v-28Z" fill="#222222"/>
+	<path d="M5971,5757v24h23v-24ZM5971,5587v24h23v-24Z" fill="#cccccc"/>
+	<text x="5963" y="5995" font-size="36pt" text-anchor="middle">アラーム線(2.0m)</text>
+	<use xlink:href="#isolation" x="5793" y="5534"/>
+	<path d="M5983 5967L5695 5967L5695 7286" stroke="#000000" fill="none"/>
+	<path d="M5968,5953v29h29v-29Z" fill="#222222"/>
+	<ellipse cx="5695" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<path d="M5971,5956v23h23v-23Z" fill="#cccccc"/>
+	<ellipse cx="5695" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<text x="5936" y="6072" font-size="36pt" text-anchor="middle">添付ケーブル(接地）(0.0m)</text>
+	<path d="M6772 6846L7471 6846L7471 6251L6890 6251" stroke="#000000" fill="none"/>
+	<path d="M6758,6832v28h28v-28ZM6875,6237v28h29v-28Z" fill="#222222"/>
+	<path d="M6760,6834v24h24v-24ZM6878,6239v24h24v-24Z" fill="#cccccc"/>
+	<path d="M4154 4989L4523 4989L4523 6860L5883 6860M4112 4989L4154 4989M5883 6860L5961 6860L5961 6846L6039 6846" stroke="#000000" fill="none"/>
+	<path d="M4097,4975v29h29v-29ZM6025,6832v28h28v-28Z" fill="#222222"/>
+	<path d="M4100,4978v23h24v-23ZM6027,6834v24h24v-24Z" fill="#cccccc"/>
+	<text x="4558" y="5949" transform="rotate(90.00,4558,5925)" font-size="36pt" text-anchor="middle">SM-8C/SC-SCコネクタ(2.0m)</text>
+	<path d="M3800 6591L5657 6591L5657 5797L6075 5797" stroke="#000000" fill="none"/>
+	<path d="M3786,6577v28h28v-28ZM6061,5783v29h28v-29Z" fill="#222222"/>
+	<path d="M3788,6579v24h24v-24ZM6063,5785v24h24v-24Z" fill="#cccccc"/>
+	<text x="4162" y="6464" font-size="36pt" text-anchor="middle">無線機間ケーブル(光)(10.0m)</text>
+	<path d="M2935,3572v28h29v-28Z" fill="#222222"/>
+	<path d="M2938,3574v24h23v-24Z" fill="#cccccc"/>
+	<text x="2680" y="3614" font-size="42pt" text-anchor="middle">電源引込点</text>
+	<path d="M2397,3515v142h567v-142Z" stroke="#000000" fill="none"/>
+	<text x="2928" y="3600" font-size="21pt" text-anchor="middle">-</text>
+	<path d="M2935,3997v29h29v-29Z" fill="#222222"/>
+	<path d="M2938,4000v23h23v-23Z" fill="#cccccc"/>
+	<text x="2680" y="4040" font-size="42pt" text-anchor="middle">非常電源</text>
+	<path d="M2397,3941v141h567v-141Z" stroke="#000000" stroke-dasharray="30" fill="none"/>
+	<text x="2928" y="4026" font-size="21pt" text-anchor="middle">-</text>
+	<path d="M3800 6704L3927 6704L3927 7569L5951 7569L5951 7286" stroke="#000000" fill="none"/>
+	<path d="M3786,6690v29h28v-29Z" fill="#222222"/>
+	<ellipse cx="5951" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<path d="M3788,6693v23h24v-23Z" fill="#cccccc"/>
+	<ellipse cx="5951" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<text x="4132" y="7537" font-size="36pt" text-anchor="middle">IV-8sq(4.0m)</text>
+	<text x="3814" y="4820" font-size="42pt" text-anchor="middle">P.D-BOX</text>
+	<path d="M3389,4763v425h850v-425Z" stroke="#000000" fill="none"/>
+	<path d="M3531,4975v29h28v-29ZM4069,4975v29h28v-29Z" fill="#222222"/>
+	<path d="M3533,4978v23h24v-23ZM4071,4978v23h24v-23Z" fill="#cccccc"/>
+	<text x="3814" y="5017" font-size="42pt" text-anchor="middle">NTT-PD</text>
+	<path d="M3531,4904v171h566v-171Z" stroke="#000000" stroke-dasharray="30" fill="none"/>
+	<text x="3601" y="5003" font-size="21pt" text-anchor="middle">光入力</text>
+	<text x="4027" y="5003" font-size="21pt" text-anchor="middle">光出力</text>
+	<path d="M2921 4989L3516 4989" stroke="#000000" stroke-dasharray="30" fill="none"/>
+	<path d="M2907,4975v29h28v-29ZM3502,4975v29h29v-29Z" fill="#222222"/>
+	<path d="M2909,4978v23h24v-23ZM3504,4978v23h24v-23Z" fill="#cccccc"/>
+	<text x="3159" y="4978" font-size="36pt" text-anchor="middle">その他ケーブル(光)(0.0m)</text>
+	<path d="M6011 6421L5806 6421L5806 7286" stroke="#000000" fill="none"/>
+	<path d="M5997,6407v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="5806" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<path d="M5999,6409v24h24v-24Z" fill="#cccccc"/>
+	<ellipse cx="5806" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<text x="5878" y="6387" font-size="36pt" text-anchor="middle">IV-1.25sq(0.0m)</text>
+	<path d="M1149 5524L1334 5524L1334 5932L1518 5932" stroke="#000000" fill="none"/>
+	<ellipse cx="1149" cy="5524" rx="14" ry="14" fill="#222222"/>
+	<path d="M1504,5917 1504,5946 1532,5946 1532,5917Z" fill="#222222" transform="rotate(90.00,1518,5932)"/>
+	<ellipse cx="1149" cy="5524" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M1506,5920 1506,5944 1530,5944 1530,5920Z" fill="#cccccc" transform="rotate(90.00,1518,5932)"/>
+	<text x="1334" y="5752" font-size="36pt" text-anchor="middle">IV-5.5sq(0.0m)</text>
+	<text x="6365" y="3998" font-size="42pt" text-anchor="middle">電源端子台</text>
+	<path d="M5940,3941v737h850v-737Z" stroke="#000000" fill="none"/>
+	<path d="M7527,7271v29h29v-29Z" fill="#222222"/>
+	<path d="M7530,7274v23h23v-23Z" fill="#cccccc"/>
+	<text x="7556" y="7310" font-size="36pt" text-anchor="middle">アースバー</text>
+	<path d="M7527,7257v57h57v-57ZM6167 4139L6166 4128L6162 4117L6157 4108L6150 4099L6142 4092L6132 4087L6121 4083L6110 4082L6099 4083L6088 4087L6079 4092L6070 4099L6063 4108L6058 4117L6054 4128L6053 4139L6053 4139L6054 4128L6058 4117L6063 4108L6070 4099L6079 4092L6088 4087L6099 4083L6110 4082L6121 4083L6132 4087L6142 4092L6150 4099L6157 4108L6162 4117L6166 4128L6167 4139Z" stroke="#000000" fill="none"/>
+	<path d="M6053,4125v28h29v-28ZM6138,4125v28h29v-28ZM6138,4153v29h29v-29Z" fill="#222222"/>
+	<path d="M6056,4127v24h23v-24ZM6141,4127v24h24v-24ZM6141,4156v23h24v-23Z" fill="#cccccc"/>
+	<text x="6107" y="4047" font-size="27pt" text-anchor="middle">NFB 3P 30AF/30AT</text>
+	<text x="6089" y="4153" font-size="21pt" text-anchor="middle">-</text>
+	<text x="6131" y="4153" font-size="21pt" text-anchor="middle">-</text>
+	<text x="6131" y="4181" font-size="21pt" text-anchor="middle">-</text>
+	<path d="M6450 4139L6449 4128L6446 4117L6441 4108L6434 4099L6425 4092L6415 4087L6405 4083L6394 4082L6382 4083L6372 4087L6362 4092L6353 4099L6346 4108L6341 4117L6338 4128L6337 4139L6337 4139L6338 4128L6341 4117L6346 4108L6353 4099L6362 4092L6372 4087L6382 4083L6394 4082L6405 4083L6415 4087L6425 4092L6434 4099L6441 4108L6446 4117L6449 4128L6450 4139Z" stroke="#000000" fill="none"/>
+	<path d="M6337,4125v28h28v-28ZM6422,4098v28h28v-28Z" fill="#222222"/>
+	<path d="M6339,4127v24h24v-24ZM6424,4100v24h24v-24Z" fill="#cccccc"/>
+	<text x="6408" y="4060" font-size="27pt" text-anchor="middle">NFB 2P 30AF/20AT</text>
+	<text x="6372" y="4153" font-size="21pt" text-anchor="middle">-</text>
+	<text x="6415" y="4126" font-size="21pt" text-anchor="middle">-</text>
+	<path d="M6932,4098v28h28v-28Z" fill="#222222"/>
+	<path d="M6934,4100v24h24v-24Z" fill="#cccccc"/>
+	<text x="7060" y="4102" font-size="30pt" text-anchor="middle">コンセント</text>
+	<path d="M6932,4026v113h255v-113Z" stroke="#000000" fill="none"/>
+	<text x="6967" y="4126" font-size="21pt" text-anchor="middle">-</text>
+	<path d="M6705 4252L6704 4241L6701 4231L6696 4221L6689 4212L6680 4205L6670 4200L6660 4197L6649 4196L6638 4197L6627 4200L6617 4205L6609 4212L6602 4221L6596 4231L6593 4241L6592 4252L6592 4252L6593 4241L6596 4231L6602 4221L6609 4212L6617 4205L6627 4200L6638 4197L6649 4196L6660 4197L6670 4200L6680 4205L6689 4212L6696 4221L6701 4231L6704 4241L6705 4252Z" stroke="#000000" fill="none"/>
+	<text x="6649" y="4232" font-size="27pt" text-anchor="middle">NFB 2P 100AF/100AT</text>
+	<use xlink:href="#isolation" x="6693" y="4138"/>
+	<path d="M6705 4338L6704 4326L6701 4316L6696 4306L6689 4297L6680 4290L6670 4285L6660 4282L6649 4281L6638 4282L6627 4285L6617 4290L6609 4297L6602 4306L6596 4316L6593 4326L6592 4338L6592 4338L6593 4326L6596 4316L6602 4306L6609 4297L6617 4290L6627 4285L6638 4282L6649 4281L6660 4282L6670 4285L6680 4290L6689 4297L6696 4306L6701 4316L6704 4326L6705 4338Z" stroke="#000000" fill="none"/>
+	<text x="6649" y="4317" font-size="27pt" text-anchor="middle">NFB 2P 100AF/100AT</text>
+	<use xlink:href="#isolation" x="6693" y="4223"/>
+	<path d="M5997,5585v28h28v-28ZM6705,5585v28h29v-28ZM6705,5627v29h29v-29ZM6705,5528v28h29v-28Z" fill="#222222"/>
+	<path d="M5999,5587v24h24v-24ZM6708,5587v24h23v-24ZM6708,5630v23h23v-23ZM6708,5530v24h23v-24Z" fill="#cccccc"/>
+	<text x="6365" y="5627" font-size="42pt" text-anchor="middle">IDF</text>
+	<path d="M5997,5500v198h737v-198Z" stroke="#000000" fill="none"/>
+	<text x="6104" y="5613" font-size="21pt" text-anchor="middle">アラーム集約</text>
+	<text x="6645" y="5613" font-size="21pt" text-anchor="middle">アラーム２</text>
+	<text x="6645" y="5655" font-size="21pt" text-anchor="middle">アラーム３</text>
+	<text x="6645" y="5556" font-size="21pt" text-anchor="middle">アラーム６</text>
+	<path d="M6833 3586L7641 3586L7641 5599L6748 5599" stroke="#000000" fill="none"/>
+	<path d="M6819,3572v28h28v-28ZM6734,5585v28h28v-28Z" fill="#222222"/>
+	<path d="M6821,3574v24h24v-24ZM6736,5587v24h24v-24Z" fill="#cccccc"/>
+	<text x="7676" y="4617" transform="rotate(90.00,7676,4593)" font-size="36pt" text-anchor="middle">添付アラーム線(0.0m)</text>
+	<path d="M7499,4281 7499,4309 7527,4309 7527,4281Z" fill="#222222" transform="rotate(90.00,7513,4295)"/>
+	<path d="M7501,4283 7501,4307 7525,4307 7525,4283Z" fill="#cccccc" transform="rotate(90.00,7513,4295)"/>
+	<text x="7513" y="4054" transform="rotate(90.00,7513,4026)" font-size="42pt" text-anchor="middle">ドア開アラーム</text>
+	<path d="M7230,3955 7230,4097 7797,4097 7797,3955Z" stroke="#000000" fill="none" transform="rotate(90.00,7513,4026)"/>
+	<text x="7513" y="4222" transform="rotate(270.00,7513,4202)" font-size="30pt" text-anchor="middle">DoorALM</text>
+	<path d="M5997,5953v29h28v-29ZM5997,5755v28h28v-28ZM6734,5755v28h28v-28Z" fill="#222222"/>
+	<path d="M5999,5956v23h24v-23ZM5999,5757v24h24v-24ZM6736,5757v24h24v-24Z" fill="#cccccc"/>
+	<text x="6379" y="6008" font-size="42pt" text-anchor="middle">RBS6601(Frame)V2</text>
+	<path d="M5997,5726v284h765v-284Z" stroke="#000000" fill="none"/>
+	<text x="6081" y="5987" font-size="30pt" text-anchor="middle">アース</text>
+	<text x="6075" y="5789" font-size="30pt" text-anchor="middle">XALM</text>
+	<text x="6659" y="5789" font-size="30pt" text-anchor="middle">-48V DC</text>
+	<path d="M7513 4323L7527 4323L7527 5641L6748 5641" stroke="#000000" fill="none"/>
+	<path d="M7499,4309 7499,4338 7527,4338 7527,4309Z" fill="#222222" transform="rotate(90.00,7513,4323)"/>
+	<path d="M6734,5627v29h28v-29Z" fill="#222222"/>
+	<path d="M7501,4311 7501,4335 7525,4335 7525,4311Z" fill="#cccccc" transform="rotate(90.00,7513,4323)"/>
+	<path d="M6736,5630v23h24v-23Z" fill="#cccccc"/>
+	<text x="7563" y="5006" transform="rotate(90.00,7563,4982)" font-size="36pt" text-anchor="middle">添付アラーム線(0.0m)</text>
+	<path d="M2879,4975v29h28v-29Z" fill="#222222"/>
+	<path d="M2881,4978v23h24v-23Z" fill="#cccccc"/>
+	<text x="2623" y="4962" font-size="42pt" text-anchor="middle">伝送キャリア接続点(光)</text>
+	<path d="M2340,4904v171h567v-171Z" stroke="#000000" stroke-dasharray="30" fill="none"/>
+	<text x="2710" y="5009" font-size="30pt" text-anchor="middle">伝送キャリア接続点</text>
+	<path d="M2597 6421L2597 7796" stroke="#000000" fill="none"/>
+	<ellipse cx="2597" cy="6648" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="2597" cy="6421" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="2597" cy="7796" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="2597" cy="6648" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="2597" cy="6421" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="2597" cy="7796" rx="12" ry="12" fill="#cccccc"/>
+	<text x="2597" y="7132" font-size="36pt" text-anchor="middle">IV-14sq(0.0m)</text>
+	<path d="M6790,3572v28h29v-28ZM5968,3629v28h29v-28Z" fill="#222222"/>
+	<path d="M6793,3574v24h23v-24ZM5971,3631v24h23v-24Z" fill="#cccccc"/>
+	<text x="6394" y="3647" font-size="48pt" text-anchor="middle">添付(DC1000Wエアコン)</text>
+	<path d="M5968,3544v142h851v-142Z" stroke="#000000" fill="none"/>
+	<text x="6718" y="3606" font-size="30pt" text-anchor="middle">アラーム</text>
+	<text x="6037" y="3663" font-size="30pt" text-anchor="middle">接地</text>
+	<path d="M5954 3643L5288 3643L5288 5900L5450 5900L5450 7286" stroke="#000000" fill="none"/>
+	<path d="M5940,3629v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="5450" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<path d="M5942,3631v24h24v-24Z" fill="#cccccc"/>
+	<ellipse cx="5450" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<text x="5506" y="5893" font-size="36pt" text-anchor="middle">添付ケーブル(接地）(0.0m)</text>
+	<path d="M2978 4012L3800 4012" stroke="#000000" stroke-dasharray="30" fill="none"/>
+	<path d="M2964,3997v29h28v-29ZM3786,3997v29h28v-29Z" fill="#222222"/>
+	<path d="M2966,4000v23h24v-23ZM3788,4000v23h24v-23Z" fill="#cccccc"/>
+	<path d="M2978 3586L3488 3586" stroke="#000000" fill="none"/>
+	<path d="M2964,3572v28h28v-28ZM3474,3572v28h28v-28Z" fill="#222222"/>
+	<path d="M2966,3574v24h24v-24ZM3476,3574v24h24v-24Z" fill="#cccccc"/>
+	<text x="3238" y="3534" font-size="42pt" text-anchor="middle">CVT-8sq(7.0m)</text>
+	<path d="M4764 4238L4792 4238L4792 4621L4253 4621" stroke="#000000" fill="none"/>
+	<path d="M4749,4224v28h29v-28ZM4239,4607v28h29v-28Z" fill="#222222"/>
+	<path d="M4752,4226v24h24v-24ZM4241,4609v24h24v-24Z" fill="#cccccc"/>
+	<text x="4512" y="4602" font-size="42pt" text-anchor="middle">IV-14sq(2.0m)</text>
+	<path d="M1149 7796L1149 4578" stroke="#000000" fill="none"/>
+	<ellipse cx="1149" cy="5524" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="1149" cy="7796" rx="14" ry="14" fill="#222222"/>
+	<path d="M1135,4564v29h28v-29Z" fill="#222222"/>
+	<ellipse cx="1149" cy="5524" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="1149" cy="7796" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M1137,4567v23h24v-23Z" fill="#cccccc"/>
+	<text x="1149" y="6211" font-size="36pt" text-anchor="middle">IV-14sq(12.0m)</text>
+	<path d="M6238 7796L1050 7796" stroke="#000000" fill="none"/>
+	<path d="M6223,7782v28h29v-28Z" fill="#222222"/>
+	<ellipse cx="1149" cy="7796" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="2597" cy="7796" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="6122" cy="7796" rx="14" ry="14" fill="#222222"/>
+	<path d="M1036,7782v28h28v-28Z" fill="#222222"/>
+	<path d="M6226,7784v24h24v-24Z" fill="#cccccc"/>
+	<ellipse cx="1149" cy="7796" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="2597" cy="7796" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="6122" cy="7796" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M1038,7784v24h24v-24Z" fill="#cccccc"/>
+	<text x="3644" y="7784" font-size="36pt" text-anchor="middle">IV-38sq(10.0m)</text>
+	<path d="M1135,4536v28h28v-28Z" fill="#222222"/>
+	<path d="M1137,4538v24h24v-24Z" fill="#cccccc"/>
+	<text x="1149" y="4394" font-size="42pt" text-anchor="middle">終端</text>
+	<path d="M1093,4167v397h113v-397Z" stroke="#000000" fill="none"/>
+	<text x="1149" y="4460" transform="rotate(-90,1149,4440)" font-size="30pt" text-anchor="middle">筐体アース</text>
+	<path d="M1008,7782v28h28v-28Z" fill="#222222"/>
+	<path d="M1010,7784v24h24v-24Z" fill="#cccccc"/>
+	<text x="823" y="7767" font-size="42pt" text-anchor="middle">接地極</text>
+	<path d="M611,7654v170h425v-170Z" stroke="#000000" fill="none"/>
+	<text x="941" y="7810" font-size="21pt" text-anchor="middle">筐体アース</text>
+	<text x="6691" y="2893" font-size="42pt" text-anchor="middle">92AH蓄電池</text>
+	<use xlink:href="#isolation" x="7005" y="2778"/>
+	<path d="M6365,2835v142h652v-142Z" stroke="#0000ff" fill="none"/>
+	<path d="M6670 5854L7102 5854L7102 6138L6776 6138" stroke="#000000" fill="none"/>
+	<path d="M6656,5840v28h28v-28ZM6762,6123v29h28v-29Z" fill="#ff9933"/>
+	<path d="M6658,5842v24h24v-24ZM6764,6126v23h24v-23Z" fill="#ffcc66"/>
+	<text x="6980" y="6134" font-size="30pt" text-anchor="middle">STPケーブル(3.0m)</text>
+	<path d="M2992,6634v28h28v-28Z" fill="#ff3333"/>
+	<path d="M3077,6634v28h28v-28Z" fill="#1e90ef"/>
+	<path d="M2994,6636v24h24v-24Z" fill="#ff9999"/>
+	<path d="M3079,6636v24h24v-24Z" fill="#ffcc66"/>
+	<text x="3049" y="6676" font-size="42pt" text-anchor="middle">C</text>
+	<path d="M2992,6591v113h113v-113Z" stroke="#000000" fill="none"/>
+	<text x="3059" y="6668" font-size="30pt" text-anchor="middle">OUT</text>
+	<text x="3048" y="6680" font-size="30pt" text-anchor="middle">IN</text>
+	<path d="M2992,6407v28h28v-28Z" fill="#ff3333"/>
+	<path d="M3077,6407v28h28v-28Z" fill="#1e90ef"/>
+	<path d="M2994,6409v24h24v-24Z" fill="#ff9999"/>
+	<path d="M3079,6409v24h24v-24Z" fill="#ffcc66"/>
+	<text x="3049" y="6449" font-size="42pt" text-anchor="middle">C</text>
+	<path d="M2992,6364v114h113v-114Z" stroke="#000000" fill="none"/>
+	<text x="3059" y="6441" font-size="30pt" text-anchor="middle">OUT</text>
+	<text x="3048" y="6453" font-size="30pt" text-anchor="middle">IN</text>
+	<path d="M1291 3983L1291 4819L1596 4819L1596 5656" stroke="#000000" fill="none"/>
+	<path d="M1277,3969 1277,3997 1305,3997 1305,3969Z" fill="#ff9933" transform="rotate(90.00,1291,3983)"/>
+	<path d="M1582,5641 1582,5670 1610,5670 1610,5641Z" fill="#ff9933" transform="rotate(90.00,1596,5656)"/>
+	<path d="M1279,3971 1279,3995 1303,3995 1303,3971Z" fill="#ffcc66" transform="rotate(90.00,1291,3983)"/>
+	<path d="M1584,5644 1584,5668 1608,5668 1608,5644Z" fill="#ffcc66" transform="rotate(90.00,1596,5656)"/>
+	<path d="M1263,4040 1263,4068 1320,4068 1320,4040Z" fill="#ff0000" transform="rotate(90,1291,4054)"/>
+	<path d="M1568,5571 1568,5599 1624,5599 1624,5571Z" fill="#ff0000" transform="rotate(90,1596,5585)"/>
+	<path d="M1277,4026 1277,4054 1305,4054 1305,4026Z" fill="#ff0000" transform="rotate(90,1291,4040)"/>
+	<path d="M1582,5585 1582,5613 1610,5613 1610,5585Z" fill="#ff0000" transform="rotate(90,1596,5599)"/>
+	<text x="1327" y="4425" transform="rotate(90.00,1327,4401)" font-size="36pt" text-anchor="middle">LDF4-50A(2.0m)</text>
+	<path d="M1263,4040 1263,4068 1320,4068 1320,4040Z" stroke="#000000" fill="none" transform="rotate(90,1291,4054)"/>
+	<path d="M1568,5571 1568,5599 1624,5599 1624,5571Z" stroke="#000000" fill="none" transform="rotate(90,1596,5585)"/>
+	<path d="M1277,4026 1277,4054 1305,4054 1305,4026Z" stroke="#000000" fill="none" transform="rotate(90,1291,4040)"/>
+	<path d="M1582,5585 1582,5613 1610,5613 1610,5585Z" stroke="#000000" fill="none" transform="rotate(90,1596,5599)"/>
+	<path d="M1971 3983L1971 4819L1709 4819L1709 5656" stroke="#000000" fill="none"/>
+	<path d="M1957,3969 1957,3997 1986,3997 1986,3969Z" fill="#ff9933" transform="rotate(90.00,1971,3983)"/>
+	<path d="M1695,5641 1695,5670 1723,5670 1723,5641Z" fill="#ff9933" transform="rotate(90.00,1709,5656)"/>
+	<path d="M1960,3971 1960,3995 1983,3995 1983,3971Z" fill="#ffcc66" transform="rotate(90.00,1971,3983)"/>
+	<path d="M1697,5644 1697,5668 1721,5668 1721,5644Z" fill="#ffcc66" transform="rotate(90.00,1709,5656)"/>
+	<path d="M1943,4040 1943,4068 2000,4068 2000,4040Z" fill="#ff0000" transform="rotate(90,1971,4054)"/>
+	<path d="M1681,5571 1681,5599 1738,5599 1738,5571Z" fill="#ff0000" transform="rotate(90,1709,5585)"/>
+	<path d="M1957,4026 1957,4054 1986,4054 1986,4026Z" fill="#ff0000" transform="rotate(90,1971,4040)"/>
+	<path d="M1695,5585 1695,5613 1723,5613 1723,5585Z" fill="#ff0000" transform="rotate(90,1709,5599)"/>
+	<text x="2007" y="4425" transform="rotate(90.00,2007,4401)" font-size="36pt" text-anchor="middle">LDF4-50A(2.0m)</text>
+	<path d="M1943,4040 1943,4068 2000,4068 2000,4040Z" stroke="#000000" fill="none" transform="rotate(90,1971,4054)"/>
+	<path d="M1681,5571 1681,5599 1738,5599 1738,5571Z" stroke="#000000" fill="none" transform="rotate(90,1709,5585)"/>
+	<path d="M1957,4026 1957,4054 1986,4054 1986,4026Z" stroke="#000000" fill="none" transform="rotate(90,1971,4040)"/>
+	<path d="M1695,5585 1695,5613 1723,5613 1723,5585Z" stroke="#000000" fill="none" transform="rotate(90,1709,5599)"/>
+	<path d="M1596 6123L1596 6421L2978 6421" stroke="#000000" fill="none"/>
+	<path d="M1582,6109 1582,6138 1610,6138 1610,6109Z" fill="#ff9933" transform="rotate(90.00,1596,6123)"/>
+	<ellipse cx="2597" cy="6421" rx="14" ry="14" fill="#222222"/>
+	<path d="M2964,6407v28h28v-28Z" fill="#ff9933"/>
+	<path d="M1584,6111 1584,6135 1608,6135 1608,6111Z" fill="#ffcc66" transform="rotate(90.00,1596,6123)"/>
+	<ellipse cx="2597" cy="6421" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M2966,6409v24h24v-24Z" fill="#ffcc66"/>
+	<path d="M1568,6180 1568,6208 1624,6208 1624,6180Z" fill="#ff0000" transform="rotate(90,1596,6194)"/>
+	<path d="M2879,6407v28h56v-28Z" fill="#ff0000"/>
+	<path d="M1582,6166 1582,6194 1610,6194 1610,6166Z" fill="#ff0000" transform="rotate(90,1596,6180)"/>
+	<path d="M2907,6407v28h28v-28Z" fill="#ff0000"/>
+	<text x="1631" y="6296" transform="rotate(90.00,1631,6272)" font-size="36pt" text-anchor="middle">LDF4-50A(12.3m)</text>
+	<path d="M1568,6180 1568,6208 1624,6208 1624,6180Z" stroke="#000000" fill="none" transform="rotate(90,1596,6194)"/>
+	<path d="M2879,6407v28h56v-28Z" stroke="#000000" fill="none"/>
+	<path d="M1582,6166 1582,6194 1610,6194 1610,6166Z" stroke="#000000" fill="none" transform="rotate(90,1596,6180)"/>
+	<path d="M2907,6407v28h28v-28Z" stroke="#000000" fill="none"/>
+	<path d="M1709 6123L1709 6648L2978 6648" stroke="#000000" fill="none"/>
+	<path d="M1695,6109 1695,6138 1723,6138 1723,6109Z" fill="#ff9933" transform="rotate(90.00,1709,6123)"/>
+	<ellipse cx="2597" cy="6648" rx="14" ry="14" fill="#222222"/>
+	<path d="M2964,6634v28h28v-28Z" fill="#ff9933"/>
+	<path d="M1697,6111 1697,6135 1721,6135 1721,6111Z" fill="#ffcc66" transform="rotate(90.00,1709,6123)"/>
+	<ellipse cx="2597" cy="6648" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M2966,6636v24h24v-24Z" fill="#ffcc66"/>
+	<path d="M1681,6180 1681,6208 1738,6208 1738,6180Z" fill="#ff0000" transform="rotate(90,1709,6194)"/>
+	<path d="M2879,6634v28h56v-28Z" fill="#ff0000"/>
+	<path d="M1695,6166 1695,6194 1723,6194 1723,6166Z" fill="#ff0000" transform="rotate(90,1709,6180)"/>
+	<path d="M2907,6634v28h28v-28Z" fill="#ff0000"/>
+	<text x="1745" y="6410" transform="rotate(90.00,1745,6386)" font-size="36pt" text-anchor="middle">LDF4-50A(12.3m)</text>
+	<path d="M1681,6180 1681,6208 1738,6208 1738,6180Z" stroke="#000000" fill="none" transform="rotate(90,1709,6194)"/>
+	<path d="M2879,6634v28h56v-28Z" stroke="#000000" fill="none"/>
+	<path d="M1695,6166 1695,6194 1723,6194 1723,6166Z" stroke="#000000" fill="none" transform="rotate(90,1709,6180)"/>
+	<path d="M2907,6634v28h28v-28Z" stroke="#000000" fill="none"/>
+	<text x="6691" y="2751" font-size="42pt" text-anchor="middle">92AH蓄電池</text>
+	<use xlink:href="#isolation" x="7005" y="2636"/>
+	<path d="M6365,2693v142h652v-142Z" stroke="#0000ff" fill="none"/>
+	<path d="M4211,4607v28h28v-28Z" fill="#222222"/>
+	<path d="M4213,4609v24h24v-24Z" fill="#cccccc"/>
+	<text x="4069" y="4606" font-size="42pt" text-anchor="middle">接地極</text>
+	<path d="M3899,4508v141h340v-141Z" stroke="#000000" fill="none"/>
+	<text x="4144" y="4635" font-size="21pt" text-anchor="middle">筐体アース</text>
+	<path d="M6734,6237v28h28v-28ZM6734,6123v29h28v-29ZM6734,6067v28h28v-28ZM6734,6407v28h28v-28ZM6734,6350v28h28v-28Z" fill="#1e90ef"/>
+	<path d="M6734,6180v28h28v-28ZM6025,6407v28h28v-28Z" fill="#222222"/>
+	<path d="M6734,6293v29h28v-29Z" fill="#ff3333"/>
+	<path d="M6736,6239v24h24v-24ZM6736,6126v23h24v-23ZM6736,6069v24h24v-24ZM6736,6409v24h24v-24ZM6736,6352v24h24v-24Z" fill="#ff9999"/>
+	<path d="M6736,6182v24h24v-24ZM6027,6409v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6736,6296v23h24v-23Z" fill="#ff9999"/>
+	<text x="6394" y="6098" font-size="42pt" text-anchor="middle">L2SW</text>
+	<text x="6394" y="6154" font-size="42pt" text-anchor="middle">上段</text>
+	<path d="M6025,6038v425h737v-425Z" stroke="#000000" fill="none"/>
+	<text x="6660" y="6271" font-size="30pt" text-anchor="middle">IP-Port1</text>
+	<text x="6660" y="6158" font-size="30pt" text-anchor="middle">IP-Port2</text>
+	<text x="6660" y="6101" font-size="30pt" text-anchor="middle">IP-Port3</text>
+	<text x="6660" y="6441" font-size="30pt" text-anchor="middle">IP-Port4</text>
+	<text x="6660" y="6384" font-size="30pt" text-anchor="middle">IP-Port5</text>
+	<text x="6642" y="6214" font-size="30pt" text-anchor="middle">電源ポート</text>
+	<text x="6109" y="6441" font-size="30pt" text-anchor="middle">アース</text>
+	<text x="6660" y="6328" font-size="30pt" text-anchor="middle">IP-Port6</text>
+	<path d="M6762,6237v28h28v-28Z" fill="#1e90ef"/>
+	<path d="M6847,6237v28h28v-28Z" fill="#222222"/>
+	<path d="M6764,6239v24h24v-24ZM6849,6239v24h24v-24Z" fill="#cccccc"/>
+	<text x="6819" y="6263" font-size="30pt" text-anchor="middle">SFP</text>
+	<path d="M6762,6223v56h113v-56Z" stroke="#000000" fill="none"/>
+	<text x="6803" y="6271" font-size="30pt" text-anchor="middle">A</text>
+	<text x="6835" y="6271" font-size="30pt" text-anchor="middle">B</text>
+	<path d="M4367 3983L4920 3983L4920 4139L6039 4139" stroke="#000000" fill="none"/>
+	<path d="M4353,3969v28h28v-28ZM6025,4125v28h28v-28Z" fill="#222222"/>
+	<path d="M4355,3971v24h24v-24ZM6027,4127v24h24v-24Z" fill="#cccccc"/>
+	<text x="4188" y="3737" font-size="42pt" text-anchor="middle">CV-8sq-3C(2.0m)</text>
+	<path d="M4721,4224v28h28v-28Z" fill="#222222"/>
+	<path d="M4723,4226v24h24v-24Z" fill="#cccccc"/>
+	<text x="4097" y="3403" font-size="42pt" text-anchor="middle">受電盤</text>
+	<path d="M3446,3345v936h1303v-936Z" stroke="#000000" fill="none"/>
+	<text x="4641" y="4258" font-size="30pt" text-anchor="middle">筐体接地</text>
+	<path d="M3616,4111v57h1019v-57Z" stroke="#000000" fill="none"/>
+	<path d="M3687 4139L4621 4139" stroke="#000000" fill="none"/>
+	<path d="M3673,4125v29h28v-29Z" fill="#222222"/>
+	<ellipse cx="4521" cy="4139" rx="14" ry="14" fill="#222222"/>
+	<path d="M4607,4125v29h28v-29Z" fill="#222222"/>
+	<path d="M3675,4128v23h24v-23Z" fill="#cccccc"/>
+	<ellipse cx="4521" cy="4139" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M4609,4128v23h24v-23Z" fill="#cccccc"/>
+	<text x="4160" y="4157" font-size="30pt" text-anchor="middle">接地端子(0.0m)</text>
+	<path d="M4635,4125v29h29v-29Z" fill="#222222"/>
+	<path d="M4638,4128v23h23v-23Z" fill="#cccccc"/>
+	<text x="4664" y="4163" font-size="36pt" text-anchor="middle">アースバー</text>
+	<path d="M4635,4111v57h58v-57Z" stroke="#000000" fill="none"/>
+	<path d="M3645,4125 3645,4154 3673,4154 3673,4125Z" fill="#222222" transform="rotate(180.00,3659,4139)"/>
+	<path d="M3647,4128 3647,4151 3671,4151 3671,4128Z" fill="#cccccc" transform="rotate(180.00,3659,4139)"/>
+	<text x="3644" y="4163" font-size="36pt" text-anchor="middle">アースバー</text>
+	<path d="M3616,4111 3616,4168 3673,4168 3673,4111Z" stroke="#000000" fill="none" transform="rotate(180.00,3644,4139)"/>
+	<path d="M4480 3600L4608 3600L4608 3799L4041 3799L4041 3955L4112 3955" stroke="#000000" fill="none"/>
+	<path d="M4466,3586v29h28v-29ZM4097,3941v28h29v-28Z" fill="#222222"/>
+	<path d="M4468,3589v23h24v-23ZM4100,3943v24h24v-24Z" fill="#cccccc"/>
+	<path d="M3970 3586L4055 3586" stroke="#000000" fill="none"/>
+	<path d="M3956,3572v28h28v-28ZM4041,3572v28h28v-28Z" fill="#222222"/>
+	<path d="M3958,3574v24h24v-24ZM4043,3574v24h24v-24Z" fill="#cccccc"/>
+	<path d="M4126,3941v28h28v-28ZM4126,3997v29h28v-29ZM4324,3969v28h29v-28Z" fill="#222222"/>
+	<path d="M4128,3943v24h24v-24ZM4128,4000v23h24v-23ZM4327,3971v24h23v-24Z" fill="#cccccc"/>
+	<text x="4239" y="4003" font-size="30pt" text-anchor="middle">ｲﾝﾀｰﾛｯｸ</text>
+	<path d="M4126,3912v142h227v-142Z" stroke="#000000" fill="none"/>
+	<text x="4161" y="3969" font-size="21pt" text-anchor="middle">-</text>
+	<text x="4161" y="4026" font-size="21pt" text-anchor="middle">-</text>
+	<text x="4317" y="3997" font-size="21pt" text-anchor="middle">-</text>
+	<path d="M4480 3700L4521 3700L4521 4139" stroke="#000000" fill="none"/>
+	<path d="M4466,3686v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="4521" cy="4139" rx="14" ry="14" fill="#222222"/>
+	<path d="M4468,3688v24h24v-24Z" fill="#cccccc"/>
+	<ellipse cx="4521" cy="4139" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M3715 3586L3800 3586" stroke="#000000" fill="none"/>
+	<path d="M3701,3572v28h28v-28ZM3786,3572v28h28v-28Z" fill="#222222"/>
+	<path d="M3703,3574v24h24v-24ZM3788,3574v24h24v-24Z" fill="#cccccc"/>
+	<path d="M4069,3572v28h28v-28ZM4438,3586v29h28v-29ZM4438,3686v28h28v-28Z" fill="#222222"/>
+	<path d="M4071,3574v24h24v-24ZM4440,3589v23h24v-23ZM4440,3688v24h24v-24Z" fill="#cccccc"/>
+	<text x="4268" y="3556" font-size="30pt" text-anchor="middle">耐雷トランス</text>
+	<path d="M4069,3515v227h397v-227Z" stroke="#000000" fill="none"/>
+	<text x="4177" y="3606" font-size="30pt" text-anchor="middle">交流入力</text>
+	<text x="4358" y="3620" font-size="30pt" text-anchor="middle">交流出力</text>
+	<text x="4342" y="3720" font-size="30pt" text-anchor="middle">筐体アース</text>
+	<path d="M3502,3572v28h29v-28ZM3672,3572v28h29v-28Z" fill="#222222"/>
+	<path d="M3504,3574v24h24v-24ZM3675,3574v24h23v-24Z" fill="#cccccc"/>
+	<text x="3601" y="3600" font-size="42pt" text-anchor="middle">WHM</text>
+	<path d="M3502,3515v114h199v-114Z" stroke="#000000" stroke-dasharray="30" fill="none"/>
+	<text x="3666" y="3606" font-size="30pt" text-anchor="middle"> </text>
+	<path d="M3956 3558L3954 3544L3950 3531L3944 3519L3935 3508L3924 3499L3912 3492L3899 3488L3885 3487L3871 3488L3858 3492L3845 3499L3835 3508L3826 3519L3819 3531L3815 3544L3814 3558L3814 3558L3815 3544L3819 3531L3826 3519L3835 3508L3845 3499L3858 3492L3871 3488L3885 3487L3899 3488L3912 3492L3924 3499L3935 3508L3944 3519L3950 3531L3954 3544L3956 3558Z" stroke="#000000" fill="none"/>
+	<path d="M3814,3572v28h28v-28ZM3927,3572v28h29v-28Z" fill="#222222"/>
+	<path d="M3816,3574v24h24v-24ZM3930,3574v24h23v-24Z" fill="#cccccc"/>
+	<text x="3885" y="3582" font-size="36pt" text-anchor="middle">NFB 3P 50AF/30AT</text>
+	<text x="3852" y="3606" font-size="30pt" text-anchor="middle">-</text>
+	<text x="3917" y="3606" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M3956 3983L3954 3969L3950 3956L3944 3944L3935 3933L3924 3924L3912 3918L3899 3914L3885 3912L3871 3914L3858 3918L3845 3924L3835 3933L3826 3944L3819 3956L3815 3969L3814 3983L3814 3983L3815 3969L3819 3956L3826 3944L3835 3933L3845 3924L3858 3918L3871 3914L3885 3912L3899 3914L3912 3918L3924 3924L3935 3933L3944 3944L3950 3956L3954 3969L3956 3983Z" stroke="#000000" fill="none"/>
+	<path d="M3814,3997v29h28v-29ZM3927,3997v29h29v-29Z" fill="#222222"/>
+	<path d="M3816,4000v23h24v-23ZM3930,4000v23h23v-23Z" fill="#cccccc"/>
+	<text x="3892" y="3891" font-size="36pt" text-anchor="middle">NFB 3P 50AF/30AT</text>
+	<text x="3852" y="4032" font-size="30pt" text-anchor="middle">-</text>
+	<text x="3917" y="4032" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M3970 4012L4112 4012" stroke="#000000" fill="none"/>
+	<path d="M3956,3997v29h28v-29ZM4097,3997v29h29v-29Z" fill="#222222"/>
+	<path d="M3958,4000v23h24v-23ZM4100,4000v23h24v-23Z" fill="#cccccc"/>
+	<path d="M6628,5840v28h28v-28ZM6089,5783v29h28v-29Z" fill="#222222"/>
+	<path d="M6630,5842v24h24v-24ZM6091,5785v24h24v-24Z" fill="#cccccc"/>
+	<text x="6373" y="5886" font-size="48pt" text-anchor="middle">DUS31</text>
+	<path d="M6089,5783v142h567v-142Z" stroke="#000000" fill="none"/>
+	<text x="6585" y="5874" font-size="30pt" text-anchor="middle">TN A</text>
+	<text x="6153" y="5817" font-size="30pt" text-anchor="middle">RI A</text>
+	<path d="M6252,7782v28h28v-28Z" fill="#222222"/>
+	<path d="M6254,7784v24h24v-24Z" fill="#cccccc"/>
+	<text x="6422" y="7824" font-size="42pt" text-anchor="middle">接地極</text>
+	<path d="M6252,7711v170h340v-170Z" stroke="#000000" fill="none"/>
+	<text x="6347" y="7810" font-size="21pt" text-anchor="middle">筐体アース</text>
+	<path d="M6122 7796L6122 7286" stroke="#000000" fill="none"/>
+	<ellipse cx="6122" cy="7796" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="6122" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="6122" cy="7796" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="6122" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<text x="6122" y="7565" font-size="36pt" text-anchor="middle">IV-38sq(0.0m)</text>
+	<path d="M1277,3941 1277,3969 1305,3969 1305,3941Z" fill="#ff3333" transform="rotate(90.00,1291,3955)"/>
+	<path d="M1279,3943 1279,3967 1303,3967 1303,3943Z" fill="#ff9999" transform="rotate(90.00,1291,3955)"/>
+	<text x="1291" y="3398" transform="rotate(90.00,1291,3430)" font-size="48pt" text-anchor="middle">900M</text>
+	<text x="1291" y="3462" transform="rotate(90.00,1291,3430)" font-size="48pt" text-anchor="middle">SANT-S09-360V9FT(3)-YGI</text>
+	<text x="1291" y="3526" transform="rotate(90.00,1291,3430)" font-size="48pt" text-anchor="middle">ANT_1</text>
+	<path d="M753,3289 753,3572 1830,3572 1830,3289Z" stroke="#000000" fill="none" transform="rotate(90.00,1291,3430)"/>
+	<text x="1291" y="3891" transform="rotate(270.00,1291,3871)" font-size="30pt" text-anchor="middle">900M(V)</text>
+	<path d="M1957,3941 1957,3969 1986,3969 1986,3941Z" fill="#ff3333" transform="rotate(90.00,1971,3955)"/>
+	<path d="M1960,3943 1960,3967 1983,3967 1983,3943Z" fill="#ff9999" transform="rotate(90.00,1971,3955)"/>
+	<text x="1971" y="3398" transform="rotate(90.00,1971,3430)" font-size="48pt" text-anchor="middle">900M</text>
+	<text x="1971" y="3462" transform="rotate(90.00,1971,3430)" font-size="48pt" text-anchor="middle">SANT-S09-360V9FT(3)-YGI</text>
+	<text x="1971" y="3526" transform="rotate(90.00,1971,3430)" font-size="48pt" text-anchor="middle">ANT_2</text>
+	<path d="M1433,3289 1433,3572 2510,3572 2510,3289Z" stroke="#000000" fill="none" transform="rotate(90.00,1971,3430)"/>
+	<text x="1971" y="3891" transform="rotate(270.00,1971,3871)" font-size="30pt" text-anchor="middle">900M(V)</text>
+	<path d="M3757,6350v28h29v-28ZM3757,6690v29h29v-29Z" fill="#222222"/>
+	<path d="M3105,6407v28h29v-28ZM3105,6634v28h29v-28Z" fill="#ff3333"/>
+	<path d="M3757,6577v28h29v-28Z" fill="#222222"/>
+	<path d="M3760,6352v24h23v-24ZM3760,6693v23h23v-23Z" fill="#cccccc"/>
+	<path d="M3108,6409v24h23v-24ZM3108,6636v24h23v-24Z" fill="#ff9999"/>
+	<path d="M3760,6579v24h23v-24Z" fill="#cccccc"/>
+	<text x="3446" y="6566" font-size="48pt" text-anchor="middle">RRUS12(B8)</text>
+	<path d="M3105,6322v425h681v-425Z" stroke="#000000" fill="none"/>
+	<text x="3682" y="6384" font-size="30pt" text-anchor="middle">-48V DC</text>
+	<text x="3701" y="6724" font-size="30pt" text-anchor="middle">アース</text>
+	<text x="3175" y="6441" font-size="30pt" text-anchor="middle">RF A</text>
+	<text x="3175" y="6668" font-size="30pt" text-anchor="middle">RF B</text>
+	<text x="3703" y="6611" font-size="30pt" text-anchor="middle">Data 2</text>
+	<path d="M1582,6081 1582,6109 1610,6109 1610,6081Z" fill="#ff3333" transform="rotate(90.00,1596,6095)"/>
+	<path d="M1695,6081 1695,6109 1723,6109 1723,6081Z" fill="#ff3333" transform="rotate(90.00,1709,6095)"/>
+	<path d="M1582,5670 1582,5698 1610,5698 1610,5670Z" fill="#ff3333" transform="rotate(90.00,1596,5684)"/>
+	<path d="M1695,5670 1695,5698 1723,5698 1723,5670Z" fill="#ff3333" transform="rotate(90.00,1709,5684)"/>
+	<path d="M1532,5917 1532,5946 1560,5946 1560,5917Z" fill="#222222" transform="rotate(90.00,1546,5932)"/>
+	<path d="M1584,6083 1584,6107 1608,6107 1608,6083Z" fill="#ff9999" transform="rotate(90.00,1596,6095)"/>
+	<path d="M1697,6083 1697,6107 1721,6107 1721,6083Z" fill="#ff9999" transform="rotate(90.00,1709,6095)"/>
+	<path d="M1584,5672 1584,5696 1608,5696 1608,5672Z" fill="#ff9999" transform="rotate(90.00,1596,5684)"/>
+	<path d="M1697,5672 1697,5696 1721,5696 1721,5672Z" fill="#ff9999" transform="rotate(90.00,1709,5684)"/>
+	<path d="M1534,5920 1534,5944 1558,5944 1558,5920Z" fill="#cccccc" transform="rotate(90.00,1546,5932)"/>
+	<text x="1741" y="5921" transform="rotate(90.00,1741,5889)" font-size="48pt" text-anchor="middle">フィルタ</text>
+	<path d="M1433,5769 1433,6010 1872,6010 1872,5769Z" stroke="#000000" fill="none" transform="rotate(90.00,1653,5889)"/>
+	<text x="1596" y="6031" transform="rotate(270.00,1596,6011)" font-size="30pt" text-anchor="middle">無線機1</text>
+	<text x="1709" y="6031" transform="rotate(270.00,1709,6011)" font-size="30pt" text-anchor="middle">無線機2</text>
+	<text x="1596" y="5765" transform="rotate(90.00,1596,5745)" font-size="30pt" text-anchor="middle">ANT1</text>
+	<text x="1709" y="5765" transform="rotate(90.00,1709,5745)" font-size="30pt" text-anchor="middle">ANT2</text>
+	<text x="1616" y="5952" font-size="30pt" text-anchor="middle">アース</text>
+	<path d="M5912,4819v652h907v-652Z" stroke="#000000" stroke-dasharray="30" fill="rgba(0,0,0,0)"/>
+	<text x="6365" y="4877" font-size="42pt" text-anchor="middle">富士電機整流器3000W</text>
+	<path d="M5968,5103v28h29v-28ZM5968,5145v29h29v-29ZM6734,5103v28h28v-28ZM6734,5018v28h28v-28ZM6734,5315v29h28v-29ZM5968,5358v28h29v-28ZM5968,4933v28h29v-28Z" fill="#222222"/>
+	<path d="M5971,5105v24h23v-24ZM5971,5148v23h23v-23ZM6736,5105v24h24v-24ZM6736,5020v24h24v-24ZM6736,5318v24h24v-24ZM5971,5360v24h23v-24ZM5971,4935v24h23v-24Z" fill="#cccccc"/>
+	<text x="6365" y="4969" font-size="48pt" text-anchor="middle">富士電機整流器</text>
+	<path d="M5968,4904v511h794v-511Z" stroke="#000000" fill="none"/>
+	<path d="M5968,4904 5968,4927 5991,4904Z" fill="#000000"/>
+	<text x="6077" y="5137" font-size="30pt" text-anchor="middle">交流入力</text>
+	<text x="6067" y="5180" font-size="30pt" text-anchor="middle">無線機1</text>
+	<text x="6664" y="5137" font-size="30pt" text-anchor="middle">無線機2</text>
+	<text x="6648" y="5052" font-size="30pt" text-anchor="middle">空調/FAN</text>
+	<text x="6644" y="5350" font-size="30pt" text-anchor="middle">伝送装置1</text>
+	<text x="6087" y="5392" font-size="30pt" text-anchor="middle">伝送装置2</text>
+	<text x="6077" y="4967" font-size="30pt" text-anchor="middle">蓄電池向</text>
+	<text x="6238" y="5080" font-size="30pt" text-anchor="middle">ユニット</text>
+	<path d="M6138,4989v142h199v-142Z" stroke="#000000" fill="none"/>
+	<path d="M6138,4989 6138,5012 6161,4989Z" fill="#000000"/>
+	<text x="6464" y="5080" font-size="30pt" text-anchor="middle">ユニット</text>
+	<path d="M6365,4989v142h199v-142Z" stroke="#000000" fill="none"/>
+	<path d="M6365,4989 6365,5012 6388,4989Z" fill="#000000"/>
+	<text x="6464" y="5250" font-size="30pt" text-anchor="middle">ユニット</text>
+	<path d="M6365,5160v141h199v-141Z" stroke="#000000" fill="none"/>
+	<path d="M6365,5160 6365,5182 6388,5160Z" fill="#000000"/>
+	<path d="M5954 5117L5600 5117L5600 4224L6209 4224L6209 4167L6181 4167" stroke="#000000" fill="none"/>
+	<path d="M5940,5103v28h28v-28ZM6167,4153v29h28v-29Z" fill="#222222"/>
+	<path d="M5942,5105v24h24v-24ZM6169,4156v23h24v-23Z" fill="#cccccc"/>
+	<text x="5905" y="4213" font-size="36pt" text-anchor="middle">CV-8sq-2C(1.0m)</text>
+	<path d="M6762,7881v283h3685v-283Z" fill="#ffffff"/>
+	<text x="6904" y="7928" font-size="30pt" text-anchor="middle">更新履歴</text>
+	<text x="7187" y="7929" font-size="30pt" text-anchor="middle">2026/1/14</text>
+	<text x="7839" y="7929" font-size="30pt" text-anchor="middle">株式会社JTE</text>
+	<text x="8576" y="7928" font-size="30pt" text-anchor="middle">東尾 正一</text>
+	<text x="9483" y="7929" font-size="30pt" text-anchor="middle">プロジェクト名：西日本技術本部案件</text>
+	<text x="10305" y="8055" font-size="48pt" text-anchor="middle">1P / 1P</text>
+	<text x="6904" y="7983" font-size="30pt" text-anchor="middle">5.0</text>
+	<text x="7187" y="7985" font-size="30pt" text-anchor="middle">2025/1/27</text>
+	<text x="7839" y="7985" font-size="30pt" text-anchor="middle">住友電設株式会社</text>
+	<text x="8576" y="7985" font-size="30pt" text-anchor="middle">西田 世理菜</text>
+	<text x="9143" y="7985" font-size="30pt" text-anchor="middle">図面名称：総合システム系統図</text>
+	<text x="6904" y="8040" font-size="30pt" text-anchor="middle">4.0</text>
+	<text x="7187" y="8042" font-size="30pt" text-anchor="middle">2024/9/30</text>
+	<text x="7839" y="8042" font-size="30pt" text-anchor="middle">住友電設株式会社</text>
+	<text x="8576" y="8042" font-size="30pt" text-anchor="middle">森田 美香</text>
+	<text x="8973" y="8042" font-size="30pt" text-anchor="middle">縮尺：-</text>
+	<text x="9313" y="8042" font-size="30pt" text-anchor="middle">版数：6.0</text>
+	<text x="6904" y="8097" font-size="30pt" text-anchor="middle">3.0</text>
+	<text x="7187" y="8099" font-size="30pt" text-anchor="middle">2022/3/31</text>
+	<text x="7839" y="8098" font-size="30pt" text-anchor="middle">SB/WCP</text>
+	<text x="8576" y="8099" font-size="30pt" text-anchor="middle">吉田 裕太(SB ﾃｸﾉﾛｼﾞｰﾕﾆｯﾄ)</text>
+	<text x="9483" y="8099" font-size="30pt" text-anchor="middle">施主：ソフトバンク株式会社</text>
+	<text x="6904" y="8155" font-size="30pt" text-anchor="middle">版数</text>
+	<text x="7187" y="8155" font-size="30pt" text-anchor="middle">日付</text>
+	<text x="7839" y="8155" font-size="30pt" text-anchor="middle">元請け会社</text>
+	<text x="8576" y="8155" font-size="30pt" text-anchor="middle">担当</text>
+	<text x="9483" y="8155" font-size="30pt" text-anchor="middle">基地局名：ＰＬＢすさみ周参見西</text>
+	<path d="M6762 7881L7046 7881M6762 7938L7046 7938M6762 7881L6762 7938M7046 7938L7046 7881M7046 7881L7329 7881M7046 7938L7329 7938M7046 7881L7046 7938M7329 7938L7329 7881M7329 7881L8349 7881M7329 7938L8349 7938M7329 7881L7329 7938M8349 7938L8349 7881M8349 7881L8803 7881M8349 7938L8803 7938M8349 7881L8349 7938M8803 7938L8803 7881M8803 7881L10164 7881M8803 7938L10164 7938M8803 7881L8803 7938M10164 7938L10164 7881M10164 7881L10447 7881M10164 8164L10447 8164M10164 7881L10164 8164M10447 8164L10447 7881M6762 7938L7046 7938M6762 7994L7046 7994M6762 7938L6762 7994M7046 7994L7046 7938M7046 7938L7329 7938M7046 7994L7329 7994M7046 7938L7046 7994M7329 7994L7329 7938M7329 7938L8349 7938M7329 7994L8349 7994M7329 7938L7329 7994M8349 7994L8349 7938M8349 7938L8803 7938M8349 7994L8803 7994M8349 7938L8349 7994M8803 7994L8803 7938M8803 7938L9483 7938M8803 7994L9483 7994M8803 7938L8803 7994M9483 7994L9483 7938M9483 7938L10164 7938M9483 8051L10164 8051M9483 7938L9483 8051M10164 8051L10164 7938M6762 7994L7046 7994M6762 8051L7046 8051M6762 7994L6762 8051M7046 8051L7046 7994M7046 7994L7329 7994M7046 8051L7329 8051M7046 7994L7046 8051M7329 8051L7329 7994M7329 7994L8349 7994M7329 8051L8349 8051M7329 7994L7329 8051M8349 8051L8349 7994M8349 7994L8803 7994M8349 8051L8803 8051M8349 7994L8349 8051M8803 8051L8803 7994M8803 7994L9143 7994M8803 8051L9143 8051M8803 7994L8803 8051M9143 8051L9143 7994M9143 7994L9483 7994M9143 8051L9483 8051M9143 7994L9143 8051M9483 8051L9483 7994M6762 8051L7046 8051M6762 8108L7046 8108M6762 8051L6762 8108M7046 8108L7046 8051M7046 8051L7329 8051M7046 8108L7329 8108M7046 8051L7046 8108M7329 8108L7329 8051M7329 8051L8349 8051M7329 8108L8349 8108M7329 8051L7329 8108M8349 8108L8349 8051M8349 8051L8803 8051M8349 8108L8803 8108M8349 8051L8349 8108M8803 8108L8803 8051M8803 8051L10164 8051M8803 8108L10164 8108M8803 8051L8803 8108M10164 8108L10164 8051M6762 8108L7046 8108M6762 8164L7046 8164M6762 8108L6762 8164M7046 8164L7046 8108M7046 8108L7329 8108M7046 8164L7329 8164M7046 8108L7046 8164M7329 8164L7329 8108M7329 8108L8349 8108M7329 8164L8349 8164M7329 8108L7329 8164M8349 8164L8349 8108M8349 8108L8803 8108M8349 8164L8803 8164M8349 8108L8349 8164M8803 8164L8803 8108M8803 8108L10164 8108M8803 8164L10164 8164M8803 8108L8803 8164M10164 8164L10164 8108" stroke="#000000" fill="none"/>
+	<path d="M8888,6515v28h28v-28ZM9852,6563v28h28v-28ZM8888,6563v28h28v-28Z" fill="#222222"/>
+	<path d="M8890,6517v24h24v-24ZM9854,6565v24h24v-24ZM8890,6565v24h24v-24Z" fill="#cccccc"/>
+	<text x="9384" y="6443" font-size="48pt" text-anchor="middle">SGBATT-IN-100-1-HUW</text>
+	<text x="9384" y="6507" font-size="48pt" text-anchor="middle">＃１</text>
+	<path d="M8888,6378v284h992v-284Z" stroke="#ff0000" fill="none"/>
+	<text x="9048" y="6549" font-size="30pt" text-anchor="middle">直流出力ポート</text>
+	<text x="9765" y="6597" font-size="30pt" text-anchor="middle">ドライ接点</text>
+	<text x="8972" y="6597" font-size="30pt" text-anchor="middle">アース</text>
+	<path d="M8888,6231v28h28v-28ZM9852,6279v29h28v-29ZM8888,6322v28h28v-28Z" fill="#222222"/>
+	<path d="M8890,6233v24h24v-24ZM9854,6282v23h24v-23ZM8890,6324v24h24v-24Z" fill="#cccccc"/>
+	<text x="9384" y="6160" font-size="48pt" text-anchor="middle">SGBATT-IN-100-1-HUW</text>
+	<text x="9384" y="6224" font-size="48pt" text-anchor="middle">#2</text>
+	<path d="M8888,6095v283h992v-283Z" stroke="#ff0000" fill="none"/>
+	<text x="9048" y="6265" font-size="30pt" text-anchor="middle">直流出力ポート</text>
+	<text x="9765" y="6313" font-size="30pt" text-anchor="middle">ドライ接点</text>
+	<text x="8972" y="6356" font-size="30pt" text-anchor="middle">アース</text>
+	<path d="M8888,5948v28h28v-28ZM9852,5996v28h28v-28ZM8888,6038v29h28v-29Z" fill="#222222"/>
+	<path d="M8890,5950v24h24v-24ZM9854,5998v24h24v-24ZM8890,6041v23h24v-23Z" fill="#cccccc"/>
+	<text x="9384" y="5876" font-size="48pt" text-anchor="middle">SGBATT-IN-100-1-HUW</text>
+	<text x="9384" y="5940" font-size="48pt" text-anchor="middle">#3</text>
+	<path d="M8888,5812v283h992v-283Z" stroke="#ff0000" fill="none"/>
+	<text x="9048" y="5982" font-size="30pt" text-anchor="middle">直流出力ポート</text>
+	<text x="9765" y="6030" font-size="30pt" text-anchor="middle">ドライ接点</text>
+	<text x="8972" y="6072" font-size="30pt" text-anchor="middle">アース</text>
+	<path d="M8888,5644v28h28v-28ZM9852,5712v29h28v-29ZM8888,5755v28h28v-28Z" fill="#222222"/>
+	<path d="M8890,5646v24h24v-24ZM9854,5715v23h24v-23ZM8890,5757v24h24v-24Z" fill="#cccccc"/>
+	<text x="9384" y="5593" font-size="48pt" text-anchor="middle">SGBATT-IN-100-1-HUW</text>
+	<text x="9384" y="5657" font-size="48pt" text-anchor="middle">#4</text>
+	<path d="M8888,5528v284h992v-284Z" stroke="#ff0000" fill="none"/>
+	<text x="9048" y="5678" font-size="30pt" text-anchor="middle">直流出力ポート</text>
+	<text x="9765" y="5746" font-size="30pt" text-anchor="middle">ドライ接点</text>
+	<text x="8972" y="5789" font-size="30pt" text-anchor="middle">アース</text>
+	<path d="M8888,5384v28h28v-28ZM9852,5429v28h28v-28ZM8888,5471v29h28v-29Z" fill="#222222"/>
+	<path d="M8890,5386v24h24v-24ZM9854,5431v24h24v-24ZM8890,5474v23h24v-23Z" fill="#cccccc"/>
+	<text x="9384" y="5310" font-size="48pt" text-anchor="middle">SGBATT-IN-100-1-HUW</text>
+	<text x="9384" y="5374" font-size="48pt" text-anchor="middle">#5</text>
+	<path d="M8888,5245v283h992v-283Z" stroke="#ff0000" fill="none"/>
+	<text x="9048" y="5418" font-size="30pt" text-anchor="middle">直流出力ポート</text>
+	<text x="9765" y="5463" font-size="30pt" text-anchor="middle">ドライ接点</text>
+	<text x="8972" y="5506" font-size="30pt" text-anchor="middle">アース</text>
+	<path d="M9894 5443L10135 5443L10135 5726L9894 5726" stroke="#ff0000" fill="none"/>
+	<path d="M9880,5429v28h29v-28ZM9880,5712v29h29v-29Z" fill="#222222"/>
+	<path d="M9882,5431v24h24v-24ZM9882,5715v23h24v-23Z" fill="#cccccc"/>
+	<text x="10015" y="5432" font-size="27pt" text-anchor="middle">添付アラーム線(1.0m)</text>
+	<path d="M9894 5726L10135 5726L10135 6010L9894 6010" stroke="#ff0000" fill="none"/>
+	<path d="M9880,5712v29h29v-29ZM9880,5996v28h29v-28Z" fill="#222222"/>
+	<path d="M9882,5715v23h24v-23ZM9882,5998v24h24v-24Z" fill="#cccccc"/>
+	<path d="M9909,5712v29h28v-29Z" fill="#222222"/>
+	<path d="M9911,5715v23h24v-23Z" fill="#cccccc"/>
+	<text x="10015" y="5715" font-size="27pt" text-anchor="middle">添付アラーム線(1.0m)</text>
+	<path d="M9894 6010L10135 6010L10135 6293L9894 6293" stroke="#ff0000" fill="none"/>
+	<path d="M9880,5996v28h29v-28ZM9880,6279v29h29v-29Z" fill="#222222"/>
+	<path d="M9882,5998v24h24v-24ZM9882,6282v23h24v-23Z" fill="#cccccc"/>
+	<path d="M9909,5996v28h28v-28Z" fill="#222222"/>
+	<path d="M9911,5998v24h24v-24Z" fill="#cccccc"/>
+	<text x="10015" y="5999" font-size="27pt" text-anchor="middle">添付アラーム線(1.0m)</text>
+	<path d="M9894 6293L10135 6293L10135 6577L9894 6577" stroke="#ff0000" fill="none"/>
+	<path d="M9880,6279v29h29v-29ZM9880,6563v28h29v-28Z" fill="#222222"/>
+	<path d="M9882,6282v23h24v-23ZM9882,6565v24h24v-24Z" fill="#cccccc"/>
+	<path d="M9909,6279v29h28v-29Z" fill="#222222"/>
+	<path d="M9911,6282v23h24v-23Z" fill="#cccccc"/>
+	<text x="10015" y="6282" font-size="27pt" text-anchor="middle">添付アラーム線(1.0m)</text>
+	<path d="M8763 4012L8763 5398L8874 5398" stroke="#ff0000" fill="none"/>
+	<path d="M8749,3997 8749,4026 8777,4026 8777,3997Z" fill="#222222" transform="rotate(90.00,8763,4012)"/>
+	<path d="M8860,5384v28h28v-28Z" fill="#222222"/>
+	<path d="M8751,4000 8751,4023 8775,4023 8775,4000Z" fill="#cccccc" transform="rotate(90.00,8763,4012)"/>
+	<path d="M8862,5386v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8179 3671L8178 3658L8174 3644L8167 3632L8159 3621L8148 3612L8136 3606L8122 3602L8109 3600L8095 3602L8081 3606L8069 3612L8058 3621L8050 3632L8043 3644L8039 3658L8038 3671L8038 3671L8039 3658L8043 3644L8050 3632L8058 3621L8069 3612L8081 3606L8095 3602L8109 3600L8122 3602L8136 3606L8148 3612L8159 3621L8167 3632L8174 3644L8178 3658L8179 3671Z" stroke="#ff0000" fill="none"/>
+	<path d="M8038,3681v29h28v-29ZM8151,3680v28h28v-28Z" fill="#222222"/>
+	<path d="M8040,3684v24h24v-24ZM8153,3682v24h24v-24Z" fill="#cccccc"/>
+	<text x="8109" y="3695" font-size="36pt" text-anchor="middle">TB</text>
+	<text x="8076" y="3716" font-size="30pt" text-anchor="middle">-</text>
+	<text x="8141" y="3714" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M8616 4012L8616 5658L8874 5658" stroke="#ff0000" fill="none"/>
+	<path d="M8602,3997 8602,4026 8630,4026 8630,3997Z" fill="#222222" transform="rotate(90.00,8616,4012)"/>
+	<path d="M8860,5644v28h28v-28Z" fill="#222222"/>
+	<path d="M8604,4000 8604,4023 8628,4023 8628,4000Z" fill="#cccccc" transform="rotate(90.00,8616,4012)"/>
+	<path d="M8862,5646v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8483 4012L8483 5962L8874 5962" stroke="#ff0000" fill="none"/>
+	<path d="M8469,3997 8469,4026 8497,4026 8497,3997Z" fill="#222222" transform="rotate(90.00,8483,4012)"/>
+	<path d="M8860,5948v28h28v-28Z" fill="#222222"/>
+	<path d="M8471,4000 8471,4023 8495,4023 8495,4000Z" fill="#cccccc" transform="rotate(90.00,8483,4012)"/>
+	<path d="M8862,5950v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8369 4012L8369 6245L8874 6245" stroke="#ff0000" fill="none"/>
+	<path d="M8355,3997 8355,4026 8383,4026 8383,3997Z" fill="#222222" transform="rotate(90.00,8369,4012)"/>
+	<path d="M8860,6231v28h28v-28Z" fill="#222222"/>
+	<path d="M8357,4000 8357,4023 8381,4023 8381,4000Z" fill="#cccccc" transform="rotate(90.00,8369,4012)"/>
+	<path d="M8862,6233v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8256 4012L8256 6529L8874 6529" stroke="#ff0000" fill="none"/>
+	<path d="M8242,3997 8242,4026 8270,4026 8270,3997Z" fill="#222222" transform="rotate(90.00,8256,4012)"/>
+	<path d="M8860,6515v28h28v-28Z" fill="#222222"/>
+	<path d="M8244,4000 8244,4023 8268,4023 8268,4000Z" fill="#cccccc" transform="rotate(90.00,8256,4012)"/>
+	<path d="M8862,6517v24h24v-24Z" fill="#cccccc"/>
+	<path d="M9852,4508v28h28v-28Z" fill="#222222"/>
+	<path d="M9854,4510v24h24v-24Z" fill="#cccccc"/>
+	<text x="9384" y="4550" font-size="42pt" text-anchor="middle">ドア開アラーム</text>
+	<path d="M8888,4451v142h992v-142Z" stroke="#ff0000" fill="none"/>
+	<text x="9773" y="4542" font-size="30pt" text-anchor="middle">DoorALM</text>
+	<path d="M8477 7316L10320 7316" stroke="#ff0000" fill="none"/>
+	<path d="M8463,7302v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="8841" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8792" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8746" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8719" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8677" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8553" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="10262" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8622" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<path d="M10305,7302v28h29v-28Z" fill="#222222"/>
+	<path d="M8465,7304v24h24v-24Z" fill="#cccccc"/>
+	<ellipse cx="8841" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8792" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8746" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8719" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8677" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8553" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="10262" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8622" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M10308,7304v24h23v-24Z" fill="#cccccc"/>
+	<path d="M10334,7302v28h28v-28Z" fill="#222222"/>
+	<path d="M10336,7304v24h24v-24Z" fill="#cccccc"/>
+	<path d="M10334,7289v56h56v-56Z" stroke="#ff0000" fill="none"/>
+	<path d="M8434,7302 8434,7330 8463,7330 8463,7302Z" fill="#222222" transform="rotate(180.00,8449,7316)"/>
+	<path d="M8437,7304 8437,7328 8461,7328 8461,7304Z" fill="#cccccc" transform="rotate(180.00,8449,7316)"/>
+	<path d="M8406,7286 8406,7342 8463,7342 8463,7286Z" stroke="#ff0000" fill="none" transform="rotate(180.00,8434,7314)"/>
+	<path d="M8860 3926L8858 3913L8854 3899L8848 3887L8839 3876L8828 3868L8816 3861L8803 3857L8789 3856L8775 3857L8762 3861L8749 3868L8739 3876L8730 3887L8723 3899L8719 3913L8718 3926L8718 3926L8719 3913L8723 3899L8730 3887L8739 3876L8749 3868L8762 3861L8775 3857L8789 3856L8803 3857L8816 3861L8828 3868L8839 3876L8848 3887L8854 3899L8858 3913L8860 3926Z" stroke="#ff0000" fill="none" transform="rotate(90.00,8789,3926)"/>
+	<path d="M8760,3856 8760,3884 8789,3884 8789,3856Z" fill="#222222" transform="rotate(90.00,8775,3870)"/>
+	<path d="M8749,3969 8749,3997 8777,3997 8777,3969Z" fill="#222222" transform="rotate(90.00,8763,3983)"/>
+	<path d="M8763,3858 8763,3882 8787,3882 8787,3858Z" fill="#cccccc" transform="rotate(90.00,8775,3870)"/>
+	<path d="M8751,3971 8751,3995 8775,3995 8775,3971Z" fill="#cccccc" transform="rotate(90.00,8763,3983)"/>
+	<text x="8789" y="3950" transform="rotate(90.00,8789,3926)" font-size="36pt" text-anchor="middle">NFB 2P 225AF/125AT</text>
+	<text x="8775" y="3914" transform="rotate(90.00,8775,3894)" font-size="30pt" text-anchor="middle">-</text>
+	<text x="8763" y="3979" transform="rotate(270.00,8763,3959)" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M8718 3926L8717 3913L8713 3899L8706 3887L8697 3876L8686 3868L8674 3861L8661 3857L8647 3856L8633 3857L8620 3861L8608 3868L8597 3876L8588 3887L8582 3899L8578 3913L8576 3926L8576 3926L8578 3913L8582 3899L8588 3887L8597 3876L8608 3868L8620 3861L8633 3857L8647 3856L8661 3857L8674 3861L8686 3868L8697 3876L8706 3887L8713 3899L8717 3913L8718 3926Z" stroke="#ff0000" fill="none" transform="rotate(90.00,8647,3926)"/>
+	<path d="M8605,3856 8605,3884 8633,3884 8633,3856Z" fill="#222222" transform="rotate(90.00,8619,3870)"/>
+	<path d="M8602,3969 8602,3997 8630,3997 8630,3969Z" fill="#222222" transform="rotate(90.00,8616,3983)"/>
+	<path d="M8607,3858 8607,3882 8631,3882 8631,3858Z" fill="#cccccc" transform="rotate(90.00,8619,3870)"/>
+	<path d="M8604,3971 8604,3995 8628,3995 8628,3971Z" fill="#cccccc" transform="rotate(90.00,8616,3983)"/>
+	<text x="8647" y="3950" transform="rotate(90.00,8647,3926)" font-size="36pt" text-anchor="middle">NFB 2P 225AF/125AT</text>
+	<text x="8619" y="3914" transform="rotate(90.00,8619,3894)" font-size="30pt" text-anchor="middle">-</text>
+	<text x="8616" y="3979" transform="rotate(270.00,8616,3959)" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M8576 3926L8575 3913L8571 3899L8564 3887L8555 3876L8545 3868L8532 3861L8519 3857L8505 3856L8492 3857L8478 3861L8466 3868L8455 3876L8446 3887L8440 3899L8436 3913L8434 3926L8434 3926L8436 3913L8440 3899L8446 3887L8455 3876L8466 3868L8478 3861L8492 3857L8505 3856L8519 3857L8532 3861L8545 3868L8555 3876L8564 3887L8571 3899L8575 3913L8576 3926Z" stroke="#ff0000" fill="none" transform="rotate(90.00,8505,3926)"/>
+	<path d="M8463,3856 8463,3884 8491,3884 8491,3856Z" fill="#222222" transform="rotate(90.00,8477,3870)"/>
+	<path d="M8469,3969 8469,3997 8497,3997 8497,3969Z" fill="#222222" transform="rotate(90.00,8483,3983)"/>
+	<path d="M8465,3858 8465,3882 8489,3882 8489,3858Z" fill="#cccccc" transform="rotate(90.00,8477,3870)"/>
+	<path d="M8471,3971 8471,3995 8495,3995 8495,3971Z" fill="#cccccc" transform="rotate(90.00,8483,3983)"/>
+	<text x="8505" y="3950" transform="rotate(90.00,8505,3926)" font-size="36pt" text-anchor="middle">NFB 2P 225AF/125AT</text>
+	<text x="8477" y="3914" transform="rotate(90.00,8477,3894)" font-size="30pt" text-anchor="middle">-</text>
+	<text x="8483" y="3979" transform="rotate(270.00,8483,3959)" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M8463 3926L8461 3913L8457 3899L8451 3887L8442 3876L8431 3868L8419 3861L8406 3857L8392 3856L8378 3857L8365 3861L8353 3868L8342 3876L8333 3887L8326 3899L8322 3913L8321 3926L8321 3926L8322 3913L8326 3899L8333 3887L8342 3876L8353 3868L8365 3861L8378 3857L8392 3856L8406 3857L8419 3861L8431 3868L8442 3876L8451 3887L8457 3899L8461 3913L8463 3926Z" stroke="#ff0000" fill="none" transform="rotate(90.00,8392,3926)"/>
+	<path d="M8349,3856 8349,3884 8378,3884 8378,3856Z" fill="#222222" transform="rotate(90.00,8364,3870)"/>
+	<path d="M8355,3969 8355,3997 8383,3997 8383,3969Z" fill="#222222" transform="rotate(90.00,8369,3983)"/>
+	<path d="M8352,3858 8352,3882 8376,3882 8376,3858Z" fill="#cccccc" transform="rotate(90.00,8364,3870)"/>
+	<path d="M8357,3971 8357,3995 8381,3995 8381,3971Z" fill="#cccccc" transform="rotate(90.00,8369,3983)"/>
+	<text x="8392" y="3950" transform="rotate(90.00,8392,3926)" font-size="36pt" text-anchor="middle">NFB 2P 225AF/125AT</text>
+	<text x="8364" y="3914" transform="rotate(90.00,8364,3894)" font-size="30pt" text-anchor="middle">-</text>
+	<text x="8369" y="3979" transform="rotate(270.00,8369,3959)" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M8349 3926L8348 3913L8344 3899L8337 3887L8329 3876L8318 3868L8306 3861L8292 3857L8279 3856L8265 3857L8251 3861L8239 3868L8228 3876L8220 3887L8213 3899L8209 3913L8208 3926L8208 3926L8209 3913L8213 3899L8220 3887L8228 3876L8239 3868L8251 3861L8265 3857L8279 3856L8292 3857L8306 3861L8318 3868L8329 3876L8337 3887L8344 3899L8348 3913L8349 3926Z" stroke="#ff0000" fill="none" transform="rotate(90.00,8279,3926)"/>
+	<path d="M8236,3856 8236,3884 8264,3884 8264,3856Z" fill="#222222" transform="rotate(90.00,8250,3870)"/>
+	<path d="M8242,3969 8242,3997 8270,3997 8270,3969Z" fill="#222222" transform="rotate(90.00,8256,3983)"/>
+	<path d="M8238,3858 8238,3882 8262,3882 8262,3858Z" fill="#cccccc" transform="rotate(90.00,8250,3870)"/>
+	<path d="M8244,3971 8244,3995 8268,3995 8268,3971Z" fill="#cccccc" transform="rotate(90.00,8256,3983)"/>
+	<text x="8279" y="3950" transform="rotate(90.00,8279,3926)" font-size="36pt" text-anchor="middle">NFB 2P 225AF/125AT</text>
+	<text x="8250" y="3914" transform="rotate(90.00,8250,3894)" font-size="30pt" text-anchor="middle">-</text>
+	<text x="8256" y="3979" transform="rotate(270.00,8256,3959)" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M8199 3694L8199 3686L8775 3686L8775 3841" stroke="#ff0000" fill="none"/>
+	<ellipse cx="8199" cy="3694" rx="14" ry="14" fill="#222222"/>
+	<path d="M8760,3827v29h29v-29Z" fill="#222222"/>
+	<ellipse cx="8199" cy="3694" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8763,3830v23h24v-23Z" fill="#cccccc"/>
+	<path d="M8203 3694L8605 3694L8605 3841L8619 3841" stroke="#ff0000" fill="none"/>
+	<ellipse cx="8203" cy="3694" rx="14" ry="14" fill="#222222"/>
+	<path d="M8605,3827 8605,3856 8633,3856 8633,3827Z" fill="#222222" transform="rotate(90.00,8619,3841)"/>
+	<ellipse cx="8203" cy="3694" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8607,3830 8607,3853 8631,3853 8631,3830Z" fill="#cccccc" transform="rotate(90.00,8619,3841)"/>
+	<path d="M8233 3694L8463 3694L8463 3841L8477 3841" stroke="#ff0000" fill="none"/>
+	<ellipse cx="8233" cy="3694" rx="14" ry="14" fill="#222222"/>
+	<path d="M8463,3827 8463,3856 8491,3856 8491,3827Z" fill="#222222" transform="rotate(90.00,8477,3841)"/>
+	<ellipse cx="8233" cy="3694" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8465,3830 8465,3853 8489,3853 8489,3830Z" fill="#cccccc" transform="rotate(90.00,8477,3841)"/>
+	<path d="M8194 3694L8349 3694L8349 3805L8364 3805L8364 3841" stroke="#ff0000" fill="none"/>
+	<path d="M8179,3680v28h29v-28Z" fill="#222222"/>
+	<ellipse cx="8233" cy="3694" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8199" cy="3694" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8203" cy="3694" rx="14" ry="14" fill="#222222"/>
+	<path d="M8349,3827v29h29v-29Z" fill="#222222"/>
+	<path d="M8182,3682v24h23v-24Z" fill="#cccccc"/>
+	<ellipse cx="8233" cy="3694" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8199" cy="3694" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8203" cy="3694" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8352,3830v23h24v-23Z" fill="#cccccc"/>
+	<path d="M8194 3694L8250 3694L8250 3841" stroke="#ff0000" fill="none"/>
+	<path d="M8179,3680v28h29v-28ZM8236,3827v29h28v-29Z" fill="#222222"/>
+	<path d="M8182,3682v24h23v-24ZM8238,3830v23h24v-23Z" fill="#cccccc"/>
+	<path d="M8208,3680v28h28v-28Z" fill="#222222"/>
+	<path d="M8210,3682v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8841 7316L8841 6577L8874 6577" stroke="#ff0000" fill="none"/>
+	<ellipse cx="8841" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<path d="M8860,6563v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="8841" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8862,6565v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8792 7316L8792 6336L8874 6336" stroke="#ff0000" fill="none"/>
+	<ellipse cx="8792" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<path d="M8860,6322v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="8792" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8862,6324v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8888,4968v28h28v-28ZM9852,4968v28h28v-28ZM9852,5011v28h28v-28ZM9852,4911v29h28v-29Z" fill="#222222"/>
+	<path d="M8890,4970v24h24v-24ZM9854,4970v24h24v-24ZM9854,5013v24h24v-24ZM9854,4914v23h24v-23Z" fill="#cccccc"/>
+	<text x="9384" y="5010" font-size="42pt" text-anchor="middle">IDF</text>
+	<path d="M8888,4904v156h992v-156Z" stroke="#ff0000" fill="none"/>
+	<text x="8995" y="4996" font-size="21pt" text-anchor="middle">アラーム集約</text>
+	<text x="9792" y="4996" font-size="21pt" text-anchor="middle">アラーム２</text>
+	<text x="9792" y="5039" font-size="21pt" text-anchor="middle">アラーム３</text>
+	<text x="9792" y="4939" font-size="21pt" text-anchor="middle">アラーム６</text>
+	<path d="M9894 5443L10107 5443L10107 5018L9894 5018L9894 5025" stroke="#ff0000" fill="none"/>
+	<path d="M9880,5429v28h29v-28ZM9880,5011v28h29v-28Z" fill="#222222"/>
+	<path d="M9882,5431v24h24v-24ZM9882,5013v24h24v-24Z" fill="#cccccc"/>
+	<path d="M9909,5429v28h28v-28Z" fill="#222222"/>
+	<path d="M9911,5431v24h24v-24Z" fill="#cccccc"/>
+	<text x="10150" y="5290" transform="rotate(90.00,10150,5258)" font-size="48pt" text-anchor="middle">添付アラーム線(3.0m)</text>
+	<path d="M8746 7316L8746 6052L8874 6052" stroke="#ff0000" fill="none"/>
+	<ellipse cx="8746" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<path d="M8860,6038v29h28v-29Z" fill="#222222"/>
+	<ellipse cx="8746" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8862,6041v23h24v-23Z" fill="#cccccc"/>
+	<path d="M8719 7316L8719 5769L8874 5769" stroke="#ff0000" fill="none"/>
+	<ellipse cx="8719" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<path d="M8860,5755v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="8719" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8862,5757v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8677 7316L8677 5486L8874 5486" stroke="#ff0000" fill="none"/>
+	<ellipse cx="8677" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<path d="M8860,5471v29h28v-29Z" fill="#222222"/>
+	<ellipse cx="8677" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M8862,5474v23h24v-23Z" fill="#cccccc"/>
+	<path d="M9894 4982L10107 4982L10107 4791L9866 4791L9866 4777" stroke="#ff0000" fill="none"/>
+	<path d="M9880,4968v28h29v-28ZM9852,4763v28h28v-28Z" fill="#222222"/>
+	<path d="M9882,4970v24h24v-24ZM9854,4765v24h24v-24Z" fill="#cccccc"/>
+	<text x="10150" y="4931" transform="rotate(90.00,10150,4899)" font-size="48pt" text-anchor="middle">添付アラーム線(3.0m)</text>
+	<path d="M9894 4925L9994 4925L9994 4508L9894 4508L9894 4522" stroke="#ff0000" fill="none"/>
+	<path d="M9880,4911v29h29v-29ZM9880,4508v28h29v-28Z" fill="#222222"/>
+	<path d="M9882,4914v23h24v-23ZM9882,4510v24h24v-24Z" fill="#cccccc"/>
+	<text x="10037" y="4775" transform="rotate(90.00,10037,4743)" font-size="48pt" text-anchor="middle">添付アラーム線(3.0m)</text>
+	<path d="M10262 7316L10262 6018L10220 6018L10220 4720L9866 4720" stroke="#ff0000" fill="none"/>
+	<ellipse cx="10262" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<path d="M9852,4706v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="10262" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<path d="M9854,4708v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8874 4734L7868 4734L7868 5032L6776 5032" stroke="#ff0000" fill="none"/>
+	<path d="M8860,4720v29h28v-29ZM6762,5018v28h28v-28Z" fill="#222222"/>
+	<path d="M8862,4722v24h24v-24ZM6764,5020v24h24v-24Z" fill="#cccccc"/>
+	<text x="8371" y="4723" font-size="36pt" text-anchor="middle">CV-5.5sq-2C(15.0m)</text>
+	<path d="M6776 6194L7216 6194L7216 5330L6776 5330" stroke="#000000" fill="none"/>
+	<path d="M6762,6180v28h28v-28ZM6762,5315v29h28v-29Z" fill="#222222"/>
+	<path d="M6764,6182v24h24v-24ZM6764,5318v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8023 3696L7244 3696L7244 4489L6323 4489" stroke="#ff0000" fill="none"/>
+	<path d="M8009,3681v29h29v-29ZM6309,4475v29h28v-29Z" fill="#222222"/>
+	<path d="M8012,3684v24h23v-24ZM6311,4477v24h24v-24Z" fill="#cccccc"/>
+	<text x="7634" y="3684" font-size="36pt" text-anchor="middle">2PNCT-100sq-2C(15.0m)</text>
+	<path d="M7155 7286L7155 7654L8553 7654L8553 7316" stroke="#ff0000" fill="none"/>
+	<ellipse cx="7155" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="8553" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<ellipse cx="7155" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<ellipse cx="8553" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<text x="8018" y="7643" font-size="48pt" text-anchor="middle">IV-14sq(10.0m)</text>
+	<path d="M6309 4465L6307 4451L6303 4438L6297 4426L6288 4415L6277 4406L6265 4400L6251 4396L6238 4394L6224 4396L6210 4400L6198 4406L6188 4415L6179 4426L6172 4438L6168 4451L6167 4465L6167 4465L6168 4451L6172 4438L6179 4426L6188 4415L6198 4406L6210 4400L6224 4396L6238 4394L6251 4396L6265 4400L6277 4406L6288 4415L6297 4426L6303 4438L6307 4451L6309 4465Z" stroke="#ff0000" fill="none"/>
+	<path d="M6167,4479v29h28v-29ZM6280,4475v29h29v-29Z" fill="#222222"/>
+	<path d="M6169,4482v23h24v-23ZM6282,4477v24h24v-24Z" fill="#cccccc"/>
+	<text x="6238" y="4489" font-size="36pt" text-anchor="middle">TB</text>
+	<text x="6205" y="4513" font-size="30pt" text-anchor="middle">-</text>
+	<text x="6270" y="4509" font-size="30pt" text-anchor="middle">-</text>
+	<path d="M6153 4493L5713 4493L5713 4947L5954 4947" stroke="#ff0000" fill="none"/>
+	<path d="M6138,4479v29h29v-29ZM5940,4933v28h28v-28Z" fill="#222222"/>
+	<path d="M6141,4482v23h24v-23ZM5942,4935v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6748 5542L7924 5542L7924 4982L8874 4982" stroke="#ff0000" fill="none"/>
+	<path d="M6734,5528v28h28v-28ZM8860,4968v28h28v-28Z" fill="#222222"/>
+	<path d="M6736,5530v24h24v-24ZM8862,4970v24h24v-24Z" fill="#cccccc"/>
+	<text x="7336" y="5531" font-size="48pt" text-anchor="middle">アラーム線(15.0m)</text>
+	<path d="M8888,4678v141h964v-141Z" fill="#ffffff"/>
+	<path d="M8888,4720v29h28v-29ZM9823,4763v28h29v-28ZM9823,4706v28h29v-28Z" fill="#222222"/>
+	<path d="M8890,4722v24h24v-24ZM9826,4765v24h24v-24ZM9826,4708v24h24v-24Z" fill="#cccccc"/>
+	<text x="9370" y="4781" font-size="48pt" text-anchor="middle">添付(DC1000Wエアコン)</text>
+	<path d="M8888,4678v141h964v-141Z" stroke="#ff0000" fill="none"/>
+	<text x="8996" y="4754" font-size="30pt" text-anchor="middle">直流入力</text>
+	<text x="9751" y="4797" font-size="30pt" text-anchor="middle">アラーム</text>
+	<text x="9783" y="4740" font-size="30pt" text-anchor="middle">接地</text>
+	<path d="M6734,6719v28h28v-28ZM6734,6619v29h28v-29ZM6734,6563v28h28v-28Z" fill="#1e90ef"/>
+	<path d="M6025,6563v28h28v-28ZM6025,6676v28h28v-28Z" fill="#222222"/>
+	<path d="M6734,6520v29h28v-29Z" fill="#ff3333"/>
+	<path d="M6736,6721v24h24v-24ZM6736,6622v23h24v-23ZM6736,6565v24h24v-24Z" fill="#ff9999"/>
+	<path d="M6027,6565v24h24v-24ZM6027,6678v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6736,6522v24h24v-24Z" fill="#ff9999"/>
+	<text x="6394" y="6551" font-size="42pt" text-anchor="middle">L2SW</text>
+	<text x="6394" y="6607" font-size="42pt" text-anchor="middle">下段</text>
+	<path d="M6025,6492v283h737v-283Z" stroke="#000000" fill="none"/>
+	<path d="M6025,6492 6025,6515 6048,6492Z" fill="#000000"/>
+	<text x="6660" y="6753" font-size="30pt" text-anchor="middle">IP-Port1</text>
+	<text x="6660" y="6654" font-size="30pt" text-anchor="middle">IP-Port4</text>
+	<text x="6660" y="6597" font-size="30pt" text-anchor="middle">IP-Port5</text>
+	<text x="6145" y="6597" font-size="30pt" text-anchor="middle">電源ポート</text>
+	<text x="6109" y="6710" font-size="30pt" text-anchor="middle">アース</text>
+	<text x="6660" y="6554" font-size="30pt" text-anchor="middle">IP-Port6</text>
+	<path d="M6776 6081L6960 6081L6960 6733L6776 6733" stroke="#000000" fill="none"/>
+	<path d="M6762,6067v28h28v-28ZM6762,6719v28h28v-28Z" fill="#ff9933"/>
+	<path d="M6764,6069v24h24v-24ZM6764,6721v24h24v-24Z" fill="#ffcc66"/>
+	<path d="M6772 6903L7017 6903L7017 6634L6890 6634" stroke="#000000" fill="none"/>
+	<path d="M6758,6889v28h28v-28ZM6875,6619v29h29v-29Z" fill="#222222"/>
+	<path d="M6760,6891v24h24v-24ZM6878,6622v23h24v-23Z" fill="#cccccc"/>
+	<path d="M6053,6832v28h29v-28ZM6729,6832v28h29v-28ZM6729,6889v28h29v-28ZM6729,6945v29h29v-29ZM6729,7002v28h29v-28ZM6729,7059v28h29v-28ZM6729,7115v29h29v-29ZM6729,7172v28h29v-28Z" fill="#222222"/>
+	<path d="M6056,6834v24h23v-24ZM6732,6834v24h23v-24ZM6732,6891v24h23v-24ZM6732,6948v23h23v-23ZM6732,7004v24h23v-24ZM6732,7061v24h23v-24ZM6732,7118v24h23v-24ZM6732,7174v24h23v-24Z" fill="#cccccc"/>
+	<text x="6405" y="6861" font-size="42pt" text-anchor="middle">SBM端子箱</text>
+	<path d="M6053,6804v457h705v-457Z" stroke="#000000" fill="none"/>
+	<text x="6101" y="6860" font-size="21pt" text-anchor="middle">IN1</text>
+	<text x="6695" y="6860" font-size="21pt" text-anchor="middle">OUT1</text>
+	<text x="6695" y="6917" font-size="21pt" text-anchor="middle">OUT2</text>
+	<text x="6695" y="6974" font-size="21pt" text-anchor="middle">OUT3</text>
+	<text x="6695" y="7030" font-size="21pt" text-anchor="middle">OUT4</text>
+	<text x="6695" y="7087" font-size="21pt" text-anchor="middle">OUT5</text>
+	<text x="6695" y="7144" font-size="21pt" text-anchor="middle">OUT6</text>
+	<text x="6695" y="7200" font-size="21pt" text-anchor="middle">OUT7</text>
+	<path d="M6762,6619v29h28v-29Z" fill="#1e90ef"/>
+	<path d="M6847,6619v29h28v-29Z" fill="#222222"/>
+	<path d="M6764,6622v23h24v-23ZM6849,6622v23h24v-23Z" fill="#cccccc"/>
+	<path d="M6762,6605v57h113v-57Z" stroke="#000000" fill="none"/>
+	<path d="M6762,6563v28h28v-28Z" fill="#1e90ef"/>
+	<path d="M6847,6563v28h28v-28Z" fill="#222222"/>
+	<path d="M6764,6565v24h24v-24ZM6849,6565v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6762,6549v56h113v-56Z" stroke="#000000" fill="none"/>
+	<path d="M6762,6520v29h28v-29Z" fill="#1e90ef"/>
+	<path d="M6847,6520v29h28v-29Z" fill="#222222"/>
+	<path d="M6764,6522v24h24v-24ZM6849,6522v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6762,6506v57h113v-57Z" stroke="#000000" fill="none"/>
+	<path d="M6772 6960L7046 6960L7046 6577L6890 6577" stroke="#000000" fill="none"/>
+	<path d="M6758,6945v29h28v-29ZM6875,6563v28h29v-28Z" fill="#222222"/>
+	<path d="M6760,6948v23h24v-23ZM6878,6565v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6772 7016L7074 7016L7074 6534L6890 6534" stroke="#000000" fill="none"/>
+	<path d="M6758,7002v28h28v-28ZM6875,6520v29h29v-29Z" fill="#222222"/>
+	<path d="M6760,7004v24h24v-24ZM6878,6522v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6762,6293v29h28v-29Z" fill="#1e90ef"/>
+	<path d="M6847,6293v29h28v-29Z" fill="#222222"/>
+	<path d="M6764,6296v23h24v-23ZM6849,6296v23h24v-23Z" fill="#cccccc"/>
+	<path d="M6762,6279v57h113v-57Z" stroke="#000000" fill="none"/>
+	<path d="M6762,6407v28h28v-28Z" fill="#1e90ef"/>
+	<path d="M6847,6407v28h28v-28Z" fill="#222222"/>
+	<path d="M6764,6409v24h24v-24ZM6849,6409v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6762,6393v56h113v-56Z" stroke="#000000" fill="none"/>
+	<path d="M6762,6350v28h28v-28Z" fill="#1e90ef"/>
+	<path d="M6847,6350v28h28v-28Z" fill="#222222"/>
+	<path d="M6764,6352v24h24v-24ZM6849,6352v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6762,6336v57h113v-57Z" stroke="#000000" fill="none"/>
+	<path d="M6772 7073L7169 7073L7169 6421L6890 6421" stroke="#000000" fill="none"/>
+	<path d="M6758,7059v28h28v-28ZM6875,6407v28h29v-28Z" fill="#222222"/>
+	<path d="M6760,7061v24h24v-24ZM6878,6409v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6772 7130L7187 7130L7187 6364L6890 6364" stroke="#000000" fill="none"/>
+	<path d="M6758,7115v29h28v-29ZM6875,6350v28h29v-28Z" fill="#222222"/>
+	<path d="M6760,7118v24h24v-24ZM6878,6352v24h24v-24Z" fill="#cccccc"/>
+	<path d="M6772 7186L7583 7186L7583 6308L6890 6308" stroke="#000000" fill="none"/>
+	<path d="M6758,7172v28h28v-28ZM6875,6293v29h29v-29Z" fill="#222222"/>
+	<path d="M6760,7174v24h24v-24ZM6878,6296v23h24v-23Z" fill="#cccccc"/>
+	<path d="M6011 6690L5883 6690L5883 7286" stroke="#000000" fill="none"/>
+	<path d="M5997,6676v28h28v-28Z" fill="#222222"/>
+	<ellipse cx="5883" cy="7286" rx="14" ry="14" fill="#222222"/>
+	<path d="M5999,6678v24h24v-24Z" fill="#cccccc"/>
+	<ellipse cx="5883" cy="7286" rx="12" ry="12" fill="#cccccc"/>
+	<text x="5955" y="6656" font-size="36pt" text-anchor="middle">IV-1.25sq(0.0m)</text>
+	<path d="M6011 6577L5742 6577L5742 5372L5954 5372" stroke="#000000" fill="none"/>
+	<path d="M5997,6563v28h28v-28ZM5940,5358v28h28v-28Z" fill="#222222"/>
+	<path d="M5999,6565v24h24v-24ZM5942,5360v24h24v-24Z" fill="#cccccc"/>
+	<path d="M8023 7328L7995 7328L7995 7345L8622 7345L8622 7316" stroke="#ff0000" fill="none"/>
+	<path d="M8009,7314v28h29v-28Z" fill="#222222"/>
+	<ellipse cx="8622" cy="7316" rx="14" ry="14" fill="#222222"/>
+	<path d="M8012,7316v24h23v-24Z" fill="#cccccc"/>
+	<ellipse cx="8622" cy="7316" rx="12" ry="12" fill="#cccccc"/>
+	<text x="9059" y="4081" fill="#ff0000" font-size="33pt">特記事項</text>
+	<text x="9059" y="4125" fill="#ff0000" font-size="33pt">①リチウムBATTの空きドライ接点には、</text>
+	<text x="9059" y="4169" fill="#ff0000" font-size="33pt">付属のターミナル抵抗を取り付ける事</text>
+	<text x="9059" y="4213" fill="#ff0000" font-size="33pt">②採番ルールは「下から上へ」とし、Noシールを張る事</text>
+	<text x="8434" y="3523" font-size="48pt" text-anchor="middle">ブレーカーBOX</text>
+	<path d="M7981,3459v822h907v-822Z" stroke="#ff0000" fill="none"/>
+	<rect x="164" y="164" width="13423" height="9396" stroke="#000000" fill="none"/>
+</g></svg>

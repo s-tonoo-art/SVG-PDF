@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1586" height="1121" viewBox="0 0 4464.566929133864 3157.086614173226" version="2.0">
+<g text-rendering="geometricPrecision" dominant-baseline="text-after-edge">
+	<style>
+		@page {margin:0}
+		g * {stroke-width:10}
+		text:not([font-family]) {font-family:Ms Pgothic}
+		text {white-space:pre}
+	</style>
+	<path d="M3224,663v28h29v-28Z" fill="#ff3333"/>
+	<path d="M3536,663v28h29v-28Z" fill="#1e90ef"/>
+	<path d="M3227,665v24h23v-24Z" fill="#ff9999"/>
+	<path d="M3538,665v24h24v-24Z" fill="#ffcc66"/>
+	<text x="3394" y="699" font-size="33pt" text-anchor="middle">KRY 101 1948/1</text>
+	<path d="M3224,649v56h341v-56Z" stroke="#000000" fill="none"/>
+	<text x="3291" y="697" font-size="30pt" text-anchor="middle">OUT</text>
+	<text x="3519" y="697" font-size="30pt" text-anchor="middle">IN</text>
+	<path d="M3224,606v29h29v-29Z" fill="#ff3333"/>
+	<path d="M3536,606v29h29v-29Z" fill="#1e90ef"/>
+	<path d="M3227,609v23h23v-23Z" fill="#ff9999"/>
+	<path d="M3538,609v23h24v-23Z" fill="#ffcc66"/>
+	<text x="3394" y="642" font-size="33pt" text-anchor="middle">KRY 101 1948/1</text>
+	<path d="M3224,592v57h341v-57Z" stroke="#000000" fill="none"/>
+	<text x="3291" y="640" font-size="30pt" text-anchor="middle">OUT</text>
+	<text x="3519" y="640" font-size="30pt" text-anchor="middle">IN</text>
+	<path d="M1495,606v29h29v-29Z" fill="#ff3333"/>
+	<path d="M1498,609v23h23v-23Z" fill="#ff9999"/>
+	<text x="843" y="628" font-size="48pt" text-anchor="middle">SANT-S09-360V9FT(3)-YGI</text>
+	<path d="M163,564v113h1361v-113Z" stroke="#000000" fill="none"/>
+	<text x="1426" y="640" font-size="30pt" text-anchor="middle">900M(V)</text>
+	<path d="M1495,890v28h29v-28Z" fill="#ff3333"/>
+	<path d="M1498,892v24h23v-24Z" fill="#ff9999"/>
+	<text x="843" y="912" font-size="48pt" text-anchor="middle">SANT-S09-360V9FT(3)-YGI</text>
+	<path d="M163,847v114h1361v-114Z" stroke="#000000" fill="none"/>
+	<text x="1426" y="924" font-size="30pt" text-anchor="middle">900M(V)</text>
+	<path d="M3565,606v29h28v-29ZM3565,663v28h28v-28Z" fill="#ff3333"/>
+	<path d="M3567,609v23h24v-23ZM3567,665v24h24v-24Z" fill="#ff9999"/>
+	<text x="3905" y="628" font-size="48pt" text-anchor="middle">RRUS12(B8)</text>
+	<path d="M3565,564v170h680v-170Z" stroke="#000000" fill="none"/>
+	<text x="3635" y="640" font-size="30pt" text-anchor="middle">RF A</text>
+	<text x="3635" y="697" font-size="30pt" text-anchor="middle">RF B</text>
+	<path d="M2714,606v29h29v-29ZM2714,663v28h29v-28ZM2062,606v29h29v-29ZM2062,663v28h29v-28Z" fill="#ff3333"/>
+	<path d="M2716,609v23h24v-23ZM2716,665v24h24v-24ZM2064,609v23h24v-23ZM2064,665v24h24v-24Z" fill="#ff9999"/>
+	<text x="2402" y="628" font-size="48pt" text-anchor="middle">SFIL-S09-120W-YGI</text>
+	<path d="M2062,564v170h681v-170Z" stroke="#000000" fill="none"/>
+	<text x="2644" y="640" font-size="30pt" text-anchor="middle">無線機1</text>
+	<text x="2644" y="697" font-size="30pt" text-anchor="middle">無線機2</text>
+	<text x="2137" y="640" font-size="30pt" text-anchor="middle">ANT1</text>
+	<text x="2137" y="697" font-size="30pt" text-anchor="middle">ANT2</text>
+	<path d="M1538 620L2048 620" stroke="#000000" fill="none"/>
+	<path d="M1524,606v29h28v-29ZM2034,606v29h28v-29Z" fill="#ff9933"/>
+	<path d="M1526,609v23h24v-23ZM2036,609v23h24v-23Z" fill="#ffcc66"/>
+	<text x="1765" y="630" font-size="48pt" text-anchor="middle">LDF4-50A(2.0m)</text>
+	<path d="M1538 904L2006 904L2006 677L2048 677" stroke="#000000" fill="none"/>
+	<path d="M1524,890v28h28v-28ZM2034,663v28h28v-28Z" fill="#ff9933"/>
+	<path d="M1526,892v24h24v-24ZM2036,665v24h24v-24Z" fill="#ffcc66"/>
+	<text x="1765" y="913" font-size="48pt" text-anchor="middle">LDF4-50A(2.0m)</text>
+	<path d="M2757 620L3210 620" stroke="#000000" fill="none"/>
+	<path d="M2743,606v29h28v-29ZM3196,606v29h28v-29Z" fill="#ff9933"/>
+	<path d="M2745,609v23h24v-23ZM3198,609v23h24v-23Z" fill="#ffcc66"/>
+	<text x="2983" y="630" font-size="48pt" text-anchor="middle">LDF4-50A(12.3m)</text>
+	<path d="M2757 677L3210 677" stroke="#000000" fill="none"/>
+	<path d="M2743,663v28h28v-28ZM3196,663v28h28v-28Z" fill="#ff9933"/>
+	<path d="M2745,665v24h24v-24ZM3198,665v24h24v-24Z" fill="#ffcc66"/>
+	<text x="2983" y="686" font-size="48pt" text-anchor="middle">LDF4-50A(12.3m)</text>
+	<path d="M163,1074v1179h3515v-1179ZM163,1074v113h1814v-113ZM163,1187v114h1814v-114ZM163,1301v90h1814v-90ZM163,1391v91h1814v-91ZM163,1482v91h1814v-91ZM163,1573v113h1814v-113ZM163,1686v567h454v-567ZM617,1686v91h1360v-91ZM617,1777v91h1360v-91ZM617,1868v90h1360v-90ZM617,1958v91h1360v-91ZM617,2049v91h1360v-91ZM617,2140v113h1360v-113ZM1977,1074v113h680v-113ZM1977,1187v114h680v-114ZM1977,1301v90h680v-90ZM1977,1391v91h680v-91ZM1977,1482v91h680v-91ZM1977,1573v113h680v-113ZM1977,1686v91h340v-91ZM2317,1686v91h340v-91ZM1977,1777v91h340v-91ZM2317,1777v91h340v-91ZM1977,1868v90h340v-90ZM2317,1868v90h340v-90ZM1977,1958v91h340v-91ZM2317,1958v91h340v-91ZM1977,2049v91h340v-91ZM2317,2049v91h340v-91ZM1977,2140v113h680v-113ZM2657,1074v113h681v-113ZM2657,1187v114h681v-114ZM2657,1301v90h681v-90ZM2657,1391v91h681v-91ZM2657,1482v91h681v-91ZM2657,1573v113h681v-113ZM2657,1686v91h341v-91ZM2998,1686v91h340v-91ZM2657,1777v91h341v-91ZM2998,1777v91h340v-91ZM2657,1868v90h341v-90ZM2998,1868v90h340v-90ZM2657,1958v91h341v-91ZM2998,1958v91h340v-91ZM2657,2049v91h341v-91ZM2998,2049v91h340v-91ZM2657,2140v113h681v-113ZM3338,1074v113h340v-113ZM3338,1187v386h340v-386ZM3338,1573v113h340v-113ZM3338,2140v113h340v-113ZM3338,1686v91h340v-91ZM3338,1777v91h340v-91ZM3338,1868v90h340v-90ZM3338,1958v91h340v-91ZM3338,2049v91h340v-91Z" fill="#ffffff"/>
+	<text x="2317" y="1154" font-size="36pt" text-anchor="middle">ANT 1</text>
+	<text x="2998" y="1154" font-size="36pt" text-anchor="middle">ANT 1</text>
+	<text x="1070" y="1268" font-size="36pt" text-anchor="middle">空中線</text>
+	<text x="2317" y="1268" font-size="36pt" text-anchor="middle">SANT-S09-360V9FT(3)-YGI</text>
+	<text x="2998" y="1268" font-size="36pt" text-anchor="middle">SANT-S09-360V9FT(3)-YGI</text>
+	<text x="3508" y="1357" font-size="36pt" text-anchor="middle">給電線</text>
+	<text x="3508" y="1404" font-size="36pt" text-anchor="middle">TOTAL</text>
+	<text x="3508" y="1451" font-size="36pt" text-anchor="middle">数量</text>
+	<text x="1070" y="1370" font-size="36pt" text-anchor="middle">主ビーム方向</text>
+	<text x="2317" y="1370" font-size="36pt" text-anchor="middle">0.0°</text>
+	<text x="2998" y="1370" font-size="36pt" text-anchor="middle">0.0°</text>
+	<text x="1070" y="1461" font-size="36pt" text-anchor="middle">電気チルト角</text>
+	<text x="2317" y="1460" font-size="36pt" text-anchor="middle">3.0°</text>
+	<text x="2998" y="1460" font-size="36pt" text-anchor="middle">3.0°</text>
+	<text x="1070" y="1551" font-size="36pt" text-anchor="middle">機械チルト角</text>
+	<text x="2317" y="1551" font-size="36pt" text-anchor="middle">0.0°</text>
+	<text x="2998" y="1551" font-size="36pt" text-anchor="middle">0.0°</text>
+	<text x="1070" y="1653" font-size="36pt" text-anchor="middle">総合チルト角</text>
+	<text x="2317" y="1653" font-size="36pt" text-anchor="middle">3.0°</text>
+	<text x="2998" y="1653" font-size="36pt" text-anchor="middle">3.0°</text>
+	<text x="390" y="2021" font-size="78pt" text-anchor="middle">900M</text>
+	<text x="617" y="1756" font-size="36pt">LDF4-50A</text>
+	<text x="2147" y="1755" font-size="36pt" text-anchor="middle">2.0m</text>
+	<text x="2487" y="1755" font-size="36pt" text-anchor="middle">0.14dB</text>
+	<text x="2828" y="1755" font-size="36pt" text-anchor="middle">2.0m</text>
+	<text x="3168" y="1755" font-size="36pt" text-anchor="middle">0.14dB</text>
+	<text x="3508" y="1755" font-size="36pt" text-anchor="middle">4.0m</text>
+	<text x="617" y="1846" font-size="36pt">SFIL-S09-120W-YGI</text>
+	<text x="2487" y="1846" font-size="36pt" text-anchor="middle">0.80dB</text>
+	<text x="3168" y="1846" font-size="36pt" text-anchor="middle">0.80dB</text>
+	<text x="3508" y="1846" font-size="36pt" text-anchor="middle">1</text>
+	<text x="617" y="1937" font-size="36pt">LDF4-50A</text>
+	<text x="2147" y="1936" font-size="36pt" text-anchor="middle">12.3m</text>
+	<text x="2487" y="1937" font-size="36pt" text-anchor="middle">0.88dB</text>
+	<text x="2828" y="1936" font-size="36pt" text-anchor="middle">12.3m</text>
+	<text x="3168" y="1937" font-size="36pt" text-anchor="middle">0.88dB</text>
+	<text x="3508" y="1936" font-size="36pt" text-anchor="middle">24.6m</text>
+	<text x="617" y="2027" font-size="36pt">KRY 101 1948/1</text>
+	<text x="2487" y="2027" font-size="36pt" text-anchor="middle">0.20dB</text>
+	<text x="3168" y="2027" font-size="36pt" text-anchor="middle">0.20dB</text>
+	<text x="3508" y="2028" font-size="36pt" text-anchor="middle">2</text>
+	<text x="617" y="2118" font-size="36pt">コネクタ数：損失</text>
+	<text x="2147" y="2118" font-size="36pt" text-anchor="middle">4</text>
+	<text x="2487" y="2118" font-size="36pt" text-anchor="middle">0.20dB</text>
+	<text x="2828" y="2118" font-size="36pt" text-anchor="middle">4</text>
+	<text x="3168" y="2118" font-size="36pt" text-anchor="middle">0.20dB</text>
+	<text x="3508" y="2118" font-size="36pt" text-anchor="middle">8</text>
+	<text x="617" y="2220" font-size="36pt">総合損失量</text>
+	<text x="2317" y="2220" font-size="36pt" text-anchor="middle">2.22dB</text>
+	<text x="2998" y="2220" font-size="36pt" text-anchor="middle">2.22dB</text>
+	<path d="M163 1074L1977 1074" stroke="#ffffff" fill="none"/>
+	<path d="M163 1187L1977 1187" stroke="#000000" fill="none"/>
+	<path d="M163 1074L163 1187" stroke="#ffffff" fill="none"/>
+	<path d="M1977 1187L1977 1074M1977 1074L2657 1074M1977 1187L2657 1187M1977 1074L1977 1187M2657 1187L2657 1074M2657 1074L3338 1074M2657 1187L3338 1187M2657 1074L2657 1187M3338 1187L3338 1074" stroke="#000000" fill="none"/>
+	<path d="M3338 1074L3678 1074" stroke="#ffffff" fill="none"/>
+	<path d="M3338 1187L3678 1187M3338 1074L3338 1187" stroke="#000000" fill="none"/>
+	<path d="M3678 1187L3678 1074" stroke="#ffffff" fill="none"/>
+	<path d="M163 1187L1977 1187M163 1301L1977 1301M163 1187L163 1301M1977 1301L1977 1187M1977 1187L2657 1187M1977 1301L2657 1301M1977 1187L1977 1301M2657 1301L2657 1187M2657 1187L3338 1187M2657 1301L3338 1301M2657 1187L2657 1301M3338 1301L3338 1187M3338 1187L3678 1187M3338 1573L3678 1573M3338 1187L3338 1573M3678 1573L3678 1187M163 1301L1977 1301M163 1391L1977 1391M163 1301L163 1391M1977 1391L1977 1301M1977 1301L2657 1301M1977 1391L2657 1391M1977 1301L1977 1391M2657 1391L2657 1301M2657 1301L3338 1301M2657 1391L3338 1391M2657 1301L2657 1391M3338 1391L3338 1301M163 1391L1977 1391M163 1482L1977 1482M163 1391L163 1482M1977 1482L1977 1391M1977 1391L2657 1391M1977 1482L2657 1482M1977 1391L1977 1482M2657 1482L2657 1391M2657 1391L3338 1391M2657 1482L3338 1482M2657 1391L2657 1482M3338 1482L3338 1391M163 1482L1977 1482M163 1573L1977 1573M163 1482L163 1573M1977 1573L1977 1482M1977 1482L2657 1482M1977 1573L2657 1573M1977 1482L1977 1573M2657 1573L2657 1482M2657 1482L3338 1482M2657 1573L3338 1573M2657 1482L2657 1573M3338 1573L3338 1482M163 1573L1977 1573M163 1686L1977 1686M163 1573L163 1686M1977 1686L1977 1573M1977 1573L2657 1573M1977 1686L2657 1686M1977 1573L1977 1686M2657 1686L2657 1573M2657 1573L3338 1573M2657 1686L3338 1686M2657 1573L2657 1686M3338 1686L3338 1573M3338 1573L3678 1573M3338 1686L3678 1686M3338 1573L3338 1686M3678 1686L3678 1573" stroke="#000000" fill="none"/>
+	<path d="M3338 1686L3678 1573" stroke="#808080" fill="none"/>
+	<path d="M163 1686L617 1686M163 2253L617 2253M163 1686L163 2253M617 2253L617 1686M617 1686L1977 1686M617 1777L1977 1777M617 1686L617 1777M1977 1777L1977 1686M1977 1686L2317 1686M1977 1777L2317 1777M1977 1686L1977 1777M2317 1777L2317 1686M2317 1686L2657 1686M2317 1777L2657 1777M2317 1686L2317 1777M2657 1777L2657 1686M2657 1686L2998 1686M2657 1777L2998 1777M2657 1686L2657 1777M2998 1777L2998 1686M2998 1686L3338 1686M2998 1777L3338 1777M2998 1686L2998 1777M3338 1777L3338 1686M3338 1686L3678 1686M3338 1777L3678 1777M3338 1686L3338 1777M3678 1777L3678 1686M617 1777L1977 1777M617 1868L1977 1868M617 1777L617 1868M1977 1868L1977 1777M1977 1777L2317 1777M1977 1868L2317 1868M1977 1777L1977 1868M2317 1868L2317 1777" stroke="#000000" fill="none"/>
+	<path d="M1977 1868L2317 1777" stroke="#808080" fill="none"/>
+	<path d="M2317 1777L2657 1777M2317 1868L2657 1868M2317 1777L2317 1868M2657 1868L2657 1777M2657 1777L2998 1777M2657 1868L2998 1868M2657 1777L2657 1868M2998 1868L2998 1777" stroke="#000000" fill="none"/>
+	<path d="M2657 1868L2998 1777" stroke="#808080" fill="none"/>
+	<path d="M2998 1777L3338 1777M2998 1868L3338 1868M2998 1777L2998 1868M3338 1868L3338 1777M3338 1777L3678 1777M3338 1868L3678 1868M3338 1777L3338 1868M3678 1868L3678 1777M617 1868L1977 1868M617 1958L1977 1958M617 1868L617 1958M1977 1958L1977 1868M1977 1868L2317 1868M1977 1958L2317 1958M1977 1868L1977 1958M2317 1958L2317 1868M2317 1868L2657 1868M2317 1958L2657 1958M2317 1868L2317 1958M2657 1958L2657 1868M2657 1868L2998 1868M2657 1958L2998 1958M2657 1868L2657 1958M2998 1958L2998 1868M2998 1868L3338 1868M2998 1958L3338 1958M2998 1868L2998 1958M3338 1958L3338 1868M3338 1868L3678 1868M3338 1958L3678 1958M3338 1868L3338 1958M3678 1958L3678 1868M617 1958L1977 1958M617 2049L1977 2049M617 1958L617 2049M1977 2049L1977 1958M1977 1958L2317 1958M1977 2049L2317 2049M1977 1958L1977 2049M2317 2049L2317 1958" stroke="#000000" fill="none"/>
+	<path d="M1977 2049L2317 1958" stroke="#808080" fill="none"/>
+	<path d="M2317 1958L2657 1958M2317 2049L2657 2049M2317 1958L2317 2049M2657 2049L2657 1958M2657 1958L2998 1958M2657 2049L2998 2049M2657 1958L2657 2049M2998 2049L2998 1958" stroke="#000000" fill="none"/>
+	<path d="M2657 2049L2998 1958" stroke="#808080" fill="none"/>
+	<path d="M2998 1958L3338 1958M2998 2049L3338 2049M2998 1958L2998 2049M3338 2049L3338 1958M3338 1958L3678 1958M3338 2049L3678 2049M3338 1958L3338 2049M3678 2049L3678 1958M617 2049L1977 2049M617 2140L1977 2140M617 2049L617 2140M1977 2140L1977 2049M1977 2049L2317 2049M1977 2140L2317 2140M1977 2049L1977 2140M2317 2140L2317 2049M2317 2049L2657 2049M2317 2140L2657 2140M2317 2049L2317 2140M2657 2140L2657 2049M2657 2049L2998 2049M2657 2140L2998 2140M2657 2049L2657 2140M2998 2140L2998 2049M2998 2049L3338 2049M2998 2140L3338 2140M2998 2049L2998 2140M3338 2140L3338 2049M3338 2049L3678 2049M3338 2140L3678 2140M3338 2049L3338 2140M3678 2140L3678 2049M617 2140L1977 2140M617 2253L1977 2253M617 2140L617 2253M1977 2253L1977 2140M1977 2140L2657 2140M1977 2253L2657 2253M1977 2140L1977 2253M2657 2253L2657 2140M2657 2140L3338 2140M2657 2253L3338 2253M2657 2140L2657 2253M3338 2253L3338 2140M3338 2140L3678 2140M3338 2253L3678 2253M3338 2140L3338 2253M3678 2253L3678 2140" stroke="#000000" fill="none"/>
+	<path d="M3338 2253L3678 2140" stroke="#808080" fill="none"/>
+	<path d="M673,2367v283h3685v-283Z" fill="#ffffff"/>
+	<text x="815" y="2414" font-size="30pt" text-anchor="middle">更新履歴</text>
+	<text x="1098" y="2414" font-size="30pt" text-anchor="middle">2026/1/14</text>
+	<text x="1750" y="2414" font-size="30pt" text-anchor="middle">株式会社JTE</text>
+	<text x="2487" y="2414" font-size="30pt" text-anchor="middle">東尾 正一</text>
+	<text x="3394" y="2414" font-size="30pt" text-anchor="middle">プロジェクト名：西日本技術本部案件</text>
+	<text x="4217" y="2541" font-size="48pt" text-anchor="middle">1P / 1P</text>
+	<text x="815" y="2469" font-size="30pt" text-anchor="middle">5.0</text>
+	<text x="1098" y="2471" font-size="30pt" text-anchor="middle">2025/1/27</text>
+	<text x="1750" y="2471" font-size="30pt" text-anchor="middle">住友電設株式会社</text>
+	<text x="2487" y="2471" font-size="30pt" text-anchor="middle">西田 世理菜</text>
+	<text x="3054" y="2471" font-size="30pt" text-anchor="middle">図面名称：空中線系統図</text>
+	<text x="815" y="2526" font-size="30pt" text-anchor="middle">4.0</text>
+	<text x="1098" y="2528" font-size="30pt" text-anchor="middle">2024/9/30</text>
+	<text x="1750" y="2528" font-size="30pt" text-anchor="middle">住友電設株式会社</text>
+	<text x="2487" y="2528" font-size="30pt" text-anchor="middle">森田 美香</text>
+	<text x="2884" y="2528" font-size="30pt" text-anchor="middle">縮尺：-</text>
+	<text x="3224" y="2528" font-size="30pt" text-anchor="middle">版数：6.0</text>
+	<text x="815" y="2582" font-size="30pt" text-anchor="middle">3.0</text>
+	<text x="1098" y="2585" font-size="30pt" text-anchor="middle">2022/3/31</text>
+	<text x="1750" y="2584" font-size="30pt" text-anchor="middle">SB/WCP</text>
+	<text x="2487" y="2584" font-size="30pt" text-anchor="middle">吉田 裕太(SB ﾃｸﾉﾛｼﾞｰﾕﾆｯﾄ)</text>
+	<text x="3394" y="2584" font-size="30pt" text-anchor="middle">施主：ソフトバンク株式会社</text>
+	<text x="815" y="2640" font-size="30pt" text-anchor="middle">版数</text>
+	<text x="1098" y="2640" font-size="30pt" text-anchor="middle">日付</text>
+	<text x="1750" y="2641" font-size="30pt" text-anchor="middle">元請け会社</text>
+	<text x="2487" y="2640" font-size="30pt" text-anchor="middle">担当</text>
+	<text x="3394" y="2641" font-size="30pt" text-anchor="middle">基地局名：ＰＬＢすさみ周参見西</text>
+	<path d="M673 2367L957 2367M673 2423L957 2423M673 2367L673 2423M957 2423L957 2367M957 2367L1240 2367M957 2423L1240 2423M957 2367L957 2423M1240 2423L1240 2367M1240 2367L2261 2367M1240 2423L2261 2423M1240 2367L1240 2423M2261 2423L2261 2367M2261 2367L2714 2367M2261 2423L2714 2423M2261 2367L2261 2423M2714 2423L2714 2367M2714 2367L4075 2367M2714 2423L4075 2423M2714 2367L2714 2423M4075 2423L4075 2367M4075 2367L4358 2367M4075 2650L4358 2650M4075 2367L4075 2650M4358 2650L4358 2367M673 2423L957 2423M673 2480L957 2480M673 2423L673 2480M957 2480L957 2423M957 2423L1240 2423M957 2480L1240 2480M957 2423L957 2480M1240 2480L1240 2423M1240 2423L2261 2423M1240 2480L2261 2480M1240 2423L1240 2480M2261 2480L2261 2423M2261 2423L2714 2423M2261 2480L2714 2480M2261 2423L2261 2480M2714 2480L2714 2423M2714 2423L3394 2423M2714 2480L3394 2480M2714 2423L2714 2480M3394 2480L3394 2423M3394 2423L4075 2423M3394 2537L4075 2537M3394 2423L3394 2537M4075 2537L4075 2423M673 2480L957 2480M673 2537L957 2537M673 2480L673 2537M957 2537L957 2480M957 2480L1240 2480M957 2537L1240 2537M957 2480L957 2537M1240 2537L1240 2480M1240 2480L2261 2480M1240 2537L2261 2537M1240 2480L1240 2537M2261 2537L2261 2480M2261 2480L2714 2480M2261 2537L2714 2537M2261 2480L2261 2537M2714 2537L2714 2480M2714 2480L3054 2480M2714 2537L3054 2537M2714 2480L2714 2537M3054 2537L3054 2480M3054 2480L3394 2480M3054 2537L3394 2537M3054 2480L3054 2537M3394 2537L3394 2480M673 2537L957 2537M673 2593L957 2593M673 2537L673 2593M957 2593L957 2537M957 2537L1240 2537M957 2593L1240 2593M957 2537L957 2593M1240 2593L1240 2537M1240 2537L2261 2537M1240 2593L2261 2593M1240 2537L1240 2593M2261 2593L2261 2537M2261 2537L2714 2537M2261 2593L2714 2593M2261 2537L2261 2593M2714 2593L2714 2537M2714 2537L4075 2537M2714 2593L4075 2593M2714 2537L2714 2593M4075 2593L4075 2537M673 2593L957 2593M673 2650L957 2650M673 2593L673 2650M957 2650L957 2593M957 2593L1240 2593M957 2650L1240 2650M957 2593L957 2650M1240 2650L1240 2593M1240 2593L2261 2593M1240 2650L2261 2650M1240 2593L1240 2650M2261 2650L2261 2593M2261 2593L2714 2593M2261 2650L2714 2650M2261 2593L2261 2650M2714 2650L2714 2593M2714 2593L4075 2593M2714 2650L4075 2650M2714 2593L2714 2650M4075 2650L4075 2593" stroke="#000000" fill="none"/>
+	<rect x="53" y="53" width="4358" height="3051" stroke="#000000" fill="none"/>
+</g></svg>
