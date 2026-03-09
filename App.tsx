@@ -420,7 +420,11 @@ export default function App() {
             
             if (isCancelledRef.current) throw new Error("CANCELLED");
             setProgress(30);
-            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+            const apiKey = process.env.GEMINI_API_KEY;
+            if (!apiKey) {
+                throw new Error("API_KEY_MISSING");
+            }
+            const ai = new GoogleGenAI({ apiKey });
             const response = await ai.models.generateContent({
                 model: "gemini-3-flash-preview",
                 contents: {
@@ -438,9 +442,11 @@ export default function App() {
         } catch (err: any) {
             if (err.message === "CANCELLED") {
                 showToast("処理を強制停止しました");
+            } else if (err.message === "API_KEY_MISSING") {
+                alert("Gemini APIキーが設定されていません。GitHubのSecretsに GEMINI_API_KEY を設定して再ビルドしてください。");
             } else {
                 console.error("OCR Error:", err);
-                alert("OCR処理中にエラーが発生しました。");
+                alert("OCR処理中にエラーが発生しました。APIキーが正しいか、または制限がかかっていないか確認してください。");
             }
         } finally {
             setIsProcessing(false);
