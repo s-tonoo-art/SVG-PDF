@@ -149,7 +149,12 @@ body { font-family: 'Inter', sans-serif; }
     pointer-events: none;
 }
 .toast.show { opacity: 1; }
-
+ 
+.no-animation, .no-animation * {
+    animation: none !important;
+    transition: none !important;
+}
+ 
 .guide-bubble {
     background: #f1f5f9;
     border: 1px solid #e2e8f0;

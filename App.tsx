@@ -28,12 +28,12 @@ const CHANGE_LOGS = [
 
 // --- Components ---
 
-const Ostrich = ({ isActive, isLaying, isSearching, enabled = true }: { isActive: boolean, isLaying: boolean, isSearching: boolean, enabled?: boolean }) => {
+const Ostrich = ({ isActive, isLaying, isSearching, enabled = true, animationsEnabled = true }: { isActive: boolean, isLaying: boolean, isSearching: boolean, enabled?: boolean, animationsEnabled?: boolean }) => {
     if (!enabled) return null;
     const statusClass = isActive ? 'running' : (isSearching ? 'searching' : (isLaying ? 'laying' : 'sleeping'));
     
     return (
-        <div className={`ostrich-wrapper ${isActive ? 'ostrich-active' : ''}`}>
+        <div className={`ostrich-wrapper ${isActive ? 'ostrich-active' : ''} ${!animationsEnabled ? 'no-animation' : ''}`}>
             <div className={`ostrich-sprite ${statusClass}`}>
                 <svg viewBox="0 -65 120 200" xmlns="http://www.w3.org/2000/svg">
                     {isLaying && (
@@ -295,6 +295,7 @@ export default function App() {
     const [ocrWidthMode, setOcrWidthMode] = useState<'original' | 'full' | 'half'>('original');
     const [ocrPreviewUrl, setOcrPreviewUrl] = useState<string | null>(null);
     const [ostrichEnabled, setOstrichEnabled] = useState(true);
+    const [animationsEnabled, setAnimationsEnabled] = useState(true);
     const [toastVisible, setToastVisible] = useState(false);
     const [toastMessage, setToastMessage] = useState("リンクをコピーしました");
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -842,7 +843,7 @@ export default function App() {
 
             {isProcessing && (
                 <div className="fixed bottom-10 right-10 z-[120] flex flex-col items-center gap-4">
-                    <div className="bg-[#0a0a0a] p-1 rounded-xl border-2 border-[#222] shadow-[0_0_40px_-12px_rgba(255,0,0,0.4)] flex flex-col items-center overflow-hidden ring-1 ring-[#333]">
+                    <div className={`bg-[#0a0a0a] p-1 rounded-xl border-2 border-[#222] shadow-[0_0_40px_-12px_rgba(255,0,0,0.4)] flex flex-col items-center overflow-hidden ring-1 ring-[#333] ${!animationsEnabled ? 'no-animation' : ''}`}>
                         {/* Top Banner - Smaller */}
                         <div className="w-full bg-[#ffcc00] text-black text-[7px] font-black py-1 px-4 flex justify-between items-center border-b-2 border-black">
                             <span className="animate-pulse">!</span>
@@ -923,7 +924,7 @@ export default function App() {
                 </div>
             )}
             
-            <Ostrich isActive={isProcessing} isLaying={isLayingEgg} isSearching={isDraggingOver} enabled={ostrichEnabled} />
+            <Ostrich isActive={isProcessing} isLaying={isLayingEgg} isSearching={isDraggingOver} enabled={ostrichEnabled} animationsEnabled={animationsEnabled} />
             <OstrichEggButton onClick={() => setShowManual(true)} />
             <ManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
             <FeedbackModal isOpen={showFeedback} onClose={() => setShowFeedback(false)} onSubmit={handleFeedbackSubmit} />
@@ -938,6 +939,15 @@ export default function App() {
                                 className={`w-10 h-5 rounded-full relative transition-colors ${ostrichEnabled ? 'bg-indigo-500' : 'bg-slate-300'}`}
                             >
                                 <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${ostrichEnabled ? 'left-6' : 'left-1'}`}></div>
+                            </button>
+                        </div>
+                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Anime</span>
+                            <button 
+                                onClick={() => setAnimationsEnabled(!animationsEnabled)}
+                                className={`w-10 h-5 rounded-full relative transition-colors ${animationsEnabled ? 'bg-indigo-500' : 'bg-slate-300'}`}
+                            >
+                                <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${animationsEnabled ? 'left-6' : 'left-1'}`}></div>
                             </button>
                         </div>
                         <div className="inline-flex items-center gap-2 bg-indigo-50 px-5 py-2 rounded-full border border-indigo-100 shadow-sm">
