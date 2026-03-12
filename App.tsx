@@ -828,13 +828,18 @@ OK または NG
                     if (!ctx) return reject(new Error("Canvas context not found"));
                     let width = img.width || 800;
                     let height = img.height || 600;
+                    
+                    // SVGの場合は解像度を上げるためにスケールを大きくする
+                    const isSvg = item.type === 'svg' || (item.file && item.file.name.toLowerCase().endsWith('.svg'));
+                    const scaleFactor = isSvg ? 4 : 2;
+
                     const isVertical = item.rotation === 90 || item.rotation === 270;
                     const canvasWidth = isVertical ? height : width;
                     const canvasHeight = isVertical ? width : height;
 
-                    canvas.width = canvasWidth * 2;
-                    canvas.height = canvasHeight * 2;
-                    ctx.scale(2, 2);
+                    canvas.width = canvasWidth * scaleFactor;
+                    canvas.height = canvasHeight * scaleFactor;
+                    ctx.scale(scaleFactor, scaleFactor);
                     ctx.translate(canvasWidth / 2, canvasHeight / 2);
                     ctx.rotate((item.rotation * Math.PI) / 180);
                     ctx.translate(-width / 2, -height / 2);
@@ -896,12 +901,16 @@ OK または NG
 不足または懸念点があれば指摘してください。
 
 ⑤ 工事概要作成
-図面から以下の情報を抽出し、それらを基に工事の全体像を分かりやすい文章でまとめてください。
+図面から以下の情報を抽出し、レポートを作成してください。
+a. 工事内容の要約（マークアップ形式で列挙）
 ・アンテナ数
 ・無線機数
 ・整流器
 ・電源設備
 ・仮設工事
+
+b. 設置場所のオーナー（地権者）向けの工事説明文
+専門用語や型式は極力避け、「アンテナ」「無線機」「電源装置」などの一般的な名称を使用して、どのような工事が行われるのかを分かりやすく説明してください。
 
 【出力形式】
 # 設計チェック結果 (${fileName})
@@ -920,7 +929,11 @@ OK または NG
 指摘事項
 
 ## 工事概要
-抽出データ（アンテナ数、無線機数等）と、それに基づく工事の要約文章`;
+### a. 工事内容の要約
+（マークアップ形式のリスト）
+
+### b. オーナー様向け説明文
+（分かりやすい説明文章）`;
             }
 
             const response = await ai.models.generateContent({
@@ -1385,8 +1398,12 @@ OK または NG
                                             </div>
                                         )}
                                     </div>
-                                    <p className="text-xl font-black text-slate-800 mb-1 tracking-tight">画像を解析中...</p>
-                                    <p className="text-slate-400 text-sm font-bold italic">別の画像をドロップして再試行</p>
+                                    <p className="text-xl font-black text-slate-800 mb-1 tracking-tight">
+                                        {isProcessing ? "画像を解析中..." : "解析完了"}
+                                    </p>
+                                    <p className="text-slate-400 text-sm font-bold italic">
+                                        {isProcessing ? "少々お待ちください" : "別の画像をドロップして再試行"}
+                                    </p>
                                 </div>
                             ) : files.length > 0 ? (
                                 <div className="flex flex-col items-center">
