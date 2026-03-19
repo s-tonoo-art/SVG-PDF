@@ -322,6 +322,7 @@ export default function App() {
     const [ostrichEnabled, setOstrichEnabled] = useState(true);
     const [animationsEnabled, setAnimationsEnabled] = useState(true);
     const [isDesignCheckEnabled, setIsDesignCheckEnabled] = useState(false);
+    const [designCheckCustomPrompt, setDesignCheckCustomPrompt] = useState("");
     const [isTabFocused, setIsTabFocused] = useState(true);
     const originalTitle = useRef(document.title);
     const originalFavicon = useRef<string | null>(null);
@@ -510,7 +511,8 @@ export default function App() {
         setHistory(prev => [{ id: Date.now(), name, url, count, action, time: new Date().toLocaleString() }, ...prev]);
     };
 
-    const handleOCR = React.useCallback(async (file: File) => {
+    const handleOCRFiles = React.useCallback(async (files: File[]) => {
+        if (files.length === 0) return;
         setIsProcessing(true);
         setIsCancelled(false);
         isCancelledRef.current = false;
@@ -526,44 +528,57 @@ export default function App() {
             let parts: any[] = [];
             let previewUrl = '';
 
-            if (file.name.toLowerCase().endsWith('.pdf')) {
-                // PDF processing
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
-                const numPages = Math.min(pdf.numPages, 15); // Limit to 15 pages for performance
-                
-                for (let i = 1; i <= numPages; i++) {
-                    if (isCancelledRef.current) throw new Error("CANCELLED");
-                    setProgress(10 + Math.round((i / numPages) * 20));
-                    const canvas = await renderPdfPageToCanvas(pdf, i, 0);
+            for (let fIdx = 0; fIdx < files.length; fIdx++) {
+                const file = files[fIdx];
+                const fileProgressStart = 10 + (fIdx / files.length) * 30;
+                const fileProgressEnd = 10 + ((fIdx + 1) / files.length) * 30;
+
+                if (file.name.toLowerCase().endsWith('.pdf')) {
+                    // PDF processing
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+                    const numPages = Math.min(pdf.numPages, 15); // Limit to 15 pages for performance
+                    
+                    for (let i = 1; i <= numPages; i++) {
+                        if (isCancelledRef.current) throw new Error("CANCELLED");
+                        setProgress(fileProgressStart + Math.round((i / numPages) * (fileProgressEnd - fileProgressStart)));
+                        const canvas = await renderPdfPageToCanvas(pdf, i, 0);
+                        const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+                        parts.push({ inlineData: { mimeType: 'image/jpeg', data: base64 } });
+                        if (!previewUrl) previewUrl = canvas.toDataURL('image/jpeg', 0.4);
+                    }
+                } else if (file.name.toLowerCase().endsWith('.svg')) {
+                    // SVG processing
+                    const { canvas } = await getProcessedCanvas({ file, type: 'svg', rotation: 0 });
                     const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
                     parts.push({ inlineData: { mimeType: 'image/jpeg', data: base64 } });
-                    if (i === 1) previewUrl = canvas.toDataURL('image/jpeg', 0.4);
-                }
-                setOcrPreviewUrl(previewUrl);
-            } else {
-                // Image processing
-                let fileToProcess = file;
-                if (file.name.toLowerCase().match(/\.(heic|heif)$/i)) {
-                    const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.8 });
-                    const blobToUse = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
-                    fileToProcess = new File([blobToUse], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' });
-                    previewUrl = URL.createObjectURL(blobToUse);
+                    if (!previewUrl) previewUrl = canvas.toDataURL('image/jpeg', 0.4);
                 } else {
-                    previewUrl = URL.createObjectURL(file);
+                    // Image processing
+                    let fileToProcess = file;
+                    if (file.name.toLowerCase().match(/\.(heic|heif)$/i)) {
+                        const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.8 });
+                        const blobToUse = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+                        fileToProcess = new File([blobToUse], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' });
+                        if (!previewUrl) previewUrl = URL.createObjectURL(blobToUse);
+                    } else {
+                        if (!previewUrl) previewUrl = URL.createObjectURL(file);
+                    }
+                    
+                    if (isCancelledRef.current) throw new Error("CANCELLED");
+                    
+                    const reader = new FileReader();
+                    const base64Data = await new Promise<string>((resolve, reject) => {
+                        reader.onload = () => resolve((reader.result as string).split(',')[1]);
+                        reader.onerror = reject;
+                        reader.readAsDataURL(fileToProcess);
+                    });
+                    parts.push({ inlineData: { mimeType: fileToProcess.type, data: base64Data } });
                 }
-                
-                if (isCancelledRef.current) throw new Error("CANCELLED");
-                setOcrPreviewUrl(previewUrl);
-
-                const reader = new FileReader();
-                const base64Data = await new Promise<string>((resolve, reject) => {
-                    reader.onload = () => resolve((reader.result as string).split(',')[1]);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(fileToProcess);
-                });
-                parts.push({ inlineData: { mimeType: fileToProcess.type, data: base64Data } });
+                setProgress(fileProgressEnd);
             }
+            
+            setOcrPreviewUrl(previewUrl);
             
             if (isCancelledRef.current) throw new Error("CANCELLED");
             setProgress(40);
@@ -571,64 +586,44 @@ export default function App() {
             let prompt = "この画像からテキストを抽出してください。表がある場合はMarkdown形式のテーブルとして出力してください。出力は日本語でお願いします。";
             
             if (isDesignCheckEnabled) {
-                prompt = `あなたは通信基地局工事の設計図面をレビューする技術者です。
-入力された図面（複数ページの場合あり）を解析し、以下の設計チェックを行ってください。
+                prompt = `あなたは通信基地局工事の設計図面や現場写真をレビューする技術者です。
+入力された画像（複数ページの場合あり）を解析し、設計チェックまたは内容確認を行ってください。
 
 【チェック内容】
-① 図面整合チェック
-各ページの図枠から以下の情報を読み取り、全図面で一致しているか確認する。
-・局名
-・局番
-・プロジェクト名
-一致していない場合は指摘してください。
+1. 図面（詳細設計図）の場合：
+   ① 図面整合チェック（局名、局番、プロジェクト名の一致確認）
+   ② 図面種類判定（案内図、平面図、立面図、系統図など）
+   ③ 図面内容チェック（アンテナ数、無線機数、整流器、電源設備の整合）
+   ④ 仮設工事チェック（搬入動線、足場、作業スペースなど）
 
-② 図面種類判定
-各ページがどの図面に該当するか判定してください。
-例：案内図、平面図、立面図、機器取付詳細図、仮設計画図、工事総括数量表、総合システム系統図、ケーブル系統図、空中線系統図
-不足図面があれば指摘してください。
+2. 一般的な画像（現場写真、地図、メモなど）の場合：
+   ① 内容の要約（何が写っているか、どのような状況か）
+   ② 懸念点・指摘事項の抽出
 
-③ 図面内容チェック
-図面内容を解析し、以下の整合を確認してください。
-・アンテナ数
-・無線機数
-・整流器
-・電源設備
-図面間で矛盾がある可能性があれば指摘してください。
+3. 工事概要作成：
+   a. 同僚向けの工事概要説明文（技術的詳細をマークアップ形式で列挙）
+   b. 建物・土地のオーナー様向け工事概要説明文（専門用語を避け、一般的な名称を用いて分かりやすく説明）
 
-④ 仮設工事チェック
-仮設計画図を確認し、以下の項目を評価してください。
-・搬入動線
-・足場
-・作業スペース
-・仮設電源
-不足または懸念点があれば指摘してください。
-
-⑤ 工事概要作成
-図面から以下の情報を抽出し、それらを基に工事の全体像を分かりやすい文章でまとめてください。
-・アンテナ数
-・無線機数
-・整流器
-・電源設備
-・仮設工事
+${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}
 
 【出力形式】
 # 設計チェック結果
 
-## 図面構成
-ページ番号 / 図面種類
+## 内容構成 / 図面構成
+（ページ番号ごとの内容または図面種類）
 
-## 整合チェック
-OK または NG
-理由
+## 整合チェック / 内容確認
+（整合性の確認結果、または画像内容の確認結果）
 
-## 図面内容チェック
-指摘事項
-
-## 仮設工事チェック
-指摘事項
+## 指摘事項・懸念点
+（図面間の矛盾や、現場写真からの懸念点など）
 
 ## 工事概要
-抽出データ（アンテナ数、無線機数等）と、それに基づく工事の要約文章`;
+### a. 同僚向け工事概要
+（技術的な要約リスト）
+
+### b. オーナー様向け説明文
+（分かりやすい説明文章）`;
             }
 
             const response = await ai.models.generateContent({
@@ -647,7 +642,7 @@ OK または NG
             } else {
                 setOcrResult(response.text || '');
             }
-            addHistoryItem(`${isDesignCheckEnabled ? '設計チェック' : 'OCR'}: ${file.name}`, "#", 1, 'OCR');
+            addHistoryItem(`${isDesignCheckEnabled ? '設計チェック' : 'OCR'}: ${files.length > 1 ? `${files[0].name} 他${files.length - 1}件` : files[0].name}`, "#", files.length, 'OCR');
             triggerEggAnimation();
             if (isDesignCheckEnabled) notifyCompletion();
         } catch (err: any) {
@@ -669,7 +664,7 @@ OK または NG
         console.log("addFiles execution started", { count: newFiles?.length, mode });
         if (!newFiles || newFiles.length === 0) return;
 
-        const accepted = mode === 'join' ? /\.(svg|pdf|heic|heif|jpg|jpeg|png)$/i : (mode === 'ocr' ? /\.(jpg|jpeg|png|heic|heif|pdf)$/i : /\.pdf$/i);
+        const accepted = mode === 'join' ? /\.(svg|pdf|heic|heif|jpg|jpeg|png)$/i : (mode === 'ocr' ? /\.(jpg|jpeg|png|heic|heif|pdf|svg)$/i : /\.pdf$/i);
         const filtered = Array.from(newFiles).filter(f => f.name.match(accepted));
         console.log("Filtered files", filtered.map(f => f.name));
         
@@ -680,7 +675,7 @@ OK または NG
         }
 
         if (mode === 'ocr') {
-            handleOCR(filtered[0]);
+            handleOCRFiles(filtered);
             return;
         }
 
@@ -776,7 +771,7 @@ OK または NG
             setIsProcessing(false);
             setProgress(0);
         }
-    }, [mode, handleOCR, showToast]);
+    }, [mode, handleOCRFiles, showToast]);
 
     useEffect(() => {
         const handlePaste = (e: ClipboardEvent) => {
@@ -789,7 +784,7 @@ OK または NG
                     if (items[i].type.indexOf('image') !== -1) {
                         const file = items[i].getAsFile();
                         if (file) {
-                            handleOCR(file);
+                            handleOCRFiles([file]);
                             break;
                         }
                     }
@@ -811,7 +806,7 @@ OK または NG
 
         window.addEventListener('paste', handlePaste);
         return () => window.removeEventListener('paste', handlePaste);
-    }, [mode, isProcessing, handleOCR, addFiles, showToast]);
+    }, [mode, isProcessing, handleOCRFiles, addFiles, showToast]);
 
     const rotateItem = (id: string) => {
         setFiles(prev => prev.map(f => f.id === id ? { ...f, rotation: (f.rotation + 90) % 360 } : f));
@@ -873,64 +868,41 @@ OK または NG
 
             let prompt = "";
             if (isDesignCheckEnabled) {
-                prompt = `あなたは通信基地局工事の設計図面をレビューする技術者です。
-入力された図面（複数ページ）を解析し、以下の設計チェックを行ってください。
+                prompt = `あなたは通信基地局工事の設計図面や現場写真をレビューする技術者です。
+入力された画像（複数ページの場合あり）を解析し、設計チェックまたは内容確認を行ってください。
 
 【チェック内容】
-① 図面整合チェック
-各ページの図枠から以下の情報を読み取り、全図面で一致しているか確認する。
-・局名
-・局番
-・プロジェクト名
-一致していない場合は指摘してください。
+1. 図面（詳細設計図）の場合：
+   ① 図面整合チェック（局名、局番、プロジェクト名の一致確認）
+   ② 図面種類判定（案内図、平面図、立面図、系統図など）
+   ③ 図面内容チェック（アンテナ数、無線機数、整流器、電源設備の整合）
+   ④ 仮設工事チェック（搬入動線、足場、作業スペースなど）
 
-② 図面種類判定
-各ページがどの図面に該当するか判定してください。
-不足図面があれば指摘してください。
+2. 一般的な画像（現場写真、地図、メモなど）の場合：
+   ① 内容の要約（何が写っているか、どのような状況か）
+   ② 懸念点・指摘事項の抽出
 
-③ 図面内容チェック
-図面内容を解析し、以下の整合を確認してください。
-・アンテナ数
-・無線機数
-・整流器
-・電源設備
-図面間で矛盾がある可能性があれば指摘してください。
+3. 工事概要作成：
+   a. 同僚向けの工事概要説明文（技術的詳細をマークアップ形式で列挙）
+   b. 建物・土地のオーナー様向け工事概要説明文（専門用語を避け、一般的な名称を用いて分かりやすく説明）
 
-④ 仮設工事チェック
-仮設計画図を確認し、以下の項目を評価してください。
-不足または懸念点があれば指摘してください。
-
-⑤ 工事概要作成
-図面から以下の情報を抽出し、レポートを作成してください。
-a. 工事内容の要約（マークアップ形式で列挙）
-・アンテナ数
-・無線機数
-・整流器
-・電源設備
-・仮設工事
-
-b. 設置場所のオーナー（地権者）向けの工事説明文
-専門用語や型式は極力避け、「アンテナ」「無線機」「電源装置」などの一般的な名称を使用して、どのような工事が行われるのかを分かりやすく説明してください。
+${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}
 
 【出力形式】
 # 設計チェック結果 (${fileName})
 
-## 図面構成
-ページ番号 / 図面種類
+## 内容構成 / 図面構成
+（ページ番号ごとの内容または図面種類）
 
-## 整合チェック
-OK または NG
-理由
+## 整合チェック / 内容確認
+（整合性の確認結果、または画像内容の確認結果）
 
-## 図面内容チェック
-指摘事項
-
-## 仮設工事チェック
-指摘事項
+## 指摘事項・懸念点
+（図面間の矛盾や、現場写真からの懸念点など）
 
 ## 工事概要
-### a. 工事内容の要約
-（マークアップ形式のリスト）
+### a. 同僚向け工事概要
+（技術的な要約リスト）
 
 ### b. オーナー様向け説明文
 （分かりやすい説明文章）`;
@@ -1327,7 +1299,7 @@ OK または NG
                 </div>
             </header>
 
-            <div className="grid grid-cols-1 gap-12 mb-20">
+            <div className={`grid ${isDesignCheckEnabled ? 'grid-cols-1 lg:grid-cols-[1fr_350px]' : 'grid-cols-1'} gap-8 mb-20 items-start`}>
                 <div className="space-y-8">
                     <div 
                         onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setIsDraggingOver(true); }}
@@ -1349,8 +1321,8 @@ OK または NG
                     >
                         <input 
                             type="file" 
-                            multiple={mode === 'join'} 
-                            accept={mode === 'join' ? ".svg,.pdf,.heic,.heif,.jpg,.jpeg,.png" : (mode === 'ocr' ? ".jpg,.jpeg,.png,.heic,.heif" : ".pdf")} 
+                            multiple={mode === 'join' || mode === 'ocr'} 
+                            accept={mode === 'join' ? ".svg,.pdf,.heic,.heif,.jpg,.jpeg,.png" : (mode === 'ocr' ? ".jpg,.jpeg,.png,.heic,.heif,.pdf,.svg" : ".pdf")} 
                             className="hidden" 
                             ref={fileInputRef} 
                             onChange={(e) => {
@@ -1724,6 +1696,46 @@ OK または NG
                         </div>
                     )}
                 </div>
+
+                {isDesignCheckEnabled && (
+                    <motion.div 
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="bg-white border-4 border-emerald-100 rounded-[3rem] p-8 shadow-xl shadow-emerald-100/20 flex flex-col gap-6 sticky top-8"
+                    >
+                        <div className="flex items-center gap-3 border-b border-emerald-50 pb-4">
+                            <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+                                <MessageSquare className="w-5 h-5 text-emerald-600" />
+                            </div>
+                            <div>
+                                <h4 className="text-sm font-black text-slate-800">設計チェック指示</h4>
+                                <p className="text-[10px] font-bold text-slate-400">AIへの追加リクエスト</p>
+                            </div>
+                        </div>
+                        
+                        <div className="flex-grow flex flex-col gap-3">
+                            <label className="text-[11px] font-black text-slate-500 uppercase tracking-wider">カスタムプロンプト</label>
+                            <textarea 
+                                value={designCheckCustomPrompt}
+                                onChange={(e) => setDesignCheckCustomPrompt(e.target.value)}
+                                placeholder="例：平面図と立面図だけのチェックである。アンテナの高さに注目して。"
+                                className="w-full h-64 p-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-sm font-bold text-slate-700 outline-none focus:border-emerald-300 transition-all resize-none"
+                            />
+                            <p className="text-[10px] font-bold text-slate-400 leading-relaxed">
+                                ※具体的な指示を入力することで、より精度の高い解析結果が得られます。
+                            </p>
+                        </div>
+
+                        {designCheckCustomPrompt && (
+                            <button 
+                                onClick={() => setDesignCheckCustomPrompt("")}
+                                className="w-full py-3 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-600 text-xs font-black transition-all flex items-center justify-center gap-2"
+                            >
+                                <X className="w-4 h-4" /> 指示をクリア
+                            </button>
+                        )}
+                    </motion.div>
+                )}
             </div>
 
             <div className="fixed bottom-8 right-8 flex flex-col items-end gap-3">
