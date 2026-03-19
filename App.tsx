@@ -13,7 +13,7 @@ import {
   Upload, FileText, X, History, Download, Menu, 
   Scissors, RefreshCw, Link as LinkIcon, Mail, 
   HelpCircle, MessageSquare, Plus, Copy, CheckCircle2,
-  GripVertical
+  GripVertical, Edit3
 } from 'lucide-react';
 
 // Set up PDF.js worker
@@ -322,7 +322,17 @@ export default function App() {
     const [ostrichEnabled, setOstrichEnabled] = useState(true);
     const [animationsEnabled, setAnimationsEnabled] = useState(true);
     const [isDesignCheckEnabled, setIsDesignCheckEnabled] = useState(false);
+    const [isEditingResult, setIsEditingResult] = useState(false);
     const [designCheckCustomPrompt, setDesignCheckCustomPrompt] = useState("");
+    const resultTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Auto-resize textarea for design check result
+    useEffect(() => {
+        if (isEditingResult && resultTextareaRef.current) {
+            resultTextareaRef.current.style.height = 'auto';
+            resultTextareaRef.current.style.height = `${resultTextareaRef.current.scrollHeight}px`;
+        }
+    }, [designCheckResult, isEditingResult]);
     const [isTabFocused, setIsTabFocused] = useState(true);
     const originalTitle = useRef(document.title);
     const originalFavicon = useRef<string | null>(null);
@@ -1446,6 +1456,12 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <button 
+                                            onClick={() => setIsEditingResult(!isEditingResult)}
+                                            className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all flex items-center gap-2 ${isEditingResult ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200' : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'}`}
+                                        >
+                                            {isEditingResult ? <><CheckCircle2 className="w-3.5 h-3.5" /> 完了</> : <><Edit3 className="w-3.5 h-3.5" /> 編集 (Canvas)</>}
+                                        </button>
+                                        <button 
                                             onClick={() => {
                                                 navigator.clipboard.writeText(designCheckResult);
                                                 showToast("レポートをコピーしました");
@@ -1455,18 +1471,52 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                                             <Copy className="w-3.5 h-3.5" /> コピー
                                         </button>
                                         <button 
-                                            onClick={() => setDesignCheckResult('')}
+                                            onClick={() => {
+                                                setDesignCheckResult('');
+                                                setIsEditingResult(false);
+                                            }}
                                             className="p-3 hover:bg-emerald-100 rounded-full transition-colors"
                                         >
                                             <X className="w-6 h-6 text-emerald-400" />
                                         </button>
                                     </div>
                                 </div>
-                                <div className="prose prose-slate max-w-none markdown-body bg-white p-8 rounded-[2rem] border border-emerald-100 shadow-sm">
-                                    <div 
-                                        className="markdown-body"
-                                        dangerouslySetInnerHTML={{ __html: marked.parse(designCheckResult) as string }}
-                                    />
+                                <div className={`relative transition-all duration-500 ${isEditingResult ? 'bg-slate-50 rounded-[2rem] p-1' : ''}`}>
+                                    {isEditingResult ? (
+                                        <div className="relative min-h-[500px] w-full bg-white rounded-[1.8rem] border-2 border-indigo-100 shadow-inner overflow-hidden">
+                                            {/* Canvas Grid Background */}
+                                            <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                                            
+                                            <textarea 
+                                                ref={resultTextareaRef}
+                                                value={designCheckResult}
+                                                onChange={(e) => setDesignCheckResult(e.target.value)}
+                                                placeholder="ここに内容を自由に記述・編集できます..."
+                                                className="relative z-10 w-full min-h-[500px] p-10 bg-transparent outline-none font-mono text-sm leading-relaxed text-slate-700 resize-none"
+                                            />
+                                            
+                                            <div className="absolute bottom-6 right-8 z-20 flex items-center gap-2 bg-indigo-50 px-4 py-2 rounded-full border border-indigo-100 shadow-sm">
+                                                <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
+                                                <span className="text-[9px] font-black text-indigo-600 uppercase tracking-widest">Canvas Mode Active</span>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="prose prose-slate max-w-none markdown-body bg-white p-10 rounded-[2rem] border border-emerald-100 shadow-sm relative overflow-hidden group">
+                                            <div 
+                                                className="markdown-body relative z-10"
+                                                dangerouslySetInnerHTML={{ __html: marked.parse(designCheckResult) as string }}
+                                            />
+                                            <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                                                <button 
+                                                    onClick={() => setIsEditingResult(true)} 
+                                                    className="bg-white/80 backdrop-blur-sm border border-emerald-200 p-3 rounded-2xl text-emerald-600 hover:bg-emerald-50 hover:scale-110 shadow-lg shadow-emerald-100/50 transition-all"
+                                                    title="編集 (Canvas)"
+                                                >
+                                                    <Edit3 className="w-5 h-5" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </motion.div>
                         )}
