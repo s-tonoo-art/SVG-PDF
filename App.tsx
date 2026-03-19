@@ -28,12 +28,12 @@ const CHANGE_LOGS = [
 
 // --- Components ---
 
-const Ostrich = ({ isActive, isLaying, isSearching, enabled = true }: { isActive: boolean, isLaying: boolean, isSearching: boolean, enabled?: boolean }) => {
+const Ostrich = ({ isActive, isLaying, isSearching, enabled = true, animationsEnabled = true }: { isActive: boolean, isLaying: boolean, isSearching: boolean, enabled?: boolean, animationsEnabled?: boolean }) => {
     if (!enabled) return null;
     const statusClass = isActive ? 'running' : (isSearching ? 'searching' : (isLaying ? 'laying' : 'sleeping'));
     
     return (
-        <div className={`ostrich-wrapper ${isActive ? 'ostrich-active' : ''}`}>
+        <div className={`ostrich-wrapper ${isActive ? 'ostrich-active' : ''} ${!animationsEnabled ? 'no-animation' : ''}`}>
             <div className={`ostrich-sprite ${statusClass}`}>
                 <svg viewBox="0 -65 120 200" xmlns="http://www.w3.org/2000/svg">
                     {isLaying && (
@@ -167,13 +167,36 @@ const ManualModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                         </div>
                     </section>
 
+                    <section>
+                        <h3 className="text-xl font-black text-emerald-600 mb-5 flex items-center gap-3">
+                            <span className="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-xs shadow-sm">4</span>
+                            設計チェック機能 & 通知
+                        </h3>
+                        <div className="bg-emerald-50/50 p-6 rounded-[2rem] border border-emerald-100 text-sm text-slate-600 font-medium leading-relaxed hover:border-emerald-200 transition-colors">
+                            <p className="mb-3 font-black text-emerald-700">通信基地局の設計図面レビューに特化した専門機能です。</p>
+                            <p className="mb-4">画面上部の「設計チェック」をONにすると、結合・分割・OCRのどの操作時でも、AIが図面の内容（局名、設備数、仮設計画など）を自動で解析し、指摘事項をレポートとして出力します。</p>
+                            
+                            <div className="bg-white/60 p-5 rounded-2xl border border-emerald-100/50 space-y-3">
+                                <p className="font-black text-emerald-800 text-xs uppercase tracking-widest flex items-center gap-2">
+                                    <CheckCircle2 className="w-4 h-4" />
+                                    設計チェックON時の特別通知
+                                </p>
+                                <ul className="list-disc pl-5 space-y-1 text-[13px]">
+                                    <li><span className="font-bold">タブタイトルの変化:</span> 処理中は「処理中…」、完了すると「完了 ●」にタイトルとアイコンが変わります。</li>
+                                    <li><span className="font-bold">サウンド通知:</span> 完了時に「ピコーン」と音が鳴ります。</li>
+                                    <li><span className="font-bold">ブラウザ通知:</span> 別タブを開いていても、完了時にデスクトップ通知でお知らせします。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
                     <div className="bg-amber-50 border border-amber-100 p-8 rounded-[2.5rem] shadow-inner">
                         <h4 className="font-black text-amber-800 text-base mb-3 flex items-center gap-3">
                             <HelpCircle className="w-5 h-5" />
                             ヒント
                         </h4>
                         <p className="text-sm text-amber-700 font-bold leading-relaxed">
-                            iPhoneで撮影した写真（HEIC形式）もそのまま放り込んでOK！自動的にJPEGに変換して処理します。ダチョウが走っている間は処理中です。卵を産んだら完了の合図です。
+                            iPhoneで撮影した写真（HEIC形式）もそのまま放り込んでOK！自動的にJPEGに変換して処理します。ダチョウが走っている間は処理中です。卵を産んだら完了の合図です。設計チェックON時は、タブタイトルやサウンド、ブラウザ通知でも完了をお知らせします。
                         </p>
                     </div>
 
@@ -189,7 +212,8 @@ const ManualModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                                 { q: "OCR（文字起こし）がうまくいかない...", a: "画像が鮮明であることを確認してください。Gemini AIが複雑なレイアウトも解析しますが、極端に暗い画像やボケた画像は苦手です。" },
                                 { q: "結合したPDFの順番を入れ替えたい", a: "画面上のファイルカードをドラッグ＆ドロップすることで、自由に順番を入れ替えることができます。" },
                                 { q: "保存先はどこですか？", a: "ブラウザの「ダウンロード」フォルダに保存されます。複数のファイルを書き出す場合は、1つのZIPファイルにまとめてダウンロードされます。" },
-                                { q: "iPhoneの写真は使えますか？", a: "はい、HEIC形式の写真も自動的に変換して処理します。安心してお使いください。" }
+                                { q: "iPhoneの写真は使えますか？", a: "はい、HEIC形式の写真も自動的に変換して処理します。安心してお使いください。" },
+                                { q: "設計チェックはどうやって使いますか？", a: "画面上部の「設計チェック」スイッチをONにしてから、通常通りファイルをドロップしてください。処理完了後にエメラルド色のレポートが表示されます。" }
                             ].map((item, idx) => (
                                 <div key={idx} className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100">
                                     <p className="font-black text-indigo-600 mb-2 flex items-center gap-2">
@@ -292,9 +316,109 @@ export default function App() {
     const isCancelledRef = useRef(false);
     const [feedbacks, setFeedbacks] = useState<any[]>([]);
     const [ocrResult, setOcrResult] = useState('');
+    const [designCheckResult, setDesignCheckResult] = useState('');
     const [ocrWidthMode, setOcrWidthMode] = useState<'original' | 'full' | 'half'>('original');
     const [ocrPreviewUrl, setOcrPreviewUrl] = useState<string | null>(null);
     const [ostrichEnabled, setOstrichEnabled] = useState(true);
+    const [animationsEnabled, setAnimationsEnabled] = useState(true);
+    const [isDesignCheckEnabled, setIsDesignCheckEnabled] = useState(false);
+    const [isTabFocused, setIsTabFocused] = useState(true);
+    const originalTitle = useRef(document.title);
+    const originalFavicon = useRef<string | null>(null);
+
+    // Notification permission
+    useEffect(() => {
+        if (isDesignCheckEnabled && "Notification" in window && Notification.permission === "default") {
+            Notification.requestPermission();
+        }
+    }, [isDesignCheckEnabled]);
+
+    // Favicon helper
+    const setFavicon = (emoji: string) => {
+        const canvas = document.createElement('canvas');
+        canvas.height = 32;
+        canvas.width = 32;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+            ctx.font = '28px serif';
+            ctx.fillText(emoji, 0, 28);
+            const link = document.querySelector("link[rel*='icon']") as HTMLLinkElement || document.createElement('link');
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.href = canvas.toDataURL();
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
+    };
+
+    // Tab focus and reset logic
+    useEffect(() => {
+        const handleFocus = () => {
+            setIsTabFocused(true);
+            document.title = originalTitle.current;
+            if (originalFavicon.current) {
+                const link = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
+                if (link) link.href = originalFavicon.current;
+            }
+        };
+        const handleBlur = () => setIsTabFocused(false);
+
+        window.addEventListener('focus', handleFocus);
+        window.addEventListener('blur', handleBlur);
+
+        // Store original favicon
+        const link = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
+        if (link) originalFavicon.current = link.href;
+
+        return () => {
+            window.removeEventListener('focus', handleFocus);
+            window.removeEventListener('blur', handleBlur);
+        };
+    }, []);
+
+    // Processing status notifications
+    useEffect(() => {
+        if (!isDesignCheckEnabled) return;
+
+        if (isProcessing) {
+            document.title = "処理中… PDFツール";
+            setFavicon("⏳");
+        }
+    }, [isProcessing, isDesignCheckEnabled]);
+
+    // Audio helper
+    const playPikon = () => {
+        const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5
+        oscillator.frequency.exponentialRampToValueAtTime(1320, audioCtx.currentTime + 0.1); // E6
+
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3);
+    };
+
+    const notifyCompletion = () => {
+        if (!isDesignCheckEnabled) return;
+
+        document.title = "完了 ● PDFツール";
+        setFavicon("✅");
+        playPikon();
+
+        if (!isTabFocused && "Notification" in window && Notification.permission === "granted") {
+            new Notification("解析完了", {
+                body: "PDFの処理と設計チェックが完了しました。",
+                icon: "/favicon.ico"
+            });
+        }
+    };
     const [toastVisible, setToastVisible] = useState(false);
     const [toastMessage, setToastMessage] = useState("リンクをコピーしました");
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -395,52 +519,145 @@ export default function App() {
         setOcrWidthMode('original');
         
         try {
-            let fileToProcess = file;
+            const apiKey = process.env.GEMINI_API_KEY;
+            if (!apiKey) throw new Error("API_KEY_MISSING");
+            const ai = new GoogleGenAI({ apiKey });
+
+            let parts: any[] = [];
             let previewUrl = '';
 
-            if (file.name.toLowerCase().match(/\.(heic|heif)$/i)) {
-                const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.8 });
-                const blobToUse = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
-                fileToProcess = new File([blobToUse], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' });
-                previewUrl = URL.createObjectURL(blobToUse);
+            if (file.name.toLowerCase().endsWith('.pdf')) {
+                // PDF processing
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+                const numPages = Math.min(pdf.numPages, 15); // Limit to 15 pages for performance
+                
+                for (let i = 1; i <= numPages; i++) {
+                    if (isCancelledRef.current) throw new Error("CANCELLED");
+                    setProgress(10 + Math.round((i / numPages) * 20));
+                    const canvas = await renderPdfPageToCanvas(pdf, i, 0);
+                    const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+                    parts.push({ inlineData: { mimeType: 'image/jpeg', data: base64 } });
+                    if (i === 1) previewUrl = canvas.toDataURL('image/jpeg', 0.4);
+                }
+                setOcrPreviewUrl(previewUrl);
             } else {
-                previewUrl = URL.createObjectURL(file);
+                // Image processing
+                let fileToProcess = file;
+                if (file.name.toLowerCase().match(/\.(heic|heif)$/i)) {
+                    const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.8 });
+                    const blobToUse = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+                    fileToProcess = new File([blobToUse], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' });
+                    previewUrl = URL.createObjectURL(blobToUse);
+                } else {
+                    previewUrl = URL.createObjectURL(file);
+                }
+                
+                if (isCancelledRef.current) throw new Error("CANCELLED");
+                setOcrPreviewUrl(previewUrl);
+
+                const reader = new FileReader();
+                const base64Data = await new Promise<string>((resolve, reject) => {
+                    reader.onload = () => resolve((reader.result as string).split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(fileToProcess);
+                });
+                parts.push({ inlineData: { mimeType: fileToProcess.type, data: base64Data } });
             }
             
             if (isCancelledRef.current) throw new Error("CANCELLED");
-            setOcrPreviewUrl(previewUrl);
+            setProgress(40);
 
-            const reader = new FileReader();
-            const base64Promise = new Promise<string>((resolve, reject) => {
-                reader.onload = () => resolve((reader.result as string).split(',')[1]);
-                reader.onerror = reject;
-                reader.readAsDataURL(fileToProcess);
-            });
-            const base64Data = await base64Promise;
+            let prompt = "この画像からテキストを抽出してください。表がある場合はMarkdown形式のテーブルとして出力してください。出力は日本語でお願いします。";
             
-            if (isCancelledRef.current) throw new Error("CANCELLED");
-            setProgress(30);
-            const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+            if (isDesignCheckEnabled) {
+                prompt = `あなたは通信基地局工事の設計図面をレビューする技術者です。
+入力された図面（複数ページの場合あり）を解析し、以下の設計チェックを行ってください。
+
+【チェック内容】
+① 図面整合チェック
+各ページの図枠から以下の情報を読み取り、全図面で一致しているか確認する。
+・局名
+・局番
+・プロジェクト名
+一致していない場合は指摘してください。
+
+② 図面種類判定
+各ページがどの図面に該当するか判定してください。
+例：案内図、平面図、立面図、機器取付詳細図、仮設計画図、工事総括数量表、総合システム系統図、ケーブル系統図、空中線系統図
+不足図面があれば指摘してください。
+
+③ 図面内容チェック
+図面内容を解析し、以下の整合を確認してください。
+・アンテナ数
+・無線機数
+・整流器
+・電源設備
+図面間で矛盾がある可能性があれば指摘してください。
+
+④ 仮設工事チェック
+仮設計画図を確認し、以下の項目を評価してください。
+・搬入動線
+・足場
+・作業スペース
+・仮設電源
+不足または懸念点があれば指摘してください。
+
+⑤ 工事概要作成
+図面から以下の情報を抽出し、それらを基に工事の全体像を分かりやすい文章でまとめてください。
+・アンテナ数
+・無線機数
+・整流器
+・電源設備
+・仮設工事
+
+【出力形式】
+# 設計チェック結果
+
+## 図面構成
+ページ番号 / 図面種類
+
+## 整合チェック
+OK または NG
+理由
+
+## 図面内容チェック
+指摘事項
+
+## 仮設工事チェック
+指摘事項
+
+## 工事概要
+抽出データ（アンテナ数、無線機数等）と、それに基づく工事の要約文章`;
+            }
+
             const response = await ai.models.generateContent({
                 model: "gemini-3-flash-preview",
                 contents: {
                     parts: [
-                        { text: "この画像からテキストを抽出してください。表がある場合はMarkdown形式のテーブルとして出力してください。出力は日本語でお願いします。" },
-                        { inlineData: { mimeType: fileToProcess.type, data: base64Data } }
+                        { text: prompt },
+                        ...parts
                     ]
                 }
             });
             
             if (isCancelledRef.current) throw new Error("CANCELLED");
-            setOcrResult(response.text || '');
-            addHistoryItem(`OCR: ${file.name}`, "#", 1, 'OCR');
+            if (isDesignCheckEnabled) {
+                setDesignCheckResult(response.text || '');
+            } else {
+                setOcrResult(response.text || '');
+            }
+            addHistoryItem(`${isDesignCheckEnabled ? '設計チェック' : 'OCR'}: ${file.name}`, "#", 1, 'OCR');
             triggerEggAnimation();
+            if (isDesignCheckEnabled) notifyCompletion();
         } catch (err: any) {
             if (err.message === "CANCELLED") {
                 showToast("処理を強制停止しました");
+            } else if (err.message === "API_KEY_MISSING") {
+                alert("Gemini APIキーが設定されていません。GitHubのSecretsに GEMINI_API_KEY を設定して再ビルドしてください。");
             } else {
                 console.error("OCR Error:", err);
-                alert("OCR処理中にエラーが発生しました。");
+                alert("OCR処理中にエラーが発生しました。APIキーが正しいか、または制限がかかっていないか確認してください。");
             }
         } finally {
             setIsProcessing(false);
@@ -452,7 +669,7 @@ export default function App() {
         console.log("addFiles execution started", { count: newFiles?.length, mode });
         if (!newFiles || newFiles.length === 0) return;
 
-        const accepted = mode === 'join' ? /\.(svg|pdf|heic|heif|jpg|jpeg|png)$/i : (mode === 'ocr' ? /\.(jpg|jpeg|png|heic|heif)$/i : /\.pdf$/i);
+        const accepted = mode === 'join' ? /\.(svg|pdf|heic|heif|jpg|jpeg|png)$/i : (mode === 'ocr' ? /\.(jpg|jpeg|png|heic|heif|pdf)$/i : /\.pdf$/i);
         const filtered = Array.from(newFiles).filter(f => f.name.match(accepted));
         console.log("Filtered files", filtered.map(f => f.name));
         
@@ -611,13 +828,18 @@ export default function App() {
                     if (!ctx) return reject(new Error("Canvas context not found"));
                     let width = img.width || 800;
                     let height = img.height || 600;
+                    
+                    // SVGの場合は解像度を上げるためにスケールを大きくする
+                    const isSvg = item.type === 'svg' || (item.file && item.file.name.toLowerCase().endsWith('.svg'));
+                    const scaleFactor = isSvg ? 4 : 2;
+
                     const isVertical = item.rotation === 90 || item.rotation === 270;
                     const canvasWidth = isVertical ? height : width;
                     const canvasHeight = isVertical ? width : height;
 
-                    canvas.width = canvasWidth * 2;
-                    canvas.height = canvasHeight * 2;
-                    ctx.scale(2, 2);
+                    canvas.width = canvasWidth * scaleFactor;
+                    canvas.height = canvasHeight * scaleFactor;
+                    ctx.scale(scaleFactor, scaleFactor);
                     ctx.translate(canvasWidth / 2, canvasHeight / 2);
                     ctx.rotate((item.rotation * Math.PI) / 180);
                     ctx.translate(-width / 2, -height / 2);
@@ -631,6 +853,98 @@ export default function App() {
             };
             reader.readAsDataURL(item.file);
         });
+    };
+
+    const performDesignCheck = async (pdfBytes: Uint8Array, fileName: string) => {
+        try {
+            const apiKey = process.env.GEMINI_API_KEY;
+            if (!apiKey) return;
+            const ai = new GoogleGenAI({ apiKey });
+            
+            const pdf = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+            const numPages = Math.min(pdf.numPages, 10); // 結合/分割時は代表して10ページまで
+            const parts: any[] = [];
+
+            for (let i = 1; i <= numPages; i++) {
+                const canvas = await renderPdfPageToCanvas(pdf, i, 0);
+                const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+                parts.push({ inlineData: { mimeType: 'image/jpeg', data: base64 } });
+            }
+
+            let prompt = "";
+            if (isDesignCheckEnabled) {
+                prompt = `あなたは通信基地局工事の設計図面をレビューする技術者です。
+入力された図面（複数ページ）を解析し、以下の設計チェックを行ってください。
+
+【チェック内容】
+① 図面整合チェック
+各ページの図枠から以下の情報を読み取り、全図面で一致しているか確認する。
+・局名
+・局番
+・プロジェクト名
+一致していない場合は指摘してください。
+
+② 図面種類判定
+各ページがどの図面に該当するか判定してください。
+不足図面があれば指摘してください。
+
+③ 図面内容チェック
+図面内容を解析し、以下の整合を確認してください。
+・アンテナ数
+・無線機数
+・整流器
+・電源設備
+図面間で矛盾がある可能性があれば指摘してください。
+
+④ 仮設工事チェック
+仮設計画図を確認し、以下の項目を評価してください。
+不足または懸念点があれば指摘してください。
+
+⑤ 工事概要作成
+図面から以下の情報を抽出し、レポートを作成してください。
+a. 工事内容の要約（マークアップ形式で列挙）
+・アンテナ数
+・無線機数
+・整流器
+・電源設備
+・仮設工事
+
+b. 設置場所のオーナー（地権者）向けの工事説明文
+専門用語や型式は極力避け、「アンテナ」「無線機」「電源装置」などの一般的な名称を使用して、どのような工事が行われるのかを分かりやすく説明してください。
+
+【出力形式】
+# 設計チェック結果 (${fileName})
+
+## 図面構成
+ページ番号 / 図面種類
+
+## 整合チェック
+OK または NG
+理由
+
+## 図面内容チェック
+指摘事項
+
+## 仮設工事チェック
+指摘事項
+
+## 工事概要
+### a. 工事内容の要約
+（マークアップ形式のリスト）
+
+### b. オーナー様向け説明文
+（分かりやすい説明文章）`;
+            }
+
+            const response = await ai.models.generateContent({
+                model: "gemini-3-flash-preview",
+                contents: { parts: [{ text: prompt }, ...parts] }
+            });
+
+            setDesignCheckResult(response.text || '');
+        } catch (err) {
+            console.error("Design Check Error:", err);
+        }
     };
 
     const handleJoinProcess = async () => {
@@ -684,6 +998,11 @@ export default function App() {
                 const url = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
                 addHistoryItem(fileName, url, files.length, 'JOIN');
                 download(url, fileName);
+                
+                if (isDesignCheckEnabled) {
+                    setProgress(95);
+                    await performDesignCheck(pdfBytes, fileName);
+                }
                 console.log("PDF merge successful");
             } else {
                 let totalSteps = 0;
@@ -738,6 +1057,7 @@ export default function App() {
             setIsProcessing(false);
             triggerEggAnimation();
             showToast("処理が完了しました");
+            if (isDesignCheckEnabled) notifyCompletion();
         } catch (e: any) {
             if (e.message === "CANCELLED") {
                 showToast("処理を強制停止しました");
@@ -778,9 +1098,17 @@ export default function App() {
             const zipName = `ダチョウの卵_分割_${file.name.split('.')[0]}_${timestamp}.zip`;
             download(zipUrl, zipName);
             addHistoryItem(zipName, zipUrl, pageCount, 'SPLIT');
+
+            if (isDesignCheckEnabled) {
+                setProgress(95);
+                const arrayBuffer = await file.arrayBuffer();
+                await performDesignCheck(new Uint8Array(arrayBuffer), file.name);
+            }
+
             setFiles([]);
             setIsProcessing(false);
             triggerEggAnimation();
+            if (isDesignCheckEnabled) notifyCompletion();
         } catch (e: any) { 
             if (e.message === "CANCELLED") {
                 showToast("処理を強制停止しました");
@@ -836,7 +1164,7 @@ export default function App() {
 
             {isProcessing && (
                 <div className="fixed bottom-10 right-10 z-[120] flex flex-col items-center gap-4">
-                    <div className="bg-[#0a0a0a] p-1 rounded-xl border-2 border-[#222] shadow-[0_0_40px_-12px_rgba(255,0,0,0.4)] flex flex-col items-center overflow-hidden ring-1 ring-[#333]">
+                    <div className={`bg-[#0a0a0a] p-1 rounded-xl border-2 border-[#222] shadow-[0_0_40px_-12px_rgba(255,0,0,0.4)] flex flex-col items-center overflow-hidden ring-1 ring-[#333] ${!animationsEnabled ? 'no-animation' : ''}`}>
                         {/* Top Banner - Smaller */}
                         <div className="w-full bg-[#ffcc00] text-black text-[7px] font-black py-1 px-4 flex justify-between items-center border-b-2 border-black">
                             <span className="animate-pulse">!</span>
@@ -917,7 +1245,7 @@ export default function App() {
                 </div>
             )}
             
-            <Ostrich isActive={isProcessing} isLaying={isLayingEgg} isSearching={isDraggingOver} enabled={ostrichEnabled} />
+            <Ostrich isActive={isProcessing} isLaying={isLayingEgg} isSearching={isDraggingOver} enabled={ostrichEnabled} animationsEnabled={animationsEnabled} />
             <OstrichEggButton onClick={() => setShowManual(true)} />
             <ManualModal isOpen={showManual} onClose={() => setShowManual(false)} />
             <FeedbackModal isOpen={showFeedback} onClose={() => setShowFeedback(false)} onSubmit={handleFeedbackSubmit} />
@@ -932,6 +1260,24 @@ export default function App() {
                                 className={`w-10 h-5 rounded-full relative transition-colors ${ostrichEnabled ? 'bg-indigo-500' : 'bg-slate-300'}`}
                             >
                                 <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${ostrichEnabled ? 'left-6' : 'left-1'}`}></div>
+                            </button>
+                        </div>
+                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Anime</span>
+                            <button 
+                                onClick={() => setAnimationsEnabled(!animationsEnabled)}
+                                className={`w-10 h-5 rounded-full relative transition-colors ${animationsEnabled ? 'bg-indigo-500' : 'bg-slate-300'}`}
+                            >
+                                <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${animationsEnabled ? 'left-6' : 'left-1'}`}></div>
+                            </button>
+                        </div>
+                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">設計チェック</span>
+                            <button 
+                                onClick={() => setIsDesignCheckEnabled(!isDesignCheckEnabled)}
+                                className={`w-10 h-5 rounded-full relative transition-colors ${isDesignCheckEnabled ? 'bg-emerald-500' : 'bg-slate-300'}`}
+                            >
+                                <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${isDesignCheckEnabled ? 'left-6' : 'left-1'}`}></div>
                             </button>
                         </div>
                         <div className="inline-flex items-center gap-2 bg-indigo-50 px-5 py-2 rounded-full border border-indigo-100 shadow-sm">
@@ -1052,8 +1398,12 @@ export default function App() {
                                             </div>
                                         )}
                                     </div>
-                                    <p className="text-xl font-black text-slate-800 mb-1 tracking-tight">画像を解析中...</p>
-                                    <p className="text-slate-400 text-sm font-bold italic">別の画像をドロップして再試行</p>
+                                    <p className="text-xl font-black text-slate-800 mb-1 tracking-tight">
+                                        {isProcessing ? "画像を解析中..." : "解析完了"}
+                                    </p>
+                                    <p className="text-slate-400 text-sm font-bold italic">
+                                        {isProcessing ? "少々お待ちください" : "別の画像をドロップして再試行"}
+                                    </p>
                                 </div>
                             ) : files.length > 0 ? (
                                 <div className="flex flex-col items-center">
@@ -1104,6 +1454,51 @@ export default function App() {
                             )}
                         </div>
                     </div>
+
+                    <AnimatePresence>
+                        {designCheckResult && (
+                            <motion.div 
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mt-10 bg-emerald-50 border border-emerald-100 rounded-[3rem] p-10 shadow-inner"
+                            >
+                                <div className="flex justify-between items-center mb-8">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center shadow-sm">
+                                            <CheckCircle2 className="w-7 h-7 text-emerald-600" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-2xl font-black text-slate-900 tracking-tight">設計チェック結果</h3>
+                                            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Design Review Report</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <button 
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(designCheckResult);
+                                                showToast("レポートをコピーしました");
+                                            }}
+                                            className="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-emerald-200 transition-all flex items-center gap-2"
+                                        >
+                                            <Copy className="w-3.5 h-3.5" /> コピー
+                                        </button>
+                                        <button 
+                                            onClick={() => setDesignCheckResult('')}
+                                            className="p-3 hover:bg-emerald-100 rounded-full transition-colors"
+                                        >
+                                            <X className="w-6 h-6 text-emerald-400" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="prose prose-slate max-w-none markdown-body bg-white p-8 rounded-[2rem] border border-emerald-100 shadow-sm">
+                                    <div 
+                                        className="markdown-body"
+                                        dangerouslySetInnerHTML={{ __html: marked.parse(designCheckResult) as string }}
+                                    />
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
                     {ocrResult && (
                         <div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-2xl animate-slide">
