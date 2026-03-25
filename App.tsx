@@ -297,6 +297,38 @@ const FeedbackModal = ({ isOpen, onClose, onSubmit }: { isOpen: boolean, onClose
     );
 };
 
+const fetchRagDataFromGas = async (setStatusMessage?: (msg: string) => void) => {
+    const gasUrl = import.meta.env.VITE_GAS_URL;
+    if (!gasUrl) {
+        console.warn("VITE_GAS_URL is not set. Skipping RAG data fetch.");
+        return null;
+    }
+    
+    // タイムアウト設定（30秒）
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+    try {
+        console.log("Fetching RAG data from GAS...");
+        if (setStatusMessage) setStatusMessage("RAG知識データを取得しています...");
+        const response = await fetch(gasUrl, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) throw new Error(`GAS fetch failed: ${response.statusText}`);
+        return await response.json();
+    } catch (err: any) {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+            console.error("GAS fetch timed out after 30 seconds.");
+            if (setStatusMessage) setStatusMessage("RAGデータの取得がタイムアウトしました。");
+        } else {
+            console.error("Error fetching RAG data from GAS:", err);
+            if (setStatusMessage) setStatusMessage("RAGデータの取得に失敗しました。");
+        }
+        return null;
+    }
+};
+
 // --- Main App ---
 
 export default function App() {
@@ -308,6 +340,7 @@ export default function App() {
     const [isProcessing, setIsProcessing] = useState(false);
     const [isLayingEgg, setIsLayingEgg] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [statusMessage, setStatusMessage] = useState('');
     const [showChangelog, setShowChangelog] = useState(false);
     const [showGuide, setShowGuide] = useState(false);
     const [showManual, setShowManual] = useState(false);
@@ -527,6 +560,7 @@ export default function App() {
         setIsCancelled(false);
         isCancelledRef.current = false;
         setProgress(10);
+        setStatusMessage("ファイルを読み込んでいます...");
         setOcrResult('');
         setOcrWidthMode('original');
         
@@ -593,47 +627,71 @@ export default function App() {
             if (isCancelledRef.current) throw new Error("CANCELLED");
             setProgress(40);
 
+            // GASからプロンプトとRAGデータを取得
+            const ragData = isDesignCheckEnabled ? await fetchRagDataFromGas(setStatusMessage) : null;
+
             let prompt = "この画像からテキストを抽出してください。表がある場合はMarkdown形式のテーブルとして出力してください。出力は日本語でお願いします。";
             
             if (isDesignCheckEnabled) {
-                prompt = `あなたは通信基地局工事の設計図面や現場写真をレビューする技術者です。
-入力された画像（複数ページの場合あり）を解析し、設計チェックまたは内容確認を行ってください。
+                setStatusMessage("Gemini AIが解析中...");
+                if (ragData && ragData.prompt) {
+                    // GASから取得したプロンプトを使用
+                    let knowledge = ragData.ragData || "データなし";
+                    // 知識データが大きすぎる場合は切り詰める
+                    if (knowledge.length > 30000) {
+                        knowledge = knowledge.substring(0, 30000) + "...(データ過多のため省略)";
+                    }
 
-【チェック内容】
-1. 図面（詳細設計図）の場合：
-   ① 図面整合チェック（局名、局番、プロジェクト名の一致確認）
-   ② 図面種類判定（案内図、平面図、立面図、系統図など）
-   ③ 図面内容チェック（アンテナ数、無線機数、整流器、電源設備の整合）
-   ④ 仮設工事チェック（搬入動線、足場、作業スペースなど）
+                    prompt = `${ragData.prompt}
 
-2. 一般的な画像（現場写真、地図、メモなど）の場合：
-   ① 内容の要約（何が写っているか、どのような状況か）
-   ② 懸念点・指摘事項の抽出
+【RAG知識データ（詳細図AI解析_RAG最適化ファイル）】
+${knowledge}
 
-3. 工事概要作成：
-   a. 同僚向けの工事概要説明文（技術的詳細をマークアップ形式で列挙）
-   b. 建物・土地のオーナー様向け工事概要説明文（専門用語を避け、一般的な名称を用いて分かりやすく説明）
+【制約】
+・提供された内容のみを根拠に解析してください。
+・推測は禁止です。
+・RAGデータに一致しない、または根拠が見つからない場合は「不明」と回答してください。
 
-${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}
+${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}`;
+                } else {
+                    // フォールバック（GASからの取得失敗時）
+                    prompt = `あなたは通信基地局工事の設計図面を解析する専門家です。
+提供された画像から情報を抽出し、以下の項目を【順序固定】で出力してください。
 
-【出力形式】
-# 設計チェック結果
+【出力項目（順序固定）】
+局番号：
+局名：
+図面Rev：
 
-## 内容構成 / 図面構成
-（ページ番号ごとの内容または図面種類）
+周波数（既設）：
+セクタ数（既設）：
+アンテナ（既設）：
+RU（既設）：
 
-## 整合チェック / 内容確認
-（整合性の確認結果、または画像内容の確認結果）
+周波数（新設）：
+セクタ数（新設）：
+アンテナ（新設）：
+RU（新設）：
 
-## 指摘事項・懸念点
-（図面間の矛盾や、現場写真からの懸念点など）
+認証型式：
+機器名称：
 
-## 工事概要
-### a. 同僚向け工事概要
-（技術的な要約リスト）
+DU/MU：
+伝送装置：
+WDM：
 
-### b. オーナー様向け説明文
-（分かりやすい説明文章）`;
+RAN判定：
+根拠：
+不明点：
+信頼度：
+
+【制約】
+・画像から読み取れない項目は「不明」と記載してください。
+・推測はせず、事実のみを抽出してください。
+・出力は日本語でお願いします。
+
+${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}`;
+                }
             }
 
             const response = await ai.models.generateContent({
@@ -647,6 +705,8 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
             });
             
             if (isCancelledRef.current) throw new Error("CANCELLED");
+            setProgress(100);
+            setStatusMessage("解析完了");
             if (isDesignCheckEnabled) {
                 setDesignCheckResult(response.text || '');
             } else {
@@ -667,6 +727,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
         } finally {
             setIsProcessing(false);
             setProgress(0);
+            setStatusMessage("");
         }
     }, [addHistoryItem, triggerEggAnimation, showToast]);
 
@@ -866,6 +927,12 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
             if (!apiKey) return;
             const ai = new GoogleGenAI({ apiKey });
             
+            setStatusMessage("RAG知識データを取得しています...");
+
+            // GASからプロンプトとRAGデータを取得
+            const ragData = await fetchRagDataFromGas(setStatusMessage);
+            
+            setStatusMessage("PDFを解析用に変換しています...");
             const pdf = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
             const numPages = Math.min(pdf.numPages, 10); // 結合/分割時は代表して10ページまで
             const parts: any[] = [];
@@ -878,54 +945,84 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
 
             let prompt = "";
             if (isDesignCheckEnabled) {
-                prompt = `あなたは通信基地局工事の設計図面や現場写真をレビューする技術者です。
-入力された画像（複数ページの場合あり）を解析し、設計チェックまたは内容確認を行ってください。
+                if (ragData && ragData.prompt) {
+                    // GASから取得したプロンプトを使用
+                    let knowledge = ragData.ragData || "データなし";
+                    // 知識データが大きすぎる場合は切り詰める
+                    if (knowledge.length > 30000) {
+                        knowledge = knowledge.substring(0, 30000) + "...(データ過多のため省略)";
+                    }
 
-【チェック内容】
-1. 図面（詳細設計図）の場合：
-   ① 図面整合チェック（局名、局番、プロジェクト名の一致確認）
-   ② 図面種類判定（案内図、平面図、立面図、系統図など）
-   ③ 図面内容チェック（アンテナ数、無線機数、整流器、電源設備の整合）
-   ④ 仮設工事チェック（搬入動線、足場、作業スペースなど）
+                    prompt = `${ragData.prompt}
 
-2. 一般的な画像（現場写真、地図、メモなど）の場合：
-   ① 内容の要約（何が写っているか、どのような状況か）
-   ② 懸念点・指摘事項の抽出
+【RAG知識データ（詳細図AI解析_RAG最適化ファイル）】
+${knowledge}
 
-3. 工事概要作成：
-   a. 同僚向けの工事概要説明文（技術的詳細をマークアップ形式で列挙）
-   b. 建物・土地のオーナー様向け工事概要説明文（専門用語を避け、一般的な名称を用いて分かりやすく説明）
+【制約】
+・提供された内容のみを根拠に解析してください。
+・推測は禁止です。
+・RAGデータに一致しない、または根拠が見つからない場合は「不明」と回答してください。
 
 ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}
 
-【出力形式】
-# 設計チェック結果 (${fileName})
+【対象ファイル】
+${fileName}`;
+                } else {
+                    // フォールバック（GASからの取得失敗時）
+                    prompt = `あなたは通信基地局工事の設計図面を解析する専門家です。
+提供された画像から情報を抽出し、以下の項目を【順序固定】で出力してください。
 
-## 内容構成 / 図面構成
-（ページ番号ごとの内容または図面種類）
+【出力項目（順序固定）】
+局番号：
+局名：
+図面Rev：
 
-## 整合チェック / 内容確認
-（整合性の確認結果、または画像内容の確認結果）
+周波数（既設）：
+セクタ数（既設）：
+アンテナ（既設）：
+RU（既設）：
 
-## 指摘事項・懸念点
-（図面間の矛盾や、現場写真からの懸念点など）
+周波数（新設）：
+セクタ数（新設）：
+アンテナ（新設）：
+RU（新設）：
 
-## 工事概要
-### a. 同僚向け工事概要
-（技術的な要約リスト）
+認証型式：
+機器名称：
 
-### b. オーナー様向け説明文
-（分かりやすい説明文章）`;
+DU/MU：
+伝送装置：
+WDM：
+
+RAN判定：
+根拠：
+不明点：
+信頼度：
+
+【制約】
+・画像から読み取れない項目は「不明」と記載してください。
+・推測はせず、事実のみを抽出してください。
+・出力は日本語でお願いします。
+
+【対象ファイル】
+${fileName}
+
+${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}`;
+                }
             }
 
+            setStatusMessage("Gemini AIが解析中...");
             const response = await ai.models.generateContent({
                 model: "gemini-3-flash-preview",
                 contents: { parts: [{ text: prompt }, ...parts] }
             });
 
+            setProgress(100);
+            setStatusMessage("解析完了");
             setDesignCheckResult(response.text || '');
         } catch (err) {
             console.error("Design Check Error:", err);
+            setStatusMessage("エラーが発生しました");
         }
     };
 
@@ -939,6 +1036,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
         setIsCancelled(false);
         isCancelledRef.current = false;
         setProgress(0);
+        setStatusMessage("PDFを結合しています...");
         const timestamp = Date.now();
         try {
             if (outFormat === 'pdf') {
@@ -1037,6 +1135,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
             }
             setFiles([]);
             setIsProcessing(false);
+            setStatusMessage("");
             triggerEggAnimation();
             showToast("処理が完了しました");
             if (isDesignCheckEnabled) notifyCompletion();
@@ -1048,6 +1147,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                 alert("エラーが発生しました: " + e.message);
             }
             setIsProcessing(false);
+            setStatusMessage("");
         }
         setProgress(0);
     };
@@ -1058,6 +1158,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
         setIsCancelled(false);
         isCancelledRef.current = false;
         setProgress(0);
+        setStatusMessage("PDFを分割しています...");
         const timestamp = Date.now();
         try {
             const file = files[0].file;
@@ -1089,6 +1190,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
 
             setFiles([]);
             setIsProcessing(false);
+            setStatusMessage("");
             triggerEggAnimation();
             if (isDesignCheckEnabled) notifyCompletion();
         } catch (e: any) { 
@@ -1098,6 +1200,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                 alert(e.message); 
             }
             setIsProcessing(false);
+            setStatusMessage("");
         }
         setProgress(0);
     };
@@ -1139,8 +1242,18 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
             </AnimatePresence>
 
             {isProcessing && (
-                <div className="fixed top-0 left-0 w-full z-50 bg-slate-100 h-1">
-                    <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+                <div className="fixed top-0 left-0 w-full z-[100] pointer-events-none">
+                    <div className="bg-slate-100 h-1 w-full">
+                        <div className="progress-bar h-full" style={{ width: `${progress}%` }}></div>
+                    </div>
+                    {statusMessage && (
+                        <div className="flex justify-center mt-2">
+                            <div className="bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-lg border border-slate-200 flex items-center gap-2 animate-bounce-subtle">
+                                <div className="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></div>
+                                <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest">{statusMessage}</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
 
