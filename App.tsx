@@ -4,7 +4,7 @@ import { PDFDocument, degrees } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 // @ts-ignore
 import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?url';
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import heic2any from 'heic2any';
 import { marked } from 'marked';
 import JSZip from 'jszip';
@@ -13,8 +13,19 @@ import {
   Upload, FileText, X, History, Download, Menu, 
   Scissors, RefreshCw, Link as LinkIcon, Mail, 
   HelpCircle, MessageSquare, Plus, Copy, CheckCircle2,
-  GripVertical, Edit3
+  GripVertical, Edit3, ChevronRight, Play
 } from 'lucide-react';
+
+interface FileItem {
+    id: string;
+    file: File;
+    preview: string | null;
+    type: string;
+    rotation: number;
+    pageNum?: number;
+    totalPage?: number;
+    originalName?: string;
+}
 
 // Set up PDF.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
@@ -163,18 +174,30 @@ const ManualModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void
                             OCR (文字起こし)
                         </h3>
                         <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 text-sm text-slate-600 font-medium leading-relaxed hover:border-indigo-200 transition-colors">
-                            <p>画像をドロップすると、Gemini AIがテキストや表を抽出します。手書き文字や複雑なレイアウトの表も高精度で読み取ります。</p>
+                            <p className="mb-3">画像をドロップすると、Gemini AIがテキストや表を抽出します。手書き文字や複雑なレイアウトの表も高精度で読み取ります。</p>
+                            <p className="text-xs text-slate-400 font-bold">※「AIRAG解析」や「設計チェック」がOFFの場合に実行されます。</p>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3 className="text-xl font-black text-indigo-600 mb-5 flex items-center gap-3">
+                            <span className="w-8 h-8 rounded-xl bg-indigo-100 flex items-center justify-center text-xs shadow-sm">4</span>
+                            AIRAG解析 (高度解析)
+                        </h3>
+                        <div className="bg-indigo-50/50 p-6 rounded-[2rem] border border-indigo-100 text-sm text-slate-600 font-medium leading-relaxed hover:border-indigo-200 transition-colors">
+                            <p className="mb-3 font-black text-indigo-700">外部データベース（RAG）と連携した、最も高度な解析機能です。</p>
+                            <p>画面上部の「AIRAG解析」をONにすると、外部から取得した最新の局情報と図面を照らし合わせ、データの不一致や整合性を詳細にチェックします。出力は設計チェックレポートの形式で行われます。</p>
                         </div>
                     </section>
 
                     <section>
                         <h3 className="text-xl font-black text-emerald-600 mb-5 flex items-center gap-3">
-                            <span className="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-xs shadow-sm">4</span>
+                            <span className="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-xs shadow-sm">5</span>
                             設計チェック機能 & 通知
                         </h3>
                         <div className="bg-emerald-50/50 p-6 rounded-[2rem] border border-emerald-100 text-sm text-slate-600 font-medium leading-relaxed hover:border-emerald-200 transition-colors">
                             <p className="mb-3 font-black text-emerald-700">通信基地局の設計図面レビューに特化した専門機能です。</p>
-                            <p className="mb-4">画面上部の「設計チェック」をONにすると、結合・分割・OCRのどの操作時でも、AIが図面の内容（局名、設備数、仮設計画など）を自動で解析し、指摘事項をレポートとして出力します。</p>
+                            <p className="mb-4">画面上部の「設計チェック」をONにすると、結合・分割・OCRのどの操作時でも、AIが図面の内容（局名、設備数、仮設計画など）を自動で解析し、指摘事項をレポートとして出力します。特に「局番号・局名の一致」「図番の連番性」「凡例ルール（新設＝赤/撤去＝青）」などを重点的にチェックします。</p>
                             
                             <div className="bg-white/60 p-5 rounded-2xl border border-emerald-100/50 space-y-3">
                                 <p className="font-black text-emerald-800 text-xs uppercase tracking-widest flex items-center gap-2">
@@ -297,34 +320,53 @@ const FeedbackModal = ({ isOpen, onClose, onSubmit }: { isOpen: boolean, onClose
     );
 };
 
-const fetchRagDataFromGas = async (setStatusMessage?: (msg: string) => void) => {
+const fetchRagDataFromGas = async (setStatusMessage?: (msg: string) => void, isCancelledRef?: React.MutableRefObject<boolean>, setIsFetchingRag?: (val: boolean) => void) => {
     const gasUrl = import.meta.env.VITE_GAS_URL;
     if (!gasUrl) {
         console.warn("VITE_GAS_URL is not set. Skipping RAG data fetch.");
         return null;
     }
     
-    // タイムアウト設定（30秒）
+    // タイムアウト設定（10秒に短縮）
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
         console.log("Fetching RAG data from GAS...");
         if (setStatusMessage) setStatusMessage("RAG知識データを取得しています...");
-        const response = await fetch(gasUrl, { signal: controller.signal });
+        if (setIsFetchingRag) setIsFetchingRag(true);
+        
+        if (isCancelledRef?.current) throw new Error("CANCELLED");
+
+        const response = await fetch(gasUrl, { 
+            signal: controller.signal,
+            cache: 'no-store'
+        });
         clearTimeout(timeoutId);
         
-        if (!response.ok) throw new Error(`GAS fetch failed: ${response.statusText}`);
-        return await response.json();
+        if (isCancelledRef?.current) throw new Error("CANCELLED");
+
+        if (!response.ok) throw new Error(`GAS fetch failed: ${response.status} ${response.statusText}`);
+        
+        const data = await response.json();
+        console.log("RAG data fetched successfully");
+        if (setIsFetchingRag) setIsFetchingRag(false);
+        return data;
     } catch (err: any) {
         clearTimeout(timeoutId);
+        if (setIsFetchingRag) setIsFetchingRag(false);
+        if (err.message === "CANCELLED") {
+            console.log("RAG fetch cancelled by user.");
+            throw err;
+        }
         if (err.name === 'AbortError') {
-            console.error("GAS fetch timed out after 30 seconds.");
-            if (setStatusMessage) setStatusMessage("RAGデータの取得がタイムアウトしました。");
+            console.error("GAS fetch timed out after 10 seconds.");
+            if (setStatusMessage) setStatusMessage("RAGデータの取得がタイムアウトしました（10秒）。スキップします。");
         } else {
             console.error("Error fetching RAG data from GAS:", err);
-            if (setStatusMessage) setStatusMessage("RAGデータの取得に失敗しました。");
+            if (setStatusMessage) setStatusMessage(`RAGデータの取得に失敗しました: ${err.message}`);
         }
+        // エラー時はnullを返して続行できるようにする
         return null;
     }
 };
@@ -332,7 +374,7 @@ const fetchRagDataFromGas = async (setStatusMessage?: (msg: string) => void) => 
 // --- Main App ---
 
 export default function App() {
-    const [mode, setMode] = useState('join');
+    const [mode, setMode] = useState(() => localStorage.getItem('ostrich_mode') || 'ocr');
     const [outFormat, setOutFormat] = useState('pdf');
     const [files, setFiles] = useState<any[]>([]);
     const [history, setHistory] = useState<any[]>([]);
@@ -345,6 +387,7 @@ export default function App() {
     const [showGuide, setShowGuide] = useState(false);
     const [showManual, setShowManual] = useState(false);
     const [showFeedback, setShowFeedback] = useState(false);
+    const [isFetchingRag, setIsFetchingRag] = useState(false);
     const [isCancelled, setIsCancelled] = useState(false);
     const isCancelledRef = useRef(false);
     const [feedbacks, setFeedbacks] = useState<any[]>([]);
@@ -354,10 +397,30 @@ export default function App() {
     const [ocrPreviewUrl, setOcrPreviewUrl] = useState<string | null>(null);
     const [ostrichEnabled, setOstrichEnabled] = useState(true);
     const [animationsEnabled, setAnimationsEnabled] = useState(true);
-    const [isDesignCheckEnabled, setIsDesignCheckEnabled] = useState(false);
+    const [isDesignCheckEnabled, setIsDesignCheckEnabled] = useState(() => {
+        const saved = localStorage.getItem('ostrich_design_check');
+        return saved !== null ? JSON.parse(saved) : true;
+    });
+    const [isRagEnabled, setIsRagEnabled] = useState(() => {
+        const saved = localStorage.getItem('ostrich_rag_enabled');
+        return saved !== null ? JSON.parse(saved) : false;
+    });
     const [isEditingResult, setIsEditingResult] = useState(false);
     const [designCheckCustomPrompt, setDesignCheckCustomPrompt] = useState("");
     const resultTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+    // Persistence for settings
+    useEffect(() => {
+        localStorage.setItem('ostrich_mode', mode);
+    }, [mode]);
+
+    useEffect(() => {
+        localStorage.setItem('ostrich_design_check', JSON.stringify(isDesignCheckEnabled));
+    }, [isDesignCheckEnabled]);
+
+    useEffect(() => {
+        localStorage.setItem('ostrich_rag_enabled', JSON.stringify(isRagEnabled));
+    }, [isRagEnabled]);
 
     // Auto-resize textarea for design check result
     useEffect(() => {
@@ -395,6 +458,14 @@ export default function App() {
     };
 
     // Tab focus and reset logic
+    useEffect(() => {
+        if (isProcessing) {
+            document.title = `(${progress}%) 処理中... PDFツール`;
+        } else {
+            document.title = originalTitle.current;
+        }
+    }, [isProcessing, progress]);
+
     useEffect(() => {
         const handleFocus = () => {
             setIsTabFocused(true);
@@ -554,14 +625,20 @@ export default function App() {
         setHistory(prev => [{ id: Date.now(), name, url, count, action, time: new Date().toLocaleString() }, ...prev]);
     };
 
-    const handleOCRFiles = React.useCallback(async (files: File[]) => {
+    const rotateItem = (id: string) => {
+        setFiles(prev => prev.map(f => f.id === id ? { ...f, rotation: (f.rotation + 90) % 360 } : f));
+    };
+
+    const handleOCRFiles = async (explicitUseRag?: boolean) => {
+        const useRag = explicitUseRag !== undefined ? explicitUseRag : isRagEnabled;
         if (files.length === 0) return;
         setIsProcessing(true);
         setIsCancelled(false);
         isCancelledRef.current = false;
         setProgress(10);
-        setStatusMessage("ファイルを読み込んでいます...");
+        setStatusMessage(useRag ? "RAG解析を実行中..." : "図面チェックを実行中...");
         setOcrResult('');
+        setDesignCheckResult('');
         setOcrWidthMode('original');
         
         try {
@@ -573,52 +650,18 @@ export default function App() {
             let previewUrl = '';
 
             for (let fIdx = 0; fIdx < files.length; fIdx++) {
-                const file = files[fIdx];
+                const item = files[fIdx];
                 const fileProgressStart = 10 + (fIdx / files.length) * 30;
                 const fileProgressEnd = 10 + ((fIdx + 1) / files.length) * 30;
 
-                if (file.name.toLowerCase().endsWith('.pdf')) {
-                    // PDF processing
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
-                    const numPages = Math.min(pdf.numPages, 15); // Limit to 15 pages for performance
-                    
-                    for (let i = 1; i <= numPages; i++) {
-                        if (isCancelledRef.current) throw new Error("CANCELLED");
-                        setProgress(fileProgressStart + Math.round((i / numPages) * (fileProgressEnd - fileProgressStart)));
-                        const canvas = await renderPdfPageToCanvas(pdf, i, 0);
-                        const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
-                        parts.push({ inlineData: { mimeType: 'image/jpeg', data: base64 } });
-                        if (!previewUrl) previewUrl = canvas.toDataURL('image/jpeg', 0.4);
-                    }
-                } else if (file.name.toLowerCase().endsWith('.svg')) {
-                    // SVG processing
-                    const { canvas } = await getProcessedCanvas({ file, type: 'svg', rotation: 0 });
-                    const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
-                    parts.push({ inlineData: { mimeType: 'image/jpeg', data: base64 } });
-                    if (!previewUrl) previewUrl = canvas.toDataURL('image/jpeg', 0.4);
-                } else {
-                    // Image processing
-                    let fileToProcess = file;
-                    if (file.name.toLowerCase().match(/\.(heic|heif)$/i)) {
-                        const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.8 });
-                        const blobToUse = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
-                        fileToProcess = new File([blobToUse], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' });
-                        if (!previewUrl) previewUrl = URL.createObjectURL(blobToUse);
-                    } else {
-                        if (!previewUrl) previewUrl = URL.createObjectURL(file);
-                    }
-                    
-                    if (isCancelledRef.current) throw new Error("CANCELLED");
-                    
-                    const reader = new FileReader();
-                    const base64Data = await new Promise<string>((resolve, reject) => {
-                        reader.onload = () => resolve((reader.result as string).split(',')[1]);
-                        reader.onerror = reject;
-                        reader.readAsDataURL(fileToProcess);
-                    });
-                    parts.push({ inlineData: { mimeType: fileToProcess.type, data: base64Data } });
-                }
+                if (isCancelledRef.current) throw new Error("CANCELLED");
+                setProgress(fileProgressStart);
+
+                const { canvas } = await getProcessedCanvas(item);
+                const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+                parts.push({ inlineData: { mimeType: 'image/jpeg', data: base64 } });
+                if (!previewUrl) previewUrl = canvas.toDataURL('image/jpeg', 0.4);
+                
                 setProgress(fileProgressEnd);
             }
             
@@ -628,12 +671,233 @@ export default function App() {
             setProgress(40);
 
             // GASからプロンプトとRAGデータを取得
-            const ragData = isDesignCheckEnabled ? await fetchRagDataFromGas(setStatusMessage) : null;
+            const ragData = useRag ? await fetchRagDataFromGas(setStatusMessage, isCancelledRef, setIsFetchingRag) : null;
 
             let prompt = "この画像からテキストを抽出してください。表がある場合はMarkdown形式のテーブルとして出力してください。出力は日本語でお願いします。";
             
-            if (isDesignCheckEnabled) {
+            if (useRag || isDesignCheckEnabled) {
                 setStatusMessage("Gemini AIが解析中...");
+                const jsonStructure = useRag ? `{
+  "局番号": "",
+  "局名": "",
+  "図面Rev": "",
+  "既設": {
+    "周波数": "",
+    "セクタ数": "",
+    "アンテナ": "",
+    "RU": ""
+  },
+  "新設": {
+    "周波数": "",
+    "セクタ数": "",
+    "アンテナ": "",
+    "RU": ""
+  },
+  "認証型式": "",
+  "機器名称": "",
+  "DU_MU": "",
+  "伝送装置": "",
+  "WDM": "",
+  "RAN判定": "",
+  "図面種類判定": "",
+  "図面整合チェック": {
+    "局番号一致": "",
+    "局名一致": "",
+    "図番連番": "",
+    "欠番": "",
+    "重複": "",
+    "目次一致": "",
+    "詳細": ""
+  },
+  "凡例ルールチェック": {
+    "凡例": "",
+    "新設＝赤": "",
+    "撤去＝青": "",
+    "詳細": ""
+  },
+  "図面内容チェック": "",
+  "仮設工事チェック": "",
+  "根拠": "",
+  "不明点": "",
+  "信頼度": ""
+}` : `{
+  "局番号": "",
+  "局名": "",
+  "図面Rev": "",
+  "図面種類判定": "",
+  "図面整合チェック": {
+    "局番号一致": "",
+    "局名一致": "",
+    "図番連番": "",
+    "欠番": "",
+    "重複": "",
+    "目次一致": "",
+    "詳細": ""
+  },
+  "凡例ルールチェック": {
+    "凡例": "",
+    "新設＝赤": "",
+    "撤去＝青": "",
+    "詳細": ""
+  },
+  "図面内容チェック": "",
+  "仮設工事チェック": "",
+  "根拠": "",
+  "不明点": "",
+  "信頼度": ""
+}`;
+
+                const markdownFormat = useRag ? `
+# 設計チェック結果
+
+## 概要
+- 局番号：
+- 局名：
+- 図面Rev：
+- RAN：
+
+---
+
+## 既設設備
+- 周波数：
+- セクタ数：
+- アンテナ：
+- RU：
+
+---
+
+## 新設設備
+- 周波数：
+- セクタ数：
+- アンテナ：
+- RU：
+
+---
+
+## 構成
+- DU/MU：
+- 伝送装置：
+- WDM：
+
+---
+
+## 機器
+- 機器名称：
+
+---
+
+## チェック項目
+### ① 図面種類判定
+- 
+
+### ② 図面整合チェック
+- 局番号一致：
+- 局名一致：
+- 図番連番：
+- 欠番：
+- 重複：
+- 目次一致：
+- 詳細：
+
+### ③ 凡例ルールチェック
+- 凡例：
+- 新設＝赤：
+- 撤去＝青：
+- 詳細：
+
+### ④ 図面内容チェック
+- 
+
+### ⑤ 仮設工事チェック
+- 
+
+---
+
+## 根拠
+-
+
+---
+
+## 不明点
+-
+
+---
+
+## 信頼度
+-
+---
+
+## OCR抽出データ
+- 
+` : `
+# 設計チェック結果
+
+## 概要
+- 局番号：
+- 局名：
+- 図面Rev：
+
+---
+
+## チェック項目
+### ① 図面種類判定
+- 
+
+### ② 図面整合チェック
+- 局番号一致：
+- 局名一致：
+- 図番連番：
+- 欠番：
+- 重複：
+- 目次一致：
+- 詳細：
+
+### ③ 凡例ルールチェック
+- 凡例：
+- 新設＝赤：
+- 撤去＝青：
+- 詳細：
+
+### ④ 図面内容チェック
+- 
+
+### ⑤ 仮設工事チェック
+- 
+
+---
+
+## 根拠
+-
+
+---
+
+## 不明点
+-
+
+---
+
+## 信頼度
+-
+---
+
+## OCR抽出データ
+- 
+`;
+
+                const outputInstruction = `
+【出力形式（厳守）】
+出力は以下の2部構成とし、その間を「---」で区切ること：
+
+① Markdown（最初に出力）
+② OCR抽出データ（「## OCR抽出データ」という見出しの後に、画像から読み取れる全てのテキストを詳細に抽出してください。表がある場合はMarkdown形式のテーブルとして出力し、図面内の全ての文字情報を網羅してください。要約は禁止です。全データを抽出してください。）
+
+Markdownは人間可読用とする。
+自然文・説明文・前置き・後置きは禁止。
+
+Markdownの形式（固定）：
+${markdownFormat}
+`;
+
                 if (ragData && ragData.prompt) {
                     // GASから取得したプロンプトを使用
                     let knowledge = ragData.ragData || "データなし";
@@ -642,55 +906,74 @@ export default function App() {
                         knowledge = knowledge.substring(0, 30000) + "...(データ過多のため省略)";
                     }
 
-                    prompt = `${ragData.prompt}
+                    prompt = `【RAG解析結果】
+以下は事前に取得された図面情報である。
+この情報を優先参照すること。
 
-【RAG知識データ（詳細図AI解析_RAG最適化ファイル）】
 ${knowledge}
 
-【制約】
-・提供された内容のみを根拠に解析してください。
-・推測は禁止です。
-・RAGデータに一致しない、または根拠が見つからない場合は「不明」と回答してください。
+---
 
-${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}`;
+【解析指示】
+上記のRAG解析結果および入力PDFを基に、以下のチェックを実行する。
+
+① 図面種類判定
+② 図面整合チェック（局番号・局名の一致、図番の連番・欠番・重複、目次との整合性）
+③ 凡例ルールチェック（凡例の有無、新設＝赤・撤去＝青のルール遵守）
+④ 図面内容チェック
+⑤ 仮設工事チェック
+
+${outputInstruction}
+
+---
+
+【制約】
+・RAG情報を優先して判断すること
+・RAG未記載事項のみPDFから補完すること
+・推測禁止
+・一部ページのみで判断禁止
+・最初の検出で処理終了禁止
+・キー名は変更禁止
+・キーの欠落禁止（不明な場合は「不明」と記載）
+・配列ではなく文字列で返す
+・改行や装飾は禁止
+
+${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}
+
+【対象ファイル】
+${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0].file.name}`;
                 } else {
-                    // フォールバック（GASからの取得失敗時）
-                    prompt = `あなたは通信基地局工事の設計図面を解析する専門家です。
-提供された画像から情報を抽出し、以下の項目を【順序固定】で出力してください。
+                    // 標準の設計チェックプロンプト
+                    prompt = `あなたは通信基地局の設計図面をチェックする専門家です。
+画像から情報を読み取り、以下の項目についてチェックを行ってください。
 
-【出力項目（順序固定）】
-局番号：
-局名：
-図面Rev：
+【チェック項目】
+① 図面種類判定：図面の種類（系統図、配置図、平面図など）を判定してください。
+② 図面整合チェック：局番号・局名の一致、図番の連番・欠番・重複、目次との整合性を確認してください。
+③ 凡例ルールチェック：凡例の有無、および「新設＝赤」「撤去＝青」のルールが守られているか確認してください。
+④ 図面内容チェック：必要な設備情報が正しく記載されているか確認してください。
+⑤ 仮設工事チェック：仮設工事に関する記述がある場合、その内容を確認してください。
 
-周波数（既設）：
-セクタ数（既設）：
-アンテナ（既設）：
-RU（既設）：
+${outputInstruction}
 
-周波数（新設）：
-セクタ数（新設）：
-アンテナ（新設）：
-RU（新設）：
-
-認証型式：
-機器名称：
-
-DU/MU：
-伝送装置：
-WDM：
-
-RAN判定：
-根拠：
-不明点：
-信頼度：
+---
 
 【制約】
+・推測禁止
+・一部ページのみで判断禁止
+・最初の検出で処理終了禁止
+・キー名は変更禁止
+・キーの欠落禁止（不明な場合は「不明」と記載）
+・配列ではなく文字列で返す
+・改行や装飾は禁止
 ・画像から読み取れない項目は「不明」と記載してください。
 ・推測はせず、事実のみを抽出してください。
 ・出力は日本語でお願いします。
 
-${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}`;
+${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}
+
+【対象ファイル】
+${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0].file.name}`;
                 }
             }
 
@@ -701,35 +984,71 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                         { text: prompt },
                         ...parts
                     ]
+                },
+                config: {
+                    thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
                 }
             });
             
             if (isCancelledRef.current) throw new Error("CANCELLED");
-            setProgress(100);
-            setStatusMessage("解析完了");
-            if (isDesignCheckEnabled) {
-                setDesignCheckResult(response.text || '');
-            } else {
-                setOcrResult(response.text || '');
+
+            const text = response.text || "";
+            
+            // 解析結果の振り分け
+            const ocrMarkers = ["## OCR抽出データ", "### OCR抽出データ", "OCR抽出データ:", "【OCR抽出データ】"];
+            let foundMarker = "";
+            for (const marker of ocrMarkers) {
+                if (text.includes(marker)) {
+                    foundMarker = marker;
+                    break;
+                }
             }
-            addHistoryItem(`${isDesignCheckEnabled ? '設計チェック' : 'OCR'}: ${files.length > 1 ? `${files[0].name} 他${files.length - 1}件` : files[0].name}`, "#", files.length, 'OCR');
-            triggerEggAnimation();
-            if (isDesignCheckEnabled) notifyCompletion();
+
+            if (foundMarker) {
+                const parts = text.split(foundMarker);
+                const mainResult = parts[0].trim();
+                const ocrPart = parts[1].trim();
+                
+                setDesignCheckResult(mainResult);
+                setOcrResult(ocrPart);
+                triggerEggAnimation();
+                setTimeout(() => {
+                    resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            } else {
+                if (useRag || isDesignCheckEnabled) {
+                    setDesignCheckResult(text);
+                    triggerEggAnimation();
+                    setTimeout(() => {
+                        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                } else {
+                    setOcrResult(text);
+                    setDesignCheckResult("");
+                }
+            }
+
+            addHistoryItem(`${useRag ? 'AIRAG解析' : isDesignCheckEnabled ? '設計チェック' : 'OCR抽出'}: ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0].file.name}`, "#", files.length, 'OCR');
+            showToast("処理が完了しました");
+            setProgress(100);
         } catch (err: any) {
             if (err.message === "CANCELLED") {
-                showToast("処理を強制停止しました");
-            } else if (err.message === "API_KEY_MISSING") {
-                alert("Gemini APIキーが設定されていません。GitHubのSecretsに GEMINI_API_KEY を設定して再ビルドしてください。");
+                showToast("キャンセルされました");
             } else {
                 console.error("OCR Error:", err);
-                alert("OCR処理中にエラーが発生しました。APIキーが正しいか、または制限がかかっていないか確認してください。");
+                const errorMsg = err.message === "API_KEY_MISSING" 
+                    ? "APIキーが設定されていません。" 
+                    : "エラーが発生しました。ファイル形式を確認してください。";
+                showToast(errorMsg);
             }
         } finally {
             setIsProcessing(false);
+            setIsCancelled(false);
+            isCancelledRef.current = false;
             setProgress(0);
             setStatusMessage("");
         }
-    }, [addHistoryItem, triggerEggAnimation, showToast]);
+    };
 
     const addFiles = React.useCallback(async (newFiles: FileList | File[] | null) => {
         console.log("addFiles execution started", { count: newFiles?.length, mode });
@@ -746,7 +1065,58 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
         }
 
         if (mode === 'ocr') {
-            handleOCRFiles(filtered);
+            // OCRモードでもファイルをリストに追加し、ボタンで実行するように変更
+            setIsProcessing(true);
+            setIsCancelled(false);
+            isCancelledRef.current = false;
+            setProgress(0);
+            
+            const allMapped: any[] = [];
+            try {
+                for (let i = 0; i < filtered.length; i++) {
+                    if (isCancelledRef.current) throw new Error("CANCELLED");
+                    const file = filtered[i];
+                    const lowerName = file.name.toLowerCase();
+                    
+                    if (lowerName.endsWith('.pdf')) {
+                        const arrayBuffer = await file.arrayBuffer();
+                        const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+                        for (let p = 1; p <= pdf.numPages; p++) {
+                            const id = Math.random().toString(36).substr(2, 9);
+                            const canvas = await renderPdfPageToCanvas(pdf, p, 0);
+                            const preview = canvas.toDataURL('image/jpeg', 0.4);
+                            allMapped.push({ id, file, preview, type: 'pdf', rotation: 0, pageNum: p, totalPage: pdf.numPages, originalName: file.name });
+                        }
+                    } else if (lowerName.endsWith('.svg')) {
+                        const id = Math.random().toString(36).substr(2, 9);
+                        const { canvas } = await getProcessedCanvas({ file, type: 'svg', rotation: 0 });
+                        const preview = canvas.toDataURL('image/jpeg', 0.4);
+                        allMapped.push({ id, file, preview, type: 'svg', rotation: 0 });
+                    } else {
+                        const id = Math.random().toString(36).substr(2, 9);
+                        let preview = "";
+                        if (lowerName.match(/\.(heic|heif)$/i)) {
+                            const convertedBlob = await heic2any({ blob: file, toType: "image/jpeg", quality: 0.8 });
+                            const blobToUse = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob;
+                            preview = URL.createObjectURL(blobToUse);
+                        } else {
+                            preview = URL.createObjectURL(file);
+                        }
+                        allMapped.push({ id, file, preview, type: 'image', rotation: 0 });
+                    }
+                    setProgress(Math.round(((i + 1) / filtered.length) * 100));
+                }
+                setFiles(prev => [...prev, ...allMapped]);
+                showToast(`${filtered.length}個のファイルを追加しました`);
+            } catch (err: any) {
+                if (err.message !== "CANCELLED") {
+                    console.error("Error adding files:", err);
+                    alert("ファイルの読み込み中にエラーが発生しました。");
+                }
+            } finally {
+                setIsProcessing(false);
+                setProgress(0);
+            }
             return;
         }
 
@@ -840,50 +1210,17 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
             }
         } finally {
             setIsProcessing(false);
+            setIsCancelled(false);
+            isCancelledRef.current = false;
             setProgress(0);
         }
     }, [mode, handleOCRFiles, showToast]);
 
-    useEffect(() => {
-        const handlePaste = (e: ClipboardEvent) => {
-            if (isProcessing) return;
-            const items = e.clipboardData?.items;
-            if (!items) return;
-            
-            if (mode === 'ocr') {
-                for (let i = 0; i < items.length; i++) {
-                    if (items[i].type.indexOf('image') !== -1) {
-                        const file = items[i].getAsFile();
-                        if (file) {
-                            handleOCRFiles([file]);
-                            break;
-                        }
-                    }
-                }
-            } else {
-                const fileList: File[] = [];
-                for (let i = 0; i < items.length; i++) {
-                    if (items[i].kind === 'file') {
-                        const file = items[i].getAsFile();
-                        if (file) fileList.push(file);
-                    }
-                }
-                if (fileList.length > 0) {
-                    addFiles(fileList);
-                    showToast(`${fileList.length}個のファイルを貼り付けました`);
-                }
-            }
-        };
-
-        window.addEventListener('paste', handlePaste);
-        return () => window.removeEventListener('paste', handlePaste);
-    }, [mode, isProcessing, handleOCRFiles, addFiles, showToast]);
-
-    const rotateItem = (id: string) => {
-        setFiles(prev => prev.map(f => f.id === id ? { ...f, rotation: (f.rotation + 90) % 360 } : f));
-    };
-
-    const getProcessedCanvas = (item: any): Promise<{ canvas: HTMLCanvasElement, canvasWidth: number, canvasHeight: number }> => {
+    const getProcessedCanvas = async (item: any): Promise<{ canvas: HTMLCanvasElement, canvasWidth: number, canvasHeight: number }> => {
+        if (item.type === 'pdf') {
+            const canvas = await renderPdfToCanvas(item.file, item.pageNum || 1, item.rotation);
+            return { canvas, canvasWidth: canvas.width, canvasHeight: canvas.height };
+        }
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -921,30 +1258,256 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
         });
     };
 
-    const performDesignCheck = async (pdfBytes: Uint8Array, fileName: string) => {
+    const performDesignCheck = async (useRag: boolean = false) => {
+        if (files.length === 0) return;
         try {
             const apiKey = process.env.GEMINI_API_KEY;
             if (!apiKey) return;
             const ai = new GoogleGenAI({ apiKey });
             
-            setStatusMessage("RAG知識データを取得しています...");
+            setStatusMessage(useRag ? "RAG知識データを取得しています..." : "図面チェックを実行中...");
 
             // GASからプロンプトとRAGデータを取得
-            const ragData = await fetchRagDataFromGas(setStatusMessage);
+            const ragData = useRag ? await fetchRagDataFromGas(setStatusMessage, isCancelledRef, setIsFetchingRag) : null;
             
-            setStatusMessage("PDFを解析用に変換しています...");
-            const pdf = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
-            const numPages = Math.min(pdf.numPages, 10); // 結合/分割時は代表して10ページまで
+            setStatusMessage("図面を解析用に変換しています...");
             const parts: any[] = [];
+            const maxPages = 10; // 結合/分割時は代表して10ページまで
+            let pageCount = 0;
 
-            for (let i = 1; i <= numPages; i++) {
-                const canvas = await renderPdfPageToCanvas(pdf, i, 0);
+            for (let fIdx = 0; fIdx < files.length && pageCount < maxPages; fIdx++) {
+                if (isCancelledRef.current) throw new Error("CANCELLED");
+                const item = files[fIdx];
+                const { canvas } = await getProcessedCanvas(item);
                 const base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
                 parts.push({ inlineData: { mimeType: 'image/jpeg', data: base64 } });
+                pageCount++;
             }
 
             let prompt = "";
-            if (isDesignCheckEnabled) {
+            const fileName = files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0].file.name;
+            const jsonStructure = useRag ? `{
+  "局番号": "",
+  "局名": "",
+  "図面Rev": "",
+  "既設": {
+    "周波数": "",
+    "セクタ数": "",
+    "アンテナ": "",
+    "RU": ""
+  },
+  "新設": {
+    "周波数": "",
+    "セクタ数": "",
+    "アンテナ": "",
+    "RU": ""
+  },
+  "認証型式": "",
+  "機器名称": "",
+  "DU_MU": "",
+  "伝送装置": "",
+  "WDM": "",
+  "RAN判定": "",
+  "図面種類判定": "",
+  "図面整合チェック": {
+    "局番号一致": "",
+    "局名一致": "",
+    "図番連番": "",
+    "欠番": "",
+    "重複": "",
+    "目次一致": "",
+    "詳細": ""
+  },
+  "凡例ルールチェック": {
+    "凡例": "",
+    "新設＝赤": "",
+    "撤去＝青": "",
+    "詳細": ""
+  },
+  "図面内容チェック": "",
+  "仮設工事チェック": "",
+  "根拠": "",
+  "不明点": "",
+  "信頼度": ""
+}` : `{
+  "局番号": "",
+  "局名": "",
+  "図面Rev": "",
+  "図面種類判定": "",
+  "図面整合チェック": {
+    "局番号一致": "",
+    "局名一致": "",
+    "図番連番": "",
+    "欠番": "",
+    "重複": "",
+    "目次一致": "",
+    "詳細": ""
+  },
+  "凡例ルールチェック": {
+    "凡例": "",
+    "新設＝赤": "",
+    "撤去＝青": "",
+    "詳細": ""
+  },
+  "図面内容チェック": "",
+  "仮設工事チェック": "",
+  "根拠": "",
+  "不明点": "",
+  "信頼度": ""
+}`;
+
+            const markdownFormat = useRag ? `
+# 設計チェック結果
+
+## 概要
+- 局番号：
+- 局名：
+- 図面Rev：
+- RAN：
+
+---
+
+## 既設設備
+- 周波数：
+- セクタ数：
+- アンテナ：
+- RU：
+
+---
+
+## 新設設備
+- 周波数：
+- セクタ数：
+- アンテナ：
+- RU：
+
+---
+
+## 構成
+- DU/MU：
+- 伝送装置：
+- WDM：
+
+---
+
+## 機器
+- 機器名称：
+
+---
+
+## チェック項目
+### ① 図面種類判定
+- 
+
+### ② 図面整合チェック
+- 局番号一致：
+- 局名一致：
+- 図番連番：
+- 欠番：
+- 重複：
+- 目次一致：
+- 詳細：
+
+### ③ 凡例ルールチェック
+- 凡例：
+- 新設＝赤：
+- 撤去＝青：
+- 詳細：
+
+### ④ 図面内容チェック
+- 
+
+### ⑤ 仮設工事チェック
+- 
+
+---
+
+## 根拠
+-
+
+---
+
+## 不明点
+-
+
+---
+
+## 信頼度
+-
+---
+
+## OCR抽出データ
+- 
+` : `
+# 設計チェック結果
+
+## 概要
+- 局番号：
+- 局名：
+- 図面Rev：
+
+---
+
+## チェック項目
+### ① 図面種類判定
+- 
+
+### ② 図面整合チェック
+- 局番号一致：
+- 局名一致：
+- 図番連番：
+- 欠番：
+- 重複：
+- 目次一致：
+- 詳細：
+
+### ③ 凡例ルールチェック
+- 凡例：
+- 新設＝赤：
+- 撤去＝青：
+- 詳細：
+
+### ④ 図面内容チェック
+- 
+
+### ⑤ 仮設工事チェック
+- 
+
+---
+
+## 根拠
+-
+
+---
+
+## 不明点
+-
+
+---
+
+## 信頼度
+-
+---
+
+## OCR抽出データ
+- 
+`;
+
+            const outputInstruction = `
+【出力形式（厳守）】
+出力は以下の2部構成とし、その間を「---」で区切ること：
+
+① Markdown（最初に出力）
+② OCR抽出データ（「## OCR抽出データ」という見出しの後に、画像から読み取れる全てのテキストを詳細に抽出してください。表がある場合はMarkdown形式のテーブルとして出力し、図面内の全ての文字情報を網羅してください。要約は禁止です。全データを抽出してください。）
+
+Markdownは人間可読用とする。
+自然文・説明文・前置き・後置きは禁止。
+
+Markdownの形式（固定）：
+${markdownFormat}
+`;
+
+            if (useRag || isDesignCheckEnabled) {
                 if (ragData && ragData.prompt) {
                     // GASから取得したプロンプトを使用
                     let knowledge = ragData.ragData || "データなし";
@@ -953,92 +1516,151 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                         knowledge = knowledge.substring(0, 30000) + "...(データ過多のため省略)";
                     }
 
-                    prompt = `${ragData.prompt}
+                    prompt = `【RAG解析結果】
+以下は事前に取得された図面情報である。
+この情報を優先参照すること。
 
-【RAG知識データ（詳細図AI解析_RAG最適化ファイル）】
 ${knowledge}
 
+---
+
+【解析指示】
+上記のRAG解析結果および入力PDFを基に、以下のチェックを実行する。
+
+① 図面種類判定
+② 図面整合チェック（局番号・局名の一致、図番の連番・欠番・重複、目次との整合性）
+③ 凡例ルールチェック（凡例の有無、新設＝赤・撤去＝青のルール遵守）
+④ 図面内容チェック
+⑤ 仮設工事チェック
+
+${outputInstruction}
+
+---
+
 【制約】
-・提供された内容のみを根拠に解析してください。
-・推測は禁止です。
-・RAGデータに一致しない、または根拠が見つからない場合は「不明」と回答してください。
+・RAG情報を優先して判断すること
+・RAG未記載事項のみPDFから補完すること
+・推測禁止
+・一部ページのみで判断禁止
+・最初の検出で処理終了禁止
+・キー名は変更禁止
+・キーの欠落禁止（不明な場合は「不明」と記載）
+・配列ではなく文字列で返す
+・改行や装飾は禁止
 
 ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}
 
 【対象ファイル】
 ${fileName}`;
                 } else {
-                    // フォールバック（GASからの取得失敗時）
-                    prompt = `あなたは通信基地局工事の設計図面を解析する専門家です。
-提供された画像から情報を抽出し、以下の項目を【順序固定】で出力してください。
+                    // 標準の設計チェックプロンプト
+                    prompt = `あなたは通信基地局の設計図面をチェックする専門家です。
+画像から情報を読み取り、以下の項目についてチェックを行ってください。
 
-【出力項目（順序固定）】
-局番号：
-局名：
-図面Rev：
+【チェック項目】
+① 図面種類判定：図面の種類（系統図、配置図、平面図など）を判定してください。
+② 図面整合チェック：局番号・局名の一致、図番の連番・欠番・重複、目次との整合性を確認してください。
+③ 凡例ルールチェック：凡例の有無、および「新設＝赤」「撤去＝青」のルールが守られているか確認してください。
+④ 図面内容チェック：必要な設備情報が正しく記載されているか確認してください。
+⑤ 仮設工事チェック：仮設工事に関する記述がある場合、その内容を確認してください。
 
-周波数（既設）：
-セクタ数（既設）：
-アンテナ（既設）：
-RU（既設）：
+${outputInstruction}
 
-周波数（新設）：
-セクタ数（新設）：
-アンテナ（新設）：
-RU（新設）：
-
-認証型式：
-機器名称：
-
-DU/MU：
-伝送装置：
-WDM：
-
-RAN判定：
-根拠：
-不明点：
-信頼度：
+---
 
 【制約】
+・推測禁止
+・一部ページのみで判断禁止
+・最初の検出で処理終了禁止
+・キー名は変更禁止
+・キーの欠落禁止（不明な場合は「不明」と記載）
+・配列ではなく文字列で返す
+・改行や装飾は禁止
 ・画像から読み取れない項目は「不明」と記載してください。
 ・推測はせず、事実のみを抽出してください。
 ・出力は日本語でお願いします。
 
-【対象ファイル】
-${fileName}
+${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}
 
-${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` : ""}`;
+【対象ファイル】
+${fileName}`;
                 }
             }
 
             setStatusMessage("Gemini AIが解析中...");
             const response = await ai.models.generateContent({
                 model: "gemini-3-flash-preview",
-                contents: { parts: [{ text: prompt }, ...parts] }
+                contents: { parts: [{ text: prompt }, ...parts] },
+                config: {
+                    thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
+                }
             });
+
+            if (isCancelledRef.current) throw new Error("CANCELLED");
 
             setProgress(100);
             setStatusMessage("解析完了");
-            setDesignCheckResult(response.text || '');
-        } catch (err) {
+            const text = response.text || "";
+            
+            // 解析結果の振り分け
+            const ocrMarkers = ["## OCR抽出データ", "### OCR抽出データ", "OCR抽出データ:", "【OCR抽出データ】"];
+            let foundMarker = "";
+            for (const marker of ocrMarkers) {
+                if (text.includes(marker)) {
+                    foundMarker = marker;
+                    break;
+                }
+            }
+
+            if (foundMarker) {
+                const parts = text.split(foundMarker);
+                const mainResult = parts[0].trim();
+                const ocrPart = parts[1].trim();
+                
+                setDesignCheckResult(mainResult);
+                setOcrResult(ocrPart);
+                setTimeout(() => {
+                    resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            } else {
+                if (useRag || isDesignCheckEnabled) {
+                    setDesignCheckResult(text);
+                    setTimeout(() => {
+                        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                } else {
+                    setOcrResult(text);
+                    setDesignCheckResult("");
+                }
+            }
+        } catch (err: any) {
             console.error("Design Check Error:", err);
             setStatusMessage("エラーが発生しました");
+            if (err.message === "CANCELLED") throw err;
         }
     };
 
-    const handleJoinProcess = async () => {
-        console.log("handleJoinProcess started", { filesCount: files.length, outFormat });
+    const handleJoinProcess = async (explicitUseRag?: boolean) => {
+        const useRag = explicitUseRag !== undefined ? explicitUseRag : isRagEnabled;
+        console.log("handleJoinProcess started", { filesCount: files.length, outFormat, useRag });
         if (isProcessing || files.length === 0) {
             console.warn("No files to process or already processing");
             return;
         }
         setIsProcessing(true);
+        setOcrResult('');
+        setDesignCheckResult('');
         setIsCancelled(false);
         isCancelledRef.current = false;
         setProgress(0);
-        setStatusMessage("PDFを結合しています...");
+        setStatusMessage(useRag ? "RAG解析を実行中..." : "図面を結合しています...");
         const timestamp = Date.now();
         try {
+            // 設計チェックが有効な場合、またはRAG解析が指定された場合
+            if (isDesignCheckEnabled || useRag) {
+                await performDesignCheck(useRag);
+            }
+
             if (outFormat === 'pdf') {
                 const mergedPdf = await PDFDocument.create();
                 for (let i = 0; i < files.length; i++) {
@@ -1079,10 +1701,6 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                 addHistoryItem(fileName, url, files.length, 'JOIN');
                 download(url, fileName);
                 
-                if (isDesignCheckEnabled) {
-                    setProgress(95);
-                    await performDesignCheck(pdfBytes, fileName);
-                }
                 console.log("PDF merge successful");
             } else {
                 let totalSteps = 0;
@@ -1134,8 +1752,6 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                 addHistoryItem(zipName, zipUrl, totalSteps, 'CONVERT');
             }
             setFiles([]);
-            setIsProcessing(false);
-            setStatusMessage("");
             triggerEggAnimation();
             showToast("処理が完了しました");
             if (isDesignCheckEnabled) notifyCompletion();
@@ -1146,10 +1762,13 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                 console.error("Join Process Error:", e);
                 alert("エラーが発生しました: " + e.message);
             }
+        } finally {
             setIsProcessing(false);
+            setIsCancelled(false);
+            isCancelledRef.current = false;
             setStatusMessage("");
+            setProgress(0);
         }
-        setProgress(0);
     };
 
     const processSplit = async () => {
@@ -1161,6 +1780,9 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
         setStatusMessage("PDFを分割しています...");
         const timestamp = Date.now();
         try {
+            if (isDesignCheckEnabled || isRagEnabled) {
+                await performDesignCheck(isRagEnabled);
+            }
             const file = files[0].file;
             const pdfDoc = await PDFDocument.load(await file.arrayBuffer());
             const pageCount = pdfDoc.getPageCount();
@@ -1182,15 +1804,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
             download(zipUrl, zipName);
             addHistoryItem(zipName, zipUrl, pageCount, 'SPLIT');
 
-            if (isDesignCheckEnabled) {
-                setProgress(95);
-                const arrayBuffer = await file.arrayBuffer();
-                await performDesignCheck(new Uint8Array(arrayBuffer), file.name);
-            }
-
             setFiles([]);
-            setIsProcessing(false);
-            setStatusMessage("");
             triggerEggAnimation();
             if (isDesignCheckEnabled) notifyCompletion();
         } catch (e: any) { 
@@ -1199,10 +1813,13 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
             } else {
                 alert(e.message); 
             }
+        } finally {
             setIsProcessing(false);
+            setIsCancelled(false);
+            isCancelledRef.current = false;
             setStatusMessage("");
+            setProgress(0);
         }
-        setProgress(0);
     };
 
     const download = (url: string, name: string) => {
@@ -1213,6 +1830,17 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
         link.click();
         setTimeout(() => document.body.removeChild(link), 100);
     };
+
+    const resultRef = useRef<HTMLDivElement>(null);
+    const ocrResultRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if ((ocrResult || designCheckResult) && !isProcessing) {
+            setTimeout(() => {
+                resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    }, [ocrResult, designCheckResult, isProcessing]);
 
     const getProcessedOcrText = () => {
         if (ocrWidthMode === 'full') {
@@ -1242,15 +1870,32 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
             </AnimatePresence>
 
             {isProcessing && (
-                <div className="fixed top-0 left-0 w-full z-[100] pointer-events-none">
-                    <div className="bg-slate-100 h-1 w-full">
-                        <div className="progress-bar h-full" style={{ width: `${progress}%` }}></div>
+                <div className="fixed top-0 left-0 w-full z-[200] pointer-events-none">
+                    <div className="bg-indigo-100 h-3 w-full overflow-hidden shadow-inner">
+                        <motion.div 
+                            initial={{ width: 0 }}
+                            animate={{ width: `${progress}%` }}
+                            className="h-full bg-indigo-600 shadow-[0_0_20px_rgba(79,70,229,0.6)] relative"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                        </motion.div>
                     </div>
                     {statusMessage && (
                         <div className="flex justify-center mt-2">
                             <div className="bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-lg border border-slate-200 flex items-center gap-2 animate-bounce-subtle">
                                 <div className="w-2 h-2 bg-indigo-600 rounded-full animate-pulse"></div>
-                                <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest">{statusMessage}</span>
+                                <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest">{statusMessage} ({progress}%)</span>
+                                {isFetchingRag && (
+                                    <button 
+                                        onClick={() => {
+                                            isCancelledRef.current = true;
+                                            setIsCancelled(true);
+                                        }}
+                                        className="ml-2 px-2 py-0.5 bg-rose-100 hover:bg-rose-200 text-rose-600 rounded-md text-[8px] font-black uppercase tracking-wider border border-rose-200 transition-colors pointer-events-auto"
+                                    >
+                                        Skip
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
@@ -1270,38 +1915,25 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                         <div className="p-4 flex flex-col items-center gap-4 bg-[#111] bg-[radial-gradient(circle_at_center,rgba(153,0,0,0.05)_0%,transparent_70%)]">
                             {/* Hexagonal Button Container - Smaller */}
                             <div className="relative group">
-                                {/* Orbiting Mini Ostrich Runner */}
-                                <motion.div 
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                    className="absolute -inset-10 pointer-events-none z-20"
-                                >
-                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90">
-                                        <div className="bg-white p-1.5 rounded-full shadow-md border-2 border-indigo-100 flex items-center justify-center">
-                                            <svg width="20" height="20" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-                                                <ellipse cx="50" cy="70" rx="40" ry="28" fill="#333" />
-                                                <path d="M72 55 C82 30, 78 -5, 92 0" strokeWidth="8" fill="none" stroke="#e2ccb5" strokeLinecap="round" />
-                                                <circle cx="92" cy="0" r="7" fill="#e2ccb5" />
-                                                <g className="leg-animation">
-                                                    <path d="M42 85 L35 110 M58 85 L65 110" strokeWidth="8" stroke="#e2ccb5" fill="none" strokeLinecap="round" />
-                                                </g>
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </motion.div>
-
                                 {/* Outer Frame Glow */}
                                 <div className="absolute -inset-2 bg-rose-600/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 
                                 <button 
                                     onClick={() => {
+                                        if (isCancelled) return;
                                         isCancelledRef.current = true;
                                         setIsCancelled(true);
+                                        // UIを即座にリセット
+                                        setIsProcessing(false);
+                                        setProgress(0);
+                                        setStatusMessage("");
+                                        showToast("停止リクエストを受け付けました");
                                     }}
-                                    className="w-28 h-24 bg-[#330000] relative flex items-center justify-center transition-all active:scale-95 active:translate-y-1 shadow-[0_6px_0_0_#1a0000] hover:shadow-[0_3px_0_0_#1a0000] hover:translate-y-0.5"
+                                    disabled={isCancelled}
+                                    className={`w-28 h-24 bg-[#330000] relative flex items-center justify-center transition-all active:scale-95 active:translate-y-1 shadow-[0_6px_0_0_#1a0000] hover:shadow-[0_3px_0_0_#1a0000] hover:translate-y-0.5 ${isCancelled ? 'opacity-50 cursor-not-allowed grayscale' : ''}`}
                                     style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }}
                                 >
-                                    <div className="absolute inset-1.5 bg-[#770000] flex flex-col items-center justify-center border border-rose-400/20" style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }}>
+                                    <div className={`absolute inset-1.5 ${isCancelled ? 'bg-[#444]' : 'bg-[#770000] animate-pulse-red'} flex flex-col items-center justify-center border border-rose-400/20`} style={{ clipPath: 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)' }}>
                                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_0%,transparent_60%)]"></div>
                                         
                                         {/* Ostrich Face Schematic - Smaller */}
@@ -1316,7 +1948,9 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                                             </svg>
                                         </div>
 
-                                        <span className="text-white text-2xl font-black tracking-tighter mb-0.5 select-none drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] z-10" style={{ fontFamily: '"Sawarabi Gothic", sans-serif' }}>停止</span>
+                                        <span className="text-white text-2xl font-black tracking-tighter mb-0.5 select-none drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] z-10" style={{ fontFamily: '"Sawarabi Gothic", sans-serif' }}>
+                                            {isCancelled ? '停止中' : '停止'}
+                                        </span>
                                         <span className="text-white/30 text-[7px] font-black tracking-[0.3em] select-none uppercase z-10">Unit-01</span>
                                     </div>
                                     {/* Glass Shine */}
@@ -1367,6 +2001,15 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                             </button>
                         </div>
                         <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">AI RAG解析</span>
+                            <button 
+                                onClick={() => setIsRagEnabled(!isRagEnabled)}
+                                className={`w-10 h-5 rounded-full relative transition-colors ${isRagEnabled ? 'bg-indigo-500' : 'bg-slate-300'}`}
+                            >
+                                <div className={`absolute top-1 w-3 h-3 bg-white rounded-full transition-all ${isRagEnabled ? 'left-6' : 'left-1'}`}></div>
+                            </button>
+                        </div>
+                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">設計チェック</span>
                             <button 
                                 onClick={() => setIsDesignCheckEnabled(!isDesignCheckEnabled)}
@@ -1385,6 +2028,37 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                             </button>
                             <button onClick={() => setShowGuide(!showGuide)} className="bg-white hover:bg-slate-50 text-slate-500 border border-slate-200 p-2.5 rounded-xl shadow-sm">
                                 <HelpCircle className="w-4 h-4" />
+                            </button>
+                        </div>
+                        
+                        {/* Primary Action Button moved to header */}
+                        <div className="ml-4">
+                            <button 
+                                onClick={() => {
+                                    if (mode === 'ocr') handleOCRFiles();
+                                    else if (mode === 'join') handleJoinProcess();
+                                    else if (mode === 'split') processSplit();
+                                }}
+                                disabled={isProcessing || files.length === 0}
+                                className={`px-8 py-2.5 rounded-full font-black text-xs uppercase tracking-widest shadow-lg transition-all flex items-center gap-2 ${
+                                    isProcessing 
+                                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed' 
+                                    : files.length === 0 
+                                        ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+                                        : 'bg-indigo-600 text-white hover:bg-indigo-700 hover:scale-105 active:scale-95 shadow-indigo-200'
+                                }`}
+                            >
+                                {isProcessing ? (
+                                    <>
+                                        <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                                        {progress}% 処理中
+                                    </>
+                                ) : (
+                                    <>
+                                        <Play className="w-3.5 h-3.5" />
+                                        {mode === 'ocr' ? "解析実行" : mode === 'join' ? "生成開始" : "分割実行"}
+                                    </>
+                                )}
                             </button>
                         </div>
                     </div>
@@ -1422,7 +2096,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                 </div>
             </header>
 
-            <div className={`grid ${isDesignCheckEnabled ? 'grid-cols-1 lg:grid-cols-[1fr_350px]' : 'grid-cols-1'} gap-8 mb-20 items-start`}>
+            <div className={`grid ${(isDesignCheckEnabled || isRagEnabled) ? 'grid-cols-1 lg:grid-cols-[1fr_350px]' : 'grid-cols-1'} gap-8 mb-20 items-start`}>
                 <div className="space-y-8">
                     <div 
                         onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); setIsDraggingOver(true); }}
@@ -1550,11 +2224,15 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                         </div>
                     </div>
 
-                    <AnimatePresence>
-                        {designCheckResult && (
+                    <AnimatePresence mode="wait">
+                        {/* AIRAG解析結果 / 設計チェック結果 */}
+                        {(isRagEnabled || isDesignCheckEnabled) && designCheckResult && (
                             <motion.div 
+                                key="analysis-result"
+                                ref={resultRef}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
                                 className="mt-10 bg-emerald-50 border border-emerald-100 rounded-[3rem] p-10 shadow-inner"
                             >
                                 <div className="flex justify-between items-center mb-8">
@@ -1563,8 +2241,12 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                                             <CheckCircle2 className="w-7 h-7 text-emerald-600" />
                                         </div>
                                         <div>
-                                            <h3 className="text-2xl font-black text-slate-900 tracking-tight">設計チェック結果</h3>
-                                            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Design Review Report</p>
+                                            <h3 className="text-2xl font-black text-slate-900 tracking-tight">
+                                                {isRagEnabled ? "AIRAG解析結果" : "設計チェック結果"}
+                                            </h3>
+                                            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">
+                                                {isRagEnabled ? "AI RAG Analysis Report" : "Design Review Report"}
+                                            </p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
@@ -1615,10 +2297,21 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                                         </div>
                                     ) : (
                                         <div className="prose prose-slate max-w-none markdown-body bg-white p-10 rounded-[2rem] border border-emerald-100 shadow-sm relative overflow-hidden group">
-                                            <div 
-                                                className="markdown-body relative z-10"
-                                                dangerouslySetInnerHTML={{ __html: marked.parse(designCheckResult) as string }}
-                                            />
+                                            <div className="markdown-body relative z-10">
+                                                {(() => {
+                                                    const markdownPart = designCheckResult;
+
+                                                    return (
+                                                        <div className="space-y-10">
+                                                            {/* Markdown View (Primary) */}
+                                                            <div 
+                                                                className="markdown-body"
+                                                                dangerouslySetInnerHTML={{ __html: marked.parse(markdownPart) as string }}
+                                                            />
+                                                        </div>
+                                                    );
+                                                })()}
+                                            </div>
                                             <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
                                                 <button 
                                                     onClick={() => setIsEditingResult(true)} 
@@ -1633,53 +2326,125 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                                 </div>
                             </motion.div>
                         )}
-                    </AnimatePresence>
 
-                    {ocrResult && (
-                        <div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-2xl animate-slide">
-                            <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
-                                <h3 className="font-black text-slate-800 flex items-center gap-3 uppercase text-xs tracking-[0.3em]">
-                                    <FileText className="w-5 h-5 text-indigo-500" />
-                                    OCR Result (抽出結果)
-                                </h3>
-                                <div className="flex items-center gap-3">
-                                    <div className="flex bg-slate-100 p-1 rounded-xl">
-                                        <button 
-                                            onClick={() => setOcrWidthMode('original')}
-                                            className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'original' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
-                                        >
-                                            原文
-                                        </button>
-                                        <button 
-                                            onClick={() => setOcrWidthMode('full')}
-                                            className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'full' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
-                                        >
-                                            全角
-                                        </button>
-                                        <button 
-                                            onClick={() => setOcrWidthMode('half')}
-                                            className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'half' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
-                                        >
-                                            半角
-                                        </button>
-                                    </div>
-                                    <button 
-                                        onClick={() => {
-                                            navigator.clipboard.writeText(processedOcrText);
-                                            showToast("クリップボードにコピーしました");
-                                        }}
-                                        className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-indigo-100 transition-all flex items-center gap-2"
-                                    >
-                                        <Copy className="w-3.5 h-3.5" /> コピー
-                                    </button>
-                                </div>
-                            </div>
-                            <div 
-                                className="prose prose-slate max-w-none text-sm font-medium leading-relaxed bg-slate-50 p-8 rounded-2xl border border-slate-100 overflow-x-auto"
-                                dangerouslySetInnerHTML={{ __html: marked.parse(processedOcrText) as string }}
-                            />
-                        </div>
-                    )}
+                        {/* OCR抽出結果 */}
+                        {ocrResult && (
+                            <motion.div 
+                                key="ocr-result"
+                                ref={ocrResultRef}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                className={`mt-10 bg-white rounded-[3rem] p-10 border border-slate-100 shadow-2xl ${(isRagEnabled || isDesignCheckEnabled) ? 'opacity-90 scale-95' : ''}`}
+                            >
+                                {(isRagEnabled || isDesignCheckEnabled) ? (
+                                    <details className="group" open={false}>
+                                        <summary className="flex items-center justify-between cursor-pointer list-none">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center group-open:rotate-90 transition-transform">
+                                                    <ChevronRight className="w-5 h-5 text-slate-500" />
+                                                </div>
+                                                <h3 className="font-black text-slate-800 flex items-center gap-3 uppercase text-xs tracking-[0.3em]">
+                                                    <FileText className="w-5 h-5 text-indigo-500" />
+                                                    OCR Result (抽出全データ)
+                                                </h3>
+                                            </div>
+                                            <div className="flex items-center gap-4">
+                                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest group-open:hidden">クリックで全データを展開</span>
+                                                <div className="flex bg-slate-100 p-1 rounded-xl" onClick={(e) => e.stopPropagation()}>
+                                                    <button 
+                                                        onClick={() => setOcrWidthMode('original')}
+                                                        className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'original' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
+                                                    >
+                                                        原文
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => setOcrWidthMode('full')}
+                                                        className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'full' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
+                                                    >
+                                                        全角
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => setOcrWidthMode('half')}
+                                                        className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'half' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
+                                                    >
+                                                        半角
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </summary>
+                                        <div className="mt-8 pt-8 border-t border-slate-50">
+                                            <div className="flex justify-end mb-4">
+                                                <button 
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(processedOcrText);
+                                                        showToast("クリップボードにコピーしました");
+                                                    }}
+                                                    className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-indigo-100 transition-all flex items-center gap-2"
+                                                >
+                                                    <Copy className="w-3.5 h-3.5" /> コピー
+                                                </button>
+                                            </div>
+                                            <div 
+                                                className="prose prose-slate max-w-none text-sm font-medium leading-relaxed bg-slate-50 p-8 rounded-2xl border border-slate-100 overflow-x-auto"
+                                                dangerouslySetInnerHTML={{ __html: marked.parse(processedOcrText) as string }}
+                                            />
+                                        </div>
+                                    </details>
+                                ) : (
+                                    <>
+                                        <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+                                            <h3 className="font-black text-slate-800 flex items-center gap-3 uppercase text-xs tracking-[0.3em]">
+                                                <FileText className="w-5 h-5 text-indigo-500" />
+                                                OCR Result (抽出結果)
+                                            </h3>
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex bg-slate-100 p-1 rounded-xl">
+                                                    <button 
+                                                        onClick={() => setOcrWidthMode('original')}
+                                                        className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'original' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
+                                                    >
+                                                        原文
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => setOcrWidthMode('full')}
+                                                        className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'full' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
+                                                    >
+                                                        全角
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => setOcrWidthMode('half')}
+                                                        className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${ocrWidthMode === 'half' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-400 hover:text-slate-600'}`}
+                                                    >
+                                                        半角
+                                                    </button>
+                                                </div>
+                                                <button 
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(processedOcrText);
+                                                        showToast("クリップボードにコピーしました");
+                                                    }}
+                                                    className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-[10px] font-black uppercase hover:bg-indigo-100 transition-all flex items-center gap-2"
+                                                >
+                                                    <Copy className="w-3.5 h-3.5" /> コピー
+                                                </button>
+                                                <button 
+                                                    onClick={() => setOcrResult('')}
+                                                    className="p-3 hover:bg-slate-100 rounded-full transition-colors"
+                                                >
+                                                    <X className="w-6 h-6 text-slate-400" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div 
+                                            className="prose prose-slate max-w-none text-sm font-medium leading-relaxed bg-slate-50 p-8 rounded-2xl border border-slate-100 overflow-x-auto"
+                                            dangerouslySetInnerHTML={{ __html: marked.parse(processedOcrText) as string }}
+                                        />
+                                    </>
+                                )}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
                     {files.length > 0 && (
                         <div className="bg-white rounded-[3rem] shadow-2xl shadow-slate-300/40 border border-slate-100 overflow-hidden animate-slide">
@@ -1719,9 +2484,6 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                                             <option value="jpeg">Output: 1枚ずつJPEGに</option>
                                         </select>
                                     )}
-                                    <button onClick={mode === 'join' ? handleJoinProcess : processSplit} disabled={isProcessing} className="bg-indigo-600 text-white px-10 py-3.5 rounded-2xl font-black hover:bg-indigo-700 disabled:bg-slate-300 transition-all text-xs uppercase tracking-widest shadow-lg shadow-indigo-100">
-                                        {isProcessing ? `RUNNING ${progress}%` : (mode === 'join' ? "生成開始" : "分割実行")}
-                                    </button>
                                 </div>
                             </div>
                             <div className="max-h-[600px] overflow-y-auto">
@@ -1860,7 +2622,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                     )}
                 </div>
 
-                {isDesignCheckEnabled && (
+                {(isDesignCheckEnabled || isRagEnabled) && (
                     <motion.div 
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -1871,7 +2633,7 @@ ${designCheckCustomPrompt ? `【追加指示】\n${designCheckCustomPrompt}\n` :
                                 <MessageSquare className="w-5 h-5 text-emerald-600" />
                             </div>
                             <div>
-                                <h4 className="text-sm font-black text-slate-800">設計チェック指示</h4>
+                                <h4 className="text-sm font-black text-slate-800">解析・チェック指示</h4>
                                 <p className="text-[10px] font-bold text-slate-400">AIへの追加リクエスト</p>
                             </div>
                         </div>
