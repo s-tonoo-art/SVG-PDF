@@ -885,7 +885,6 @@ export default function App() {
 ---
 
 ## OCR抽出データ
-- 
 `;
 
                 const outputInstruction = `
@@ -1027,7 +1026,7 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
             }
 
             if (foundMarker) {
-                const markerIndex = text.lastIndexOf(foundMarker);
+                const markerIndex = text.indexOf(foundMarker);
                 const mainResult = text.substring(0, markerIndex).trim();
                 const ocrPart = text.substring(markerIndex + foundMarker.length).trim();
                 
@@ -1509,7 +1508,6 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
 ---
 
 ## OCR抽出データ
-- 
 `;
 
             const outputInstruction = `
@@ -1651,7 +1649,7 @@ ${fileName}`;
             }
 
             if (foundMarker) {
-                const markerIndex = text.lastIndexOf(foundMarker);
+                const markerIndex = text.indexOf(foundMarker);
                 const mainResult = text.substring(0, markerIndex).trim();
                 const ocrPart = text.substring(markerIndex + foundMarker.length).trim();
                 
@@ -2390,7 +2388,7 @@ ${fileName}`;
                                 className={`mt-10 bg-white rounded-[3rem] p-10 border border-slate-100 shadow-2xl ${(isRagEnabled || isDesignCheckEnabled) ? 'opacity-90 scale-95' : ''}`}
                             >
                                 {(isRagEnabled || isDesignCheckEnabled) ? (
-                                    <details className="group" open={false}>
+                                    <details className="group" open={!designCheckResult}>
                                         <summary className="flex items-center justify-between cursor-pointer list-none">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center group-open:rotate-90 transition-transform">
