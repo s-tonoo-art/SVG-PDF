@@ -406,6 +406,7 @@ export default function App() {
         return saved !== null ? JSON.parse(saved) : false;
     });
     const [isEditingResult, setIsEditingResult] = useState(false);
+    const [selectedModel, setSelectedModel] = useState(() => localStorage.getItem('ostrich_selected_model') || 'gemini-3-flash-preview');
     const [designCheckCustomPrompt, setDesignCheckCustomPrompt] = useState("");
     const resultTextareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -422,6 +423,13 @@ export default function App() {
         localStorage.setItem('ostrich_rag_enabled', JSON.stringify(isRagEnabled));
     }, [isRagEnabled]);
 
+<<<<<<< HEAD
+=======
+    useEffect(() => {
+        localStorage.setItem('ostrich_selected_model', selectedModel);
+    }, [selectedModel]);
+
+>>>>>>> ec41c49 (feat: 設計チェック、AI解析を個別に出力変更)
     // Auto-resize textarea for design check result
     useEffect(() => {
         if (isEditingResult && resultTextareaRef.current) {
@@ -978,7 +986,7 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
             }
 
             const response = await ai.models.generateContent({
-                model: "gemini-3-flash-preview",
+                model: selectedModel,
                 contents: {
                     parts: [
                         { text: prompt },
@@ -986,7 +994,13 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
                     ]
                 },
                 config: {
+<<<<<<< HEAD
                     thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
+=======
+                    thinkingConfig: { 
+                        thinkingLevel: selectedModel.includes('pro') ? ThinkingLevel.HIGH : ThinkingLevel.LOW 
+                    }
+>>>>>>> ec41c49 (feat: 設計チェック、AI解析を個別に出力変更)
                 }
             });
             
@@ -1589,10 +1603,19 @@ ${fileName}`;
 
             setStatusMessage("Gemini AIが解析中...");
             const response = await ai.models.generateContent({
+<<<<<<< HEAD
                 model: "gemini-3-flash-preview",
                 contents: { parts: [{ text: prompt }, ...parts] },
                 config: {
                     thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
+=======
+                model: selectedModel,
+                contents: { parts: [{ text: prompt }, ...parts] },
+                config: {
+                    thinkingConfig: { 
+                        thinkingLevel: selectedModel.includes('pro') ? ThinkingLevel.HIGH : ThinkingLevel.LOW 
+                    }
+>>>>>>> ec41c49 (feat: 設計チェック、AI解析を個別に出力変更)
                 }
             });
 
@@ -1981,7 +2004,18 @@ ${fileName}`;
 
             <header className="text-center mb-12">
                 <div className="flex flex-col items-center gap-4 mb-10">
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap justify-center items-center gap-4">
+                        <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">AI Model</span>
+                            <select 
+                                value={selectedModel}
+                                onChange={(e) => setSelectedModel(e.target.value)}
+                                className="text-[11px] font-black text-indigo-600 bg-transparent outline-none cursor-pointer"
+                            >
+                                <option value="gemini-3-flash-preview">Gemini 3 Flash (高速)</option>
+                                <option value="gemini-3.1-pro-preview">Gemini 3.1 Pro (高精度)</option>
+                            </select>
+                        </div>
                         <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm">
                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider">Ostrich</span>
                             <button 
