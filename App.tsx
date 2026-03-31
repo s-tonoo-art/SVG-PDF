@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState, useRef, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import { PDFDocument, degrees } from 'pdf-lib';
@@ -504,7 +503,7 @@ export default function App() {
 
         if (isProcessing) {
             document.title = "処理中… PDFツール";
-            setFavicon("⏳");
+            setFavicon("$23F3");
         }
     }, [isProcessing, isDesignCheckEnabled]);
 
@@ -532,7 +531,7 @@ export default function App() {
         if (!isDesignCheckEnabled) return;
 
         document.title = "完了 ● PDFツール";
-        setFavicon("✅");
+        setFavicon("$2705");
         playPikon();
 
         if (!isTabFocused && "Notification" in window && Notification.permission === "granted") {
@@ -994,13 +993,11 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
                     ]
                 },
                 config: {
-<<<<<<< HEAD
-                    thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
-=======
+
                     thinkingConfig: { 
                         thinkingLevel: selectedModel.includes('pro') ? ThinkingLevel.HIGH : ThinkingLevel.LOW 
                     }
->>>>>>> ec41c49 (feat: 設計チェック、AI解析を個別に出力変更)
+
                 }
             });
             
@@ -1603,19 +1600,14 @@ ${fileName}`;
 
             setStatusMessage("Gemini AIが解析中...");
             const response = await ai.models.generateContent({
-<<<<<<< HEAD
-                model: "gemini-3-flash-preview",
-                contents: { parts: [{ text: prompt }, ...parts] },
-                config: {
-                    thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
-=======
+
                 model: selectedModel,
                 contents: { parts: [{ text: prompt }, ...parts] },
                 config: {
                     thinkingConfig: { 
                         thinkingLevel: selectedModel.includes('pro') ? ThinkingLevel.HIGH : ThinkingLevel.LOW 
                     }
->>>>>>> ec41c49 (feat: 設計チェック、AI解析を個別に出力変更)
+
                 }
             });
 
@@ -2749,7 +2741,7 @@ ${fileName}`;
         </div>
     );
 }
-=======
+
 import React, { useState, useRef, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import { PDFDocument, degrees } from 'pdf-lib';
@@ -3175,13 +3167,12 @@ export default function App() {
         localStorage.setItem('ostrich_rag_enabled', JSON.stringify(isRagEnabled));
     }, [isRagEnabled]);
 
-<<<<<<< HEAD
-=======
+
     useEffect(() => {
         localStorage.setItem('ostrich_selected_model', selectedModel);
     }, [selectedModel]);
 
->>>>>>> ec41c49 (feat: 設計チェック、AI解析を個別に出力変更)
+
     // Auto-resize textarea for design check result
     useEffect(() => {
         if (isEditingResult && resultTextareaRef.current) {
@@ -3256,7 +3247,7 @@ export default function App() {
 
         if (isProcessing) {
             document.title = "処理中… PDFツール";
-            setFavicon("⏳");
+            setFavicon("$23F3");
         }
     }, [isProcessing, isDesignCheckEnabled]);
 
@@ -3284,7 +3275,7 @@ export default function App() {
         if (!isDesignCheckEnabled) return;
 
         document.title = "完了 ● PDFツール";
-        setFavicon("✅");
+        setFavicon("$2705");
         playPikon();
 
         if (!isTabFocused && "Notification" in window && Notification.permission === "granted") {
@@ -3746,13 +3737,11 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
                     ]
                 },
                 config: {
-<<<<<<< HEAD
-                    thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
-=======
+
                     thinkingConfig: { 
                         thinkingLevel: selectedModel.includes('pro') ? ThinkingLevel.HIGH : ThinkingLevel.LOW 
                     }
->>>>>>> ec41c49 (feat: 設計チェック、AI解析を個別に出力変更)
+
                 }
             });
             
@@ -4355,19 +4344,14 @@ ${fileName}`;
 
             setStatusMessage("Gemini AIが解析中...");
             const response = await ai.models.generateContent({
-<<<<<<< HEAD
-                model: "gemini-3-flash-preview",
-                contents: { parts: [{ text: prompt }, ...parts] },
-                config: {
-                    thinkingConfig: { thinkingLevel: ThinkingLevel.LOW }
-=======
+
                 model: selectedModel,
                 contents: { parts: [{ text: prompt }, ...parts] },
                 config: {
                     thinkingConfig: { 
                         thinkingLevel: selectedModel.includes('pro') ? ThinkingLevel.HIGH : ThinkingLevel.LOW 
                     }
->>>>>>> ec41c49 (feat: 設計チェック、AI解析を個別に出力変更)
+
                 }
             });
 
@@ -5501,4 +5485,3 @@ ${fileName}`;
         </div>
     );
 }
->>>>>>> fc69177 (feat: 設計チェック、AI解析を個別に出力変更)
