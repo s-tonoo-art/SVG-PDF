@@ -320,6 +320,8 @@ const FeedbackModal = ({ isOpen, onClose, onSubmit }: { isOpen: boolean, onClose
     );
 };
 
+const AI_TIMEOUT_MS = 90000;
+
 const fetchRagDataFromGas = async (setStatusMessage?: (msg: string) => void, isCancelledRef?: React.MutableRefObject<boolean>, setIsFetchingRag?: (val: boolean) => void) => {
     const gasUrl = import.meta.env.VITE_GAS_URL;
     if (!gasUrl) {
@@ -831,9 +833,6 @@ export default function App() {
 ## 信頼度
 -
 ---
-
-## OCR抽出データ
-- 
 ` : `
 # 設計チェック結果
 
@@ -982,7 +981,7 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
                 }
             }
 
-            const response = await ai.models.generateContent({
+            const aiPromise = ai.models.generateContent({
                 model: selectedModel,
                 contents: {
                     parts: [
@@ -996,6 +995,22 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
                     }
                 }
             });
+
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error("AI_TIMEOUT")), AI_TIMEOUT_MS)
+            );
+
+            // 経過時間に応じたメッセージ更新
+            const statusTimer30 = setTimeout(() => {
+                if (!isCancelledRef.current) setStatusMessage("複雑な図面のため、解析に時間がかかっています...");
+            }, 30000);
+            const statusTimer60 = setTimeout(() => {
+                if (!isCancelledRef.current) setStatusMessage("間もなく完了します。そのままお待ちください...");
+            }, 60000);
+
+            const response = await Promise.race([aiPromise, timeoutPromise]) as any;
+            clearTimeout(statusTimer30);
+            clearTimeout(statusTimer60);
             
             if (isCancelledRef.current) throw new Error("CANCELLED");
 
@@ -1012,9 +1027,9 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
             }
 
             if (foundMarker) {
-                const parts = text.split(foundMarker);
-                const mainResult = parts[0].trim();
-                const ocrPart = parts[1].trim();
+                const markerIndex = text.lastIndexOf(foundMarker);
+                const mainResult = text.substring(0, markerIndex).trim();
+                const ocrPart = text.substring(markerIndex + foundMarker.length).trim();
                 
                 setDesignCheckResult(mainResult);
                 setOcrResult(ocrPart);
@@ -1442,9 +1457,6 @@ ${files.length > 1 ? `${files[0].file.name} 他${files.length - 1}件` : files[0
 ## 信頼度
 -
 ---
-
-## OCR抽出データ
-- 
 ` : `
 # 設計チェック結果
 
@@ -1595,7 +1607,8 @@ ${fileName}`;
             }
 
             setStatusMessage("Gemini AIが解析中...");
-            const response = await ai.models.generateContent({
+            
+            const aiPromise = ai.models.generateContent({
                 model: selectedModel,
                 contents: { parts: [{ text: prompt }, ...parts] },
                 config: {
@@ -1604,6 +1617,22 @@ ${fileName}`;
                     }
                 }
             });
+
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error("AI_TIMEOUT")), AI_TIMEOUT_MS)
+            );
+
+            // 経過時間に応じたメッセージ更新
+            const statusTimer30 = setTimeout(() => {
+                if (!isCancelledRef.current) setStatusMessage("解析が続いています。少々お待ちください...");
+            }, 30000);
+            const statusTimer60 = setTimeout(() => {
+                if (!isCancelledRef.current) setStatusMessage("非常に詳細な解析を行っています。完了まであと少しです...");
+            }, 60000);
+
+            const response = await Promise.race([aiPromise, timeoutPromise]) as any;
+            clearTimeout(statusTimer30);
+            clearTimeout(statusTimer60);
 
             if (isCancelledRef.current) throw new Error("CANCELLED");
 
@@ -1622,12 +1651,13 @@ ${fileName}`;
             }
 
             if (foundMarker) {
-                const parts = text.split(foundMarker);
-                const mainResult = parts[0].trim();
-                const ocrPart = parts[1].trim();
+                const markerIndex = text.lastIndexOf(foundMarker);
+                const mainResult = text.substring(0, markerIndex).trim();
+                const ocrPart = text.substring(markerIndex + foundMarker.length).trim();
                 
                 setDesignCheckResult(mainResult);
                 setOcrResult(ocrPart);
+                triggerEggAnimation();
                 setTimeout(() => {
                     resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
@@ -1819,6 +1849,8 @@ ${fileName}`;
         } catch (e: any) { 
             if (e.message === "CANCELLED") {
                 showToast("処理を強制停止しました");
+            } else if (e.message === "AI_TIMEOUT") {
+                alert("AIの応答がタイムアウトしました（90秒）。通信環境を確認するか、もう一度お試しください。");
             } else {
                 alert(e.message); 
             }
